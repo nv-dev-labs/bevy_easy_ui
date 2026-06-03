@@ -25,7 +25,7 @@ pub struct EasyButtonStyle {
 
 //>------------------------------------------
 
-//? Implémentation de la partie "API de construction" d'EasyButton, qui nous permet de construire la définition déclarative du bouton (sans le spawn)
+//? Implementation of the "builder API" part of EasyButton, which lets us build the declarative definition of the button (without spawning it)
 impl EasyButton {
     pub fn new() -> EasyButtonContainer {
          EasyButtonContainer {
@@ -62,8 +62,8 @@ impl EasyButton {
     }
 }
 
-//? Setters de style + EasyNode sur le container pour qu'on puisse chaîner
-//? `.width(...)`, `.border_color(...)`, etc. directement après `EasyButton::new()`.
+//? Style setters + EasyNode on the container so that we can chain
+//? `.width(...)`, `.border_color(...)`, etc. directly after `EasyButton::new()`.
 impl EasyButtonContainer {
     pub fn border_color(mut self, border_color: Color) -> Self {
         self.bundle.2 = BorderColor::all(border_color);
@@ -82,7 +82,7 @@ impl EasyNode for EasyButtonContainer {
     }
 }
 
-//? Implémentation du trait Container pour EasyButtonContainer, qui nous permet de le traiter comme un élément de l'arbre UI avec des enfants et des observers
+//? Implementation of the Container trait for EasyButtonContainer, which lets us treat it as a node of the UI tree with children and observers
 impl Container for EasyButtonContainer {
     fn take_bundle(&mut self) -> impl Bundle {
         std::mem::replace(&mut self.bundle, EasyButton::default_inner())
@@ -99,7 +99,6 @@ impl PushObserver for EasyButtonContainer {
 
 //>------------------------------------------
 
-// This allows us to treat EasyButtonStyle as a Node when applying styles, while still keeping the border and background colors separate for easy access
 impl std::ops::Deref for EasyButtonStyle {
     type Target = Node;
     fn deref(&self) -> &Self::Target { &self.node }

@@ -22,10 +22,10 @@ pub struct EasyVerticalLayoutStyle {
 
 //>------------------------------------------
 
-//? Implémentation de la partie "API de construction" d'EasyVerticalLayout, qui nous permet de construire la définition déclarative du layout (sans le spawn)
+//? Implementation of the "builder API" part of EasyVerticalLayout, which lets us build the declarative definition of the layout (without spawning it)
 impl EasyVerticalLayout {
-    /// Crée un builder qui EST DÉJÀ un container : on peut chaîner
-    /// `.child(...)`, `.observe(...)`, `.spawn(commands)` directement.
+    /// Creates a builder that IS ALREADY a container: you can chain
+    /// `.child(...)`, `.observe(...)`, `.spawn(commands)` directly.
     pub fn new() -> EasyVerticalLayoutContainer {
         EasyVerticalLayoutContainer {
             bundle: EasyVerticalLayout(Node {
@@ -54,7 +54,7 @@ impl EasyNode for EasyVerticalLayoutContainer {
     }
 }
 
-//? Implémentation du trait Container pour EasyVerticalLayoutContainer, qui nous permet de le traiter comme un élément de l'arbre UI avec des enfants et des observers
+//? Implementation of the Container trait for EasyVerticalLayoutContainer, which lets us treat it as a node of the UI tree with children and observers
 impl Container for EasyVerticalLayoutContainer {
     fn take_bundle(&mut self) -> impl Bundle {
         std::mem::replace(&mut self.bundle, EasyVerticalLayout::default_bundle())

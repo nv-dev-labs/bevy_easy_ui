@@ -4,18 +4,18 @@ use bevy::prelude::*;
 
 use crate::core::element::EasyElement;
 
-/// Le coeur du système : un Container, c'est juste "un truc qui peut avoir
-/// des enfants, des observers, et être spawné". On étend ce trait à tout ce
-/// qui peut se trouver dans l'arbre UI (les feuilles commme EasyText sont exclues).
+/// The heart of the system: a Container is just "something that can have
+/// children, observers, and be spawned". We extend this trait to anything
+/// that can live in the UI tree (leaf nodes like EasyText are excluded).
 pub trait Container: Sized {
-    /// Accès au bundle Bevy final à spawn (Button+Node+..., ou juste Node, etc.)
+    /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
     fn take_bundle(&mut self) -> impl Bundle;
-    /// Récupère le Vec d'enfants (pour le vider lors du spawn)
+    /// Takes the Vec of children (to empty it on spawn)
     fn take_children(&mut self) -> Vec<EasyElement>;
-    /// Récupère le Vec d'observers
+    /// Takes the Vec of observers
     fn take_observers(&mut self) -> Vec<Observer>;
 
-    /// Ajoute un enfant
+    /// Adds a child
     fn child(mut self, child: impl Into<EasyElement>) -> Self
     where
         Self: PushChild,
@@ -24,7 +24,7 @@ pub trait Container: Sized {
         self
     }
 
-    /// Ajoute un observer
+    /// Adds an observer
     fn observe<E, ObsB, M>(mut self, observer: impl IntoObserverSystem<E, ObsB, M> + 'static) -> Self
     where
         Self: PushObserver,
@@ -35,18 +35,18 @@ pub trait Container: Sized {
         self
     }
 
-    /// Spawn dans la hiérarchie
+    /// Spawns into the hierarchy
     fn spawn(self, commands: &mut Commands) -> Entity
     where
         Self: PushChild + PushObserver,
     {
-        // version "mut" interne — voir plus bas
+        // internal "mut" version — see below
         spawn_container(self, commands)
     }
 }
 
-// Helpers pour pouvoir push dans self depuis le trait (par défaut, on stocke
-// dans des champs internes — chaque type concret définit push_child/push_observer).
+// Helpers so we can push into self from within the trait (by default, we
+// store things in internal fields — each concrete type defines push_child/push_observer).
 pub trait PushChild: Container {
     fn push_child(&mut self, child: EasyElement);
 }

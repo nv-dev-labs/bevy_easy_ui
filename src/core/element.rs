@@ -29,8 +29,8 @@ impl From<EasyHorizontalLayoutContainer> for EasyElement {
 impl EasyElement {
     pub fn spawn_in(self, p: &mut ChildSpawnerCommands) {
         match self {
-            // Button est un Container<EasyButton> : on spawn le bundle, puis on
-            // descend récursivement dans ses enfants (ex: le texte du label).
+            // Button is a Container<EasyButton>: we spawn the bundle, then
+            // recursively descend into its children (e.g. the label text).
             EasyElement::ButtonContainer(mut b) => {
                 let entity = p.spawn(b.take_bundle()).id();
                 let kids = b.take_children();
