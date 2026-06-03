@@ -2,6 +2,8 @@ use bevy::{prelude::*, text::{FontFeatures, FontSmoothing}};
 
 use crate::core::node::EasyNode;
 
+//>--------------------- STRUCTURES ---------------------
+
 #[derive(Bundle)]
 pub struct EasyText (
     Text,
@@ -18,7 +20,7 @@ pub struct EasyTextStyle {
     pub text_shadow: TextShadow,
 }
 
-//>------------------------------------------
+//>--------------------- IMPLEMENTATION ---------------------
 
 impl EasyText {
     pub fn new(text: &str) -> Self {
@@ -80,7 +82,7 @@ impl EasyNode for EasyText {
     }
 }
 
-//>------------------------------------------
+//>--------------------- HELPERS ---------------------
 
 impl std::ops::Deref for EasyTextStyle {
     type Target = Node;

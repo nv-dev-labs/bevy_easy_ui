@@ -1,12 +1,13 @@
 use bevy::prelude::*;
 
-use crate::{core::container::Container, widgets::{button::EasyButtonContainer, horizontal_layout::EasyHorizontalLayoutContainer, text::EasyText, vertical_layout::EasyVerticalLayoutContainer}};
+use crate::{core::container::Container, widgets::{button::EasyButtonContainer, horizontal_layout::EasyHorizontalLayoutContainer, image::EasyImage, text::EasyText, vertical_layout::EasyVerticalLayoutContainer}};
 
 pub enum EasyElement {
     ButtonContainer(EasyButtonContainer),
     Text(EasyText),
     VerticalContainer(EasyVerticalLayoutContainer),
     HorizontalContainer(EasyHorizontalLayoutContainer),
+    Image(EasyImage),
 }
 
 impl From<EasyButtonContainer> for EasyElement {
@@ -24,6 +25,9 @@ impl From<EasyHorizontalLayoutContainer> for EasyElement {
     fn from(c: EasyHorizontalLayoutContainer) -> Self {
         EasyElement::HorizontalContainer(c)
     }
+}
+impl From<EasyImage> for EasyElement {
+    fn from(i: EasyImage) -> Self { EasyElement::Image(i) }
 }
 
 impl EasyElement {
@@ -69,6 +73,9 @@ impl EasyElement {
                 for observer in c.take_observers() {
                     p.commands().spawn(observer.with_entity(entity));
                 }
+            }
+            EasyElement::Image(i) => {
+                p.spawn(i);
             }
         }
     }

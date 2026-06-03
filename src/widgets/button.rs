@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode};
 
+//>--------------------- STRUCTURES ---------------------
+
 #[derive(Bundle)]
 pub struct EasyButton (
     Button,
@@ -23,7 +25,7 @@ pub struct EasyButtonStyle {
     pub background_color: BackgroundColor,
 }
 
-//>------------------------------------------
+//>--------------------- IMPLEMENTATION ---------------------
 
 //? Implementation of the "builder API" part of EasyButton, which lets us build the declarative definition of the button (without spawning it)
 impl EasyButton {
@@ -97,7 +99,7 @@ impl PushObserver for EasyButtonContainer {
     fn push_observer(&mut self, o: Observer) { self.observers.push(o); }
 }
 
-//>------------------------------------------
+//>--------------------- HELPERS ---------------------
 
 impl std::ops::Deref for EasyButtonStyle {
     type Target = Node;
