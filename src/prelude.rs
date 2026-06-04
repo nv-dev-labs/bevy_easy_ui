@@ -1,6 +1,7 @@
 pub use crate::core::container::Container;
 pub use crate::core::node::EasyNode;
 pub use crate::core::image_node::EasyImageNode;
+pub use crate::core::parts::*;
 
 pub use crate::widgets::containers::button::*;
 pub use crate::widgets::containers::horizontal_layout::*;
