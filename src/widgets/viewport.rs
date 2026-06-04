@@ -5,7 +5,7 @@ use bevy::{
     }
 };
 
-use crate::core::node::EasyNode;
+use crate::core::{node::EasyNode, parts::{EasyStyle, EasyStyleExt}};
 
 //>--------------------- STRUCTURES ---------------------
 
@@ -13,29 +13,37 @@ use crate::core::node::EasyNode;
 pub struct EasyViewport {
     pub node: Node,
     pub viewport: ViewportNode,
-    pub background_color: BackgroundColor,
+    pub box_style: EasyStyle,
 }
 
 #[derive(Default, Debug)]
 pub struct EasyViewportStyle {
     pub node: Node,
-    pub background_color: BackgroundColor,
+    pub box_style: EasyStyle,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
+
+impl EasyStyleExt for EasyViewport {
+    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.box_style }
+}
 
 impl EasyViewport {
     pub fn new(camera: Entity) -> Self {
         EasyViewport {
             node: Node::default(),
             viewport: ViewportNode::new(camera),
-            background_color: BackgroundColor::default(),
+            box_style: EasyStyle::default(),
         }
     }
 
     pub fn with_style(mut self, style: EasyViewportStyle) -> Self {
         self.node = style.node;
-        self.background_color = style.background_color;
+        self.box_style = EasyStyle {
+            background_color: style.box_style.background_color,
+            border_color: style.box_style.border_color,
+            box_shadow: style.box_style.box_shadow,
+        };
         self
     }
 
@@ -48,26 +56,6 @@ impl EasyViewport {
 impl EasyNode for EasyViewport {
     fn node_mut(&mut self) -> &mut Node {
         &mut self.node
-    }
-}
-
-//>--------------------- HELPERS --------------------------
-
-impl From<EasyViewport> for (
-    Node,
-    ViewportNode,
-    BackgroundColor
-) {
-    fn from(viewport: EasyViewport) -> (
-        Node,
-        ViewportNode,
-        BackgroundColor
-    ) {
-        (
-            viewport.node,
-            viewport.viewport,
-            viewport.background_color
-        )
     }
 }
 

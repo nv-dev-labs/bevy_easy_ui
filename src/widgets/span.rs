@@ -7,24 +7,24 @@ use crate::core::parts::{EasyStyle, EasyStyleExt, EasyTextProps, EasyTextPropsEx
 #[derive(Bundle, Debug)]
 pub struct EasySpan {
     pub text_span: TextSpan,
-    pub style: EasyStyle,
-    pub props: EasyTextProps,
+    pub box_style: EasyStyle,
+    pub text_style: EasyTextProps,
 }
 
 #[derive(Default, Debug)]
 pub struct EasySpanStyle {
-    pub style: EasyStyle,
-    pub props: EasyTextProps,
+    pub box_style: EasyStyle,
+    pub text_style: EasyTextProps,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
 
 impl EasyStyleExt for EasySpan {
-    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.style }
+    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.box_style }
 }
 
 impl EasyTextPropsExt for EasySpan {
-    fn easy_props_mut(&mut self) -> &mut EasyTextProps { &mut self.props }
+    fn easy_props_mut(&mut self) -> &mut EasyTextProps { &mut self.text_style }
 }
 
 //>--------------------- BUILDER API ---------------------
@@ -33,8 +33,8 @@ impl EasySpan {
     pub fn new(text: &str) -> Self {
         EasySpan {
             text_span: TextSpan::new(text),
-            style: EasyStyle::default(),
-            props: EasyTextProps::default(),
+            box_style: EasyStyle::default(),
+            text_style: EasyTextProps::default(),
         }
     }
 
@@ -44,18 +44,18 @@ impl EasySpan {
     }
 
     pub fn with_style(mut self, style: EasySpanStyle) -> Self {
-        self.style = EasyStyle {
-            background_color: style.style.background_color,
-            border_color: style.style.border_color,
-            box_shadow: style.style.box_shadow,
+        self.box_style = EasyStyle {
+            background_color: style.box_style.background_color,
+            border_color: style.box_style.border_color,
+            box_shadow: style.box_style.box_shadow,
         };
 
-        self.props = EasyTextProps {
-            text_color: style.props.text_color,
-            text_shadow: style.props.text_shadow,
-            text_font: style.props.text_font,
-            text_layout: style.props.text_layout,
-            line_height: style.props.line_height,
+        self.text_style = EasyTextProps {
+            text_color: style.text_style.text_color,
+            text_shadow: style.text_style.text_shadow,
+            text_font: style.text_style.text_font,
+            text_layout: style.text_style.text_layout,
+            line_height: style.text_style.line_height,
         };
         self
     }

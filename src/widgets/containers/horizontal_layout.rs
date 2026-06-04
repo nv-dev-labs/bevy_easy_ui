@@ -1,15 +1,13 @@
 use bevy::prelude::*;
 
-use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode};
+use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode, parts::{EasyStyle, EasyStyleExt}};
 
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
 pub struct EasyHorizontalLayout {
     pub node: Node,
-    pub background_color: BackgroundColor,
-    pub border_color: BorderColor,
-    pub box_shadow: BoxShadow,
+    pub box_style: EasyStyle,
 }
 
 pub struct EasyHorizontalLayoutContainer {
@@ -21,70 +19,19 @@ pub struct EasyHorizontalLayoutContainer {
 #[derive(Default, Debug)]
 pub struct EasyHorizontalLayoutStyle {
     pub node: Node,
-    pub border_color: BorderColor,
-    pub background_color: BackgroundColor,
-    pub box_shadow: BoxShadow,
+    pub box_style: EasyStyle,
 }
 
-//>--------------------- IMPLEMENTATION ---------------------
-
-impl EasyHorizontalLayout {
-    pub fn new() -> EasyHorizontalLayoutContainer {
-        EasyHorizontalLayoutContainer {
-            bundle: EasyHorizontalLayout {
-                node: Node {
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Row,
-                    ..default()
-                },
-                background_color: BackgroundColor::default(),
-                border_color: BorderColor::default(),
-                box_shadow: BoxShadow::default(),
-            },
-            children: Vec::new(),
-            observers: Vec::new(),
-        }
-    }
-
-    fn default_bundle() -> Self {
-        EasyHorizontalLayout {
-            node: Node::default(),
-            background_color: BackgroundColor::default(),
-            border_color: BorderColor::default(),
-            box_shadow: BoxShadow::default(),
-        }
-    }
-}
-
-impl EasyHorizontalLayoutContainer {
-    pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
-        self.bundle.node = style.node;
-        self.bundle.background_color = style.background_color;
-        self.bundle.border_color = style.border_color;
-        self.bundle.box_shadow = style.box_shadow;
-        self
-    }
-
-    pub fn with_background_color(mut self, background_color: Color) -> Self {
-        self.bundle.background_color = BackgroundColor(background_color);
-        self
-    }
-
-    pub fn with_border_color(mut self, border_color: Color) -> Self {
-        self.bundle.border_color = BorderColor::all(border_color);
-        self
-    }
-
-    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
-        self.bundle.box_shadow = box_shadow;
-        self
-    }
-}
+//>--------------------- ACCESSOR IMPL ---------------------
 
 impl EasyNode for EasyHorizontalLayoutContainer {
     fn node_mut(&mut self) -> &mut Node {
         &mut self.bundle.node
     }
+}
+
+impl EasyStyleExt for EasyHorizontalLayoutContainer {
+    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.bundle.box_style }
 }
 
 impl Container for EasyHorizontalLayoutContainer {
@@ -101,25 +48,37 @@ impl PushObserver for EasyHorizontalLayoutContainer {
     fn push_observer(&mut self, o: Observer) { self.observers.push(o); }
 }
 
-//>--------------------- HELPERS --------------------------
 
-impl From<EasyHorizontalLayout> for (
-    Node,
-    BackgroundColor,
-    BorderColor,
-    BoxShadow
-) {
-    fn from(layout: EasyHorizontalLayout) -> (
-        Node,
-        BackgroundColor,
-        BorderColor,
-        BoxShadow
-    ) {
-       (
-        layout.node,
-        layout.background_color,
-        layout.border_color,
-        layout.box_shadow
-       )
+//>--------------------- BUILDER API ---------------------
+
+impl EasyHorizontalLayoutContainer {
+    pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
+        self.bundle.node = style.node;
+        self.bundle.box_style = style.box_style;
+        self
+    }
+}
+
+impl EasyHorizontalLayout {
+    pub fn new() -> EasyHorizontalLayoutContainer {
+        EasyHorizontalLayoutContainer {
+            bundle: EasyHorizontalLayout {
+                node: Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Row,
+                    ..default()
+                },
+                box_style: EasyStyle::default(),
+            },
+            children: Vec::new(),
+            observers: Vec::new(),
+        }
+    }
+
+    fn default_bundle() -> Self {
+        EasyHorizontalLayout {
+            node: Node::default(),
+            box_style: EasyStyle::default(),
+        }
     }
 }

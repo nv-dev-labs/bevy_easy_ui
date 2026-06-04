@@ -1,4 +1,4 @@
-use bevy::{prelude::*, text::{FontFeatures, FontSmoothing, LineHeight}};
+use bevy::prelude::*;
 
 use crate::{
     core::{
@@ -7,8 +7,8 @@ use crate::{
             PushChild,
             PushObserver
         },
-        node::EasyNode
-    }, helpers::colors::EasyColor, widgets::span::EasySpan
+        node::EasyNode, parts::{EasyStyle, EasyStyleExt, EasyTextProps, EasyTextPropsExt}
+    }, widgets::span::EasySpan
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -17,14 +17,8 @@ use crate::{
 pub struct EasyRichText {
     pub text: Text,
     pub node: Node,
-    pub text_font: TextFont,
-    pub text_color: TextColor,
-    pub text_shadow: TextShadow,
-    pub background_color: BackgroundColor,
-    pub border_color: BorderColor,
-    pub text_layout: TextLayout,
-    pub line_height: LineHeight,
-    pub box_shadow: BoxShadow,
+    pub box_style: EasyStyle,
+    pub text_style: EasyTextProps,
 }
 
 pub struct EasyRichTextContainer {
@@ -36,143 +30,18 @@ pub struct EasyRichTextContainer {
 #[derive(Default, Debug)]
 pub struct EasyRichTextStyle {
     pub node: Node,
-    pub text_font: TextFont,
-    pub text_color: TextColor,
-    pub text_shadow: TextShadow,
-    pub background_color: BackgroundColor,
-    pub border_color: BorderColor,
-    pub text_layout: TextLayout,
-    pub line_height: LineHeight,
-    pub box_shadow: BoxShadow,
+    pub box_style: EasyStyle,
+    pub text_style: EasyTextProps,
 }
 
-//>--------------------- IMPLEMENTATION ---------------------
+//>--------------------- ACCESSOR IMPLS ---------------------
 
-impl EasyRichText {
-    pub fn new() -> EasyRichTextContainer {
-         EasyRichTextContainer {
-            bundle: EasyRichText {
-                text: Text::new(""),
-                node: Node::default(),
-                text_font: TextFont::default(),
-                text_color: TextColor::default(),
-                text_shadow: TextShadow {
-                    color: EasyColor::TRANSPARENT,
-                    offset: Vec2::new(0.0, 0.0),
-                },
-                background_color: BackgroundColor::default(),
-                border_color: BorderColor::default(),
-                text_layout: TextLayout::default(),
-                line_height: LineHeight::default(),
-                box_shadow: BoxShadow::default(),
-            },
-            children: Vec::new(),
-            observers: Vec::new(),
-        }
-    }
-
-    fn default_bundle() -> Self {
-        EasyRichText {
-            text: Text::new(""),
-            node: Node::default(),
-            text_font: TextFont::default(),
-            text_color: TextColor::default(),
-            text_shadow: TextShadow {
-                color: EasyColor::TRANSPARENT,
-                offset: Vec2::new(0.0, 0.0),
-            },
-            background_color: BackgroundColor::default(),
-            border_color: BorderColor::default(),
-            text_layout: TextLayout::default(),
-            line_height: LineHeight::default(),
-            box_shadow: BoxShadow::default(),
-        }
-    }
+impl EasyStyleExt for EasyRichTextContainer {
+    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.bundle.box_style }
 }
 
-impl EasyRichTextContainer {
-    pub fn with_style(mut self, style: EasyRichTextStyle) -> Self {
-        self.bundle.node = style.node;
-        self.bundle.text_font = style.text_font;
-        self.bundle.text_color = style.text_color;
-        self.bundle.text_shadow = style.text_shadow;
-        self.bundle.background_color = style.background_color;
-        self.bundle.border_color = style.border_color;
-        self.bundle.text_layout = style.text_layout;
-        self.bundle.line_height = style.line_height;
-        self.bundle.box_shadow = style.box_shadow;
-        self
-    }
-
-    pub fn with_line_height(mut self, line_height: LineHeight) -> Self {
-        self.bundle.line_height = line_height;
-        self
-    }
-
-    pub fn with_justify(mut self, justify: Justify) -> Self {
-        self.bundle.text_layout.justify = justify;
-        self
-    }
-
-    pub fn with_linebreak(mut self, linebreak: LineBreak) -> Self {
-        self.bundle.text_layout.linebreak = linebreak;
-        self
-    }
-
-    pub fn with_border_color(mut self, border_color: Color) -> Self {
-        self.bundle.border_color = BorderColor::all(border_color);
-        self
-    }
-
-    pub fn with_background_color(mut self, background_color: Color) -> Self {
-        self.bundle.background_color = BackgroundColor(background_color);
-        self
-    }
-
-    pub fn with_text(mut self, text: &str) -> Self {
-        self.bundle.text = Text::new(text);
-        self
-    }
-
-    pub fn with_color(mut self, text_color: Color) -> Self {
-        self.bundle.text_color = TextColor(text_color);
-        self
-    }
-
-    pub fn with_text_shadow(mut self, text_shadow: TextShadow) -> Self {
-        self.bundle.text_shadow = text_shadow;
-        self
-    }
-
-    pub fn with_font_family(mut self, text_font: Handle<Font>) -> Self {
-        self.bundle.text_font.font = text_font;
-        self
-    }
-
-    pub fn with_font_size(mut self, font_size: f32) -> Self {
-        self.bundle.text_font.font_size = font_size;
-        self
-    }
-
-    pub fn with_font_weight(mut self, font_weight: FontWeight) -> Self {
-        self.bundle.text_font.weight = font_weight;
-        self
-    }
-
-    pub fn with_smoothing(mut self, font_smoothing: FontSmoothing) -> Self {
-        self.bundle.text_font.font_smoothing = font_smoothing;
-        self
-    }
-
-    pub fn with_features(mut self, font_features: FontFeatures) -> Self {
-        self.bundle.text_font.font_features = font_features;
-        self
-    }
-
-    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
-        self.bundle.box_shadow = box_shadow;
-        self
-    }
+impl EasyTextPropsExt for EasyRichTextContainer {
+    fn easy_props_mut(&mut self) -> &mut EasyTextProps { &mut self.bundle.text_style }
 }
 
 impl EasyNode for EasyRichTextContainer {
@@ -199,43 +68,47 @@ impl PushObserver<EasySpan> for EasyRichTextContainer {
     fn push_observer(&mut self, o: Observer) { self.observers.push(o); }
 }
 
-//>--------------------- HELPERS ---------------------
+//>--------------------- BUILDER API ---------------------
 
-impl From<EasyRichText> for (
-    Text,
-    Node,
-    TextFont,
-    TextColor,
-    TextShadow,
-    BackgroundColor,
-    BorderColor,
-    TextLayout,
-    LineHeight,
-    BoxShadow
-) {
-    fn from(text: EasyRichText) -> (
-        Text,
-        Node,
-        TextFont,
-        TextColor,
-        TextShadow,
-        BackgroundColor,
-        BorderColor,
-        TextLayout,
-        LineHeight,
-        BoxShadow
-    ) {
-       (
-            text.text,
-            text.node,
-            text.text_font,
-            text.text_color,
-            text.text_shadow,
-            text.background_color,
-            text.border_color,
-            text.text_layout,
-            text.line_height,
-            text.box_shadow
-        )
+impl EasyRichText {
+    pub fn new() -> EasyRichTextContainer {
+         EasyRichTextContainer {
+            bundle: EasyRichText {
+                text: Text::new(""),
+                node: Node::default(),
+                text_style: EasyTextProps::default(),
+                box_style: EasyStyle::default(),
+            },
+            children: Vec::new(),
+            observers: Vec::new(),
+        }
+    }
+
+    fn default_bundle() -> Self {
+        EasyRichText {
+            text: Text::new(""),
+            node: Node::default(),
+            text_style: EasyTextProps::default(),
+            box_style: EasyStyle::default(),
+        }
+    }
+}
+
+impl EasyRichTextContainer {
+    pub fn with_style(mut self, style: EasyRichTextStyle) -> Self {
+        self.bundle.node = style.node;
+        self.bundle.box_style = EasyStyle {
+            background_color: style.box_style.background_color,
+            border_color: style.box_style.border_color,
+            box_shadow: style.box_style.box_shadow,
+        };
+        self.bundle.text_style = EasyTextProps {
+            text_color: style.text_style.text_color,
+            text_shadow: style.text_style.text_shadow,
+            text_font: style.text_style.text_font,
+            text_layout: style.text_style.text_layout,
+            line_height: style.text_style.line_height,
+        };
+        self
     }
 }

@@ -8,19 +8,19 @@ use crate::core::{image_node::EasyImageNode, node::EasyNode, parts::{EasyStyle, 
 pub struct EasyImage {
     pub image_node: ImageNode,
     pub node: Node,
-    pub style: EasyStyle,
+    pub box_style: EasyStyle,
 }
 
 #[derive(Default, Debug)]
 pub struct EasyImageStyle {
     pub node: Node,
-    pub style: EasyStyle,
+    pub box_style: EasyStyle,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
 
 impl EasyStyleExt for EasyImage {
-    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.style }
+    fn easy_style_mut(&mut self) -> &mut EasyStyle { &mut self.box_style }
 }
 
 impl EasyImageNode for EasyImage {
@@ -45,16 +45,16 @@ impl EasyImage {
                 display: Display::Flex,
                 ..default()
             },
-            style: EasyStyle::default(),
+            box_style: EasyStyle::default(),
         }
     }
 
     pub fn with_style(mut self, style: EasyImageStyle) -> Self {
         self.node = style.node;
-        self.style = EasyStyle {
-            box_shadow: style.style.box_shadow,
-            background_color: style.style.background_color,
-            border_color: style.style.border_color,
+        self.box_style = EasyStyle {
+            box_shadow: style.box_style.box_shadow,
+            background_color: style.box_style.background_color,
+            border_color: style.box_style.border_color,
         };
         self
     }
