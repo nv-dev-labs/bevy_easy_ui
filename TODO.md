@@ -14,7 +14,7 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 |---|---|---|---|
 | 1 | `BackgroundColor` setters on all containers | Critical — impossible to color a layout background today | ✅ |
 | 2 | `EasyViewport` widget | One of the 5 native Bevy UI widgets is missing | 🔧 |
-| 3 | `BoxShadow` | Very common, no simple Bevy alternative | ❌ |
+| 3 | `BoxShadow` | Very common, no simple Bevy alternative | 🔧 |
 | 4 | `Outline` | Modern (0.17+), important for accessibility | ❌ |
 | 5 | `ZIndex` / `GlobalZIndex` | Critical for stacking elements | ❌ |
 | 6 | `TextLayout` (justify, linebreak) | Multi-line text is a very common case | ✅ |
@@ -31,7 +31,7 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | `Text` | ✅ DONE | `EasyText` |
 | `Label` | ✅ DONE | `EasyLabel` |
 | `ImageNode` | ✅ DONE | `EasyImage` + `EasyImageNode` trait |
-| `ViewportNode` | ✅ DONE | `EasyViewport` |
+| `ViewportNode` | 🔧 DOING | `EasyViewport` (Bundle derived, not re-exported in prelude) |
 
 ## Core components
 
@@ -41,9 +41,9 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | `BorderRadius` | ✅ DONE | Via `EasyNode::with_border_radius` |
 | `BackgroundColor` | ✅ DONE | Setter on `EasyButton`, `EasyHorizontalLayout`, `EasyVerticalLayout`, `EasyText`, `EasyRichText`, `EasySpan`, `EasyLabel`. Missing on `EasyImage` and `EasyViewport`. |
 | `BorderColor` | ✅ DONE | Setter on all bundles that include it (except `EasyViewport` which has no border) |
+| `BoxShadow` | 🔧 DOING | Setter on `EasyButton`, `EasyVerticalLayout`, `EasyHorizontalLayout`, `EasyRichText` (4/8 widgets). Missing on `EasyText`, `EasySpan`, `EasyLabel`, `EasyImage`, `EasyViewport`. |
 | `BackgroundGradient` | ❌ TODO | Linear / radial / conic gradients |
 | `BorderGradient` | ❌ TODO | Border gradients |
-| `BoxShadow` | ❌ TODO | No shadow helper |
 | `Outline` | ❌ TODO | Modern focus border (0.17+) |
 | `OverflowClipMargin` | ✅ DONE | |
 | `Overflow` | ✅ DONE | |
@@ -93,6 +93,7 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | `ImageNode.image_mode` | ✅ DONE | `.with_image_mode(NodeImageMode)` |
 | `ImageNode.texture_atlas` | ✅ DONE | `.with_texture_atlas(TextureAtlas)` |
 | `EasyImage` `with_background_color` | ❌ TODO | Bundle has no `BackgroundColor` field |
+| `EasyImage` `with_box_shadow` | ❌ TODO | Bundle has no `BoxShadow` field |
 
 ## Rendering and picking
 
@@ -136,32 +137,35 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 
 ## Viewport widget details
 
-`EasyViewport` is currently a plain struct (not a `Bundle`). It is converted to a tuple `(Node, ViewportNode)` at spawn time. To complete it:
+`EasyViewport` is now a `Bundle`. To complete it:
 
-- [ ] Add `#[derive(Bundle)]` on `EasyViewport`
-- [ ] Make it a `Container` (optional, for HUD overlay children)
-- [ ] Add `with_target_camera(Entity)` helper
-- [ ] Re-export in `prelude`
+- [ ] Re-export in `prelude.rs` (currently only `image`, `text`, `span`, `label`, `containers::*`, `helpers::colors` are exported — `viewport` is missing)
+- [ ] Add `with_target_camera(Entity)` helper (or accept it in `new()` only)
+- [ ] Add `BackgroundColor` and `BorderColor` to bundle (optional)
 
 ## Recently completed (since session start)
 
 - ✅ **Refactored `Container` trait to be generic** over the child type (`Container<C: Into<EasyElement>>`)
 - ✅ **Compile-time type-checked `with_child`** — `EasyRichTextContainer` now refuses any non-`EasySpan` at compile time
-- ✅ **Bundles converted from tuple-struct to named-struct** for self-documenting access (`self.node` instead of `self.1`)
-- ✅ **`BackgroundColor` and `BorderColor` added** to `EasyText`, `EasyRichText`, `EasyLabel`, `EasySpan`, `EasyVerticalLayout`, `EasyHorizontalLayout`
+- ✅ **Bundles converted from tuple-struct to named-struct** for self-documenting access
+- ✅ **`BackgroundColor` and `BorderColor` added** to all major bundles
 - ✅ **Setters `with_background_color` / `with_border_color` added** on all bundles that include them
 - ✅ **`with_text_layout(TextLayout)` setter added** on text widgets
 - ✅ **`with_justify(Justify)` sugar added** on text widgets
 - ✅ **`with_linebreak(LineBreak)` sugar added** on text widgets
 - ✅ **`LineHeight` field and `with_line_height` setter added** on text widgets
-- ✅ **`EasyViewport` widget skeleton created**
-- ✅ **`EasyImageNode` trait** exposing all `ImageNode` setters (`with_image_color`, `with_image`, `with_texture_atlas`, `with_flip_x`, `with_flip_y`, `with_rect`, `with_image_mode`)
+- ✅ **`EasyImageNode` trait** exposing all `ImageNode` setters
+- ✅ **`BoxShadow` field and `with_box_shadow` setter** on 4 widgets: `EasyButton`, `EasyVerticalLayout`, `EasyHorizontalLayout`, `EasyRichText`
+- ✅ **`EasyViewport` now derives `Bundle`** (was plain struct before)
+- ✅ **Widgets reorganized** — `button`, `vertical_layout`, `horizontal_layout`, `rich_text` moved into `src/widgets/containers/`
 - ✅ **All comments translated to English**
-- ✅ **License set to MIT OR Apache-2.0** (Bevy-compatible), `LICENSE-MIT` and `LICENSE-APACHE` files added, `Cargo.toml` updated
+- ✅ **License set to MIT OR Apache-2.0** (Bevy-compatible), `LICENSE-MIT` and `LICENSE-APACHE` files added
 - ✅ **README translated to English** with full API docs
 
 ## Known design debts
 
 - 🔧 **Massive setter duplication** — 8 widgets × ~10 setters each. Solution being designed: extension traits + blanket impl, or `impl_widget!` macro.
-- 🔧 **`with_background_color` on `EasyImage`** — `BackgroundColor` missing from its bundle
-- 🔧 **`EasyViewport` not derived as `Bundle`** — should be added for consistency
+- 🔧 **`BoxShadow` not on text/image/span widgets** — inconsistent coverage (only on 4/8 widgets)
+- 🔧 **`BackgroundColor` / `BoxShadow` missing from `EasyImage`** bundle
+- 🔧 **`EasyViewport` not re-exported in `prelude`** — users must `use bevy_easy_ui::widgets::viewport::*;` manually
+- 🔧 **No `with_target_camera` helper on `EasyViewport`** — users must set `viewport: ViewportNode::new(entity)` manually

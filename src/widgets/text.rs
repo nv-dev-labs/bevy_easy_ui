@@ -15,6 +15,7 @@ pub struct EasyText {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
 }
 
 #[derive(Default, Debug)]
@@ -27,6 +28,7 @@ pub struct EasyTextStyle {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -46,6 +48,7 @@ impl EasyText {
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
             line_height: LineHeight::default(),
+            box_shadow: BoxShadow::default(),
         }
     }
 
@@ -58,6 +61,12 @@ impl EasyText {
         self.border_color = style.border_color;
         self.text_layout = style.text_layout;
         self.line_height = style.line_height;
+        self.box_shadow = style.box_shadow;
+        self
+    }
+
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.box_shadow = box_shadow;
         self
     }
 
@@ -144,7 +153,8 @@ impl From<EasyText> for (
     BackgroundColor,
     BorderColor,
     TextLayout,
-    LineHeight
+    LineHeight,
+    BoxShadow
 ) {
     fn from(text: EasyText) -> (
         Text,
@@ -155,7 +165,8 @@ impl From<EasyText> for (
         BackgroundColor,
         BorderColor,
         TextLayout,
-        LineHeight
+        LineHeight,
+        BoxShadow
     ) {
        (
         text.text,
@@ -166,7 +177,8 @@ impl From<EasyText> for (
         text.background_color,
         text.border_color,
         text.text_layout,
-        text.line_height
+        text.line_height,
+        text.box_shadow
        )
     }
 }

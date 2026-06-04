@@ -11,5 +11,6 @@ pub use crate::widgets::image::*;
 pub use crate::widgets::text::*;
 pub use crate::widgets::span::*;
 pub use crate::widgets::label::*;
+pub use crate::widgets::viewport::*;
 
 pub use crate::helpers::colors::*;

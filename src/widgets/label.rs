@@ -1,4 +1,4 @@
-use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, math::Vec2, text::{Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak, LineHeight, TextColor, TextFont, TextLayout}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
+use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, math::Vec2, text::{Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak, LineHeight, TextColor, TextFont, TextLayout}, ui::{BackgroundColor, BorderColor, BoxShadow, Node, widget::{Label, Text, TextShadow}}};
 
 use crate::helpers::colors::EasyColor;
 
@@ -15,6 +15,7 @@ pub struct EasyLabel {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
     pub label: Label,
 }
 
@@ -28,6 +29,7 @@ pub struct EasyLabelStyle {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -47,6 +49,7 @@ impl EasyLabel {
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
             line_height: LineHeight::default(),
+            box_shadow: BoxShadow::default(),
             label: Label
         }
     }
@@ -60,6 +63,12 @@ impl EasyLabel {
         self.border_color = style.border_color;
         self.text_layout = style.text_layout;
         self.line_height = style.line_height;
+        self.box_shadow = style.box_shadow;
+        self
+    }
+
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.box_shadow = box_shadow;
         self
     }
 
@@ -141,6 +150,7 @@ impl From<EasyLabel> for (
     BorderColor,
     TextLayout,
     LineHeight,
+    BoxShadow,
     Label
 ) {
     fn from(label: EasyLabel) -> (
@@ -153,6 +163,7 @@ impl From<EasyLabel> for (
         BorderColor,
         TextLayout,
         LineHeight,
+        BoxShadow,
         Label
     ) {
         (
@@ -165,6 +176,7 @@ impl From<EasyLabel> for (
             label.border_color,
             label.text_layout,
             label.line_height,
+            label.box_shadow,
             label.label
         )
     }

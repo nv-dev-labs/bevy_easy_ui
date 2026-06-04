@@ -8,13 +8,15 @@ use crate::core::{image_node::EasyImageNode, node::EasyNode};
 pub struct EasyImage {
     pub image_node: ImageNode,
     pub node: Node,
-    pub border_color: BorderColor
+    pub border_color: BorderColor,
+    pub box_shadow: BoxShadow,
 }
 
 #[derive(Default, Debug)]
 pub struct EasyImageStyle {
     pub node: Node,
     pub border_color: BorderColor,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -27,18 +29,25 @@ impl EasyImage {
                 display: Display::Flex,
                 ..default()
             },
-            border_color: BorderColor::default()
+            border_color: BorderColor::default(),
+            box_shadow: BoxShadow::default(),
         }
     }
 
     pub fn with_style(mut self, style: EasyImageStyle) -> Self {
         self.node = style.node;
         self.border_color = style.border_color;
+        self.box_shadow = style.box_shadow;
         self
     }
 
     pub fn with_border_color(mut self, border_color: Color) -> Self {
         self.border_color = BorderColor::all(border_color);
+        self
+    }
+
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.box_shadow = box_shadow;
         self
     }
 }
@@ -57,8 +66,23 @@ impl EasyNode for EasyImage {
 
 //>--------------------- HELPERS --------------------------
 
-impl From<EasyImage> for (ImageNode, Node, BorderColor) {
-    fn from(image: EasyImage) -> (ImageNode, Node, BorderColor) {
-       (image.image_node, image.node, image.border_color)
+impl From<EasyImage> for (
+    ImageNode,
+    Node,
+    BorderColor,
+    BoxShadow
+) {
+    fn from(image: EasyImage) -> (
+        ImageNode,
+        Node,
+        BorderColor,
+        BoxShadow
+    ) {
+       (
+        image.image_node,
+        image.node,
+        image.border_color,
+        image.box_shadow
+       )
     }
 }
