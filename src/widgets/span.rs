@@ -1,6 +1,3 @@
-
-
-
 use bevy::prelude::*;
 
 use crate::core::parts::{EasyStyle, EasyStyleExt, EasyTextProps, EasyTextPropsExt};
@@ -39,6 +36,11 @@ impl EasySpan {
             style: EasyStyle::default(),
             props: EasyTextProps::default(),
         }
+    }
+
+    pub fn with_text(mut self, text: &str) -> Self {
+        self.text_span = TextSpan::new(text);
+        self
     }
 
     pub fn with_style(mut self, style: EasySpanStyle) -> Self {

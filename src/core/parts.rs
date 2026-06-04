@@ -10,8 +10,10 @@ use bevy::{
     ui::widget::TextShadow,
 };
 
+use crate::helpers::colors::EasyColor;
+
 //>===========================================================================
-// BUNDLE PARTS (reusable, auto-flattened by `#[derive(Bundle)]`)
+// BUNDLE PARTS
 //>===========================================================================
 //
 // Bevy 0.18's `#[derive(Bundle)]` automatically flattens any field that itself
@@ -34,7 +36,7 @@ pub struct EasyStyle {
 
 // === Text-specific extra props (only what Text does NOT require) ===
 // Used by text-bearing widgets (Text, Label, Span, RichText).
-#[derive(Bundle, Default, Debug, Clone)]
+#[derive(Bundle, Debug, Clone)]
 pub struct EasyTextProps {
     pub text_shadow: TextShadow,
     pub text_font: TextFont,
@@ -43,42 +45,20 @@ pub struct EasyTextProps {
     pub line_height: LineHeight,
 }
 
-// === Span-specific props (TextSpan doesn't require anything) ===
-// Used by EasySpan only — TextSpan has no `#[require]` so it can hold
-// font/color/layout directly. Plus visual styling.
-#[derive(Bundle, Default, Debug, Clone)]
-pub struct EasySpanProps {
-    pub text_font: TextFont,
-    pub text_color: TextColor,
-    pub text_shadow: TextShadow,
-    pub text_layout: TextLayout,
-    pub line_height: LineHeight,
-    pub box_shadow: BoxShadow,
-    pub background_color: BackgroundColor,
-    pub border_color: BorderColor,
+impl Default for EasyTextProps {
+    fn default() -> Self {
+        Self {
+            text_shadow: TextShadow {
+                color: EasyColor::TRANSPARENT,
+                offset: Vec2::ZERO,
+            },
+            text_font: TextFont::default(),
+            text_color: TextColor::default(),
+            text_layout: TextLayout::default(),
+            line_height: LineHeight::default(),
+        }
+    }
 }
-
-// === Image-specific props (extra styling beyond what EasyImage has) ===
-#[derive(Bundle, Default, Debug, Clone)]
-pub struct EasyImageProps {
-    pub box_shadow: BoxShadow,
-    pub background_color: BackgroundColor,
-}
-
-//>===========================================================================
-// TEXT-REQUIRED FIELDS (used as direct fields, not as a Bundle part)
-//>===========================================================================
-//
-// Since `Text` requires `TextFont`, `TextColor`, `TextLayout`, `LineHeight`,
-// text widgets must declare them as direct fields. To keep the setter logic
-// DRY, we expose a trait-based accessor system: each widget points to its
-// own fields, and the setter is defined ONCE in the extension trait below.
-//
-// (Note: we could put these in a Bundle part too, but the require-vs-flatten
-// conflict forces us to either duplicate or use field-level accessors.)
-//
-// For widgets that don't have these (button, layouts, image), they only
-// implement `HasEasyStyle` and get the visual setters.
 
 //>===========================================================================
 // EXTENSION TRAITS (setters, defined once, applied via blanket impl)
