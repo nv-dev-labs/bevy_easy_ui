@@ -1,6 +1,7 @@
 use bevy::ui::*;
 
 #[allow(dead_code)]
+/// A trait for UI elements that have a Node component, allowing for easy configuration of layout and styling properties.
 pub trait EasyNode: Sized {
     fn node_mut(&mut self) -> &mut Node;
 

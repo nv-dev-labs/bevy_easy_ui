@@ -3,6 +3,7 @@ use bevy::color::Color;
 pub struct EasyColor;
 
 #[allow(dead_code)]
+/// A collection of predefined colors and a helper function to create custom colors.
 impl EasyColor {
     pub const TRANSPARENT: Color = Color::srgba(0.0, 0.0, 0.0, 0.0);
 

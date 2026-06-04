@@ -6,6 +6,7 @@ use bevy::{
 };
 
 #[allow(dead_code)]
+/// A trait for UI elements that have an ImageNode component, allowing for easy configuration of image properties.
 pub trait EasyImageNode: Sized {
     fn node_mut(&mut self) -> &mut ImageNode;
 

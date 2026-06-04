@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode};
 
+//>--------------------- STRUCTURES ---------------------
+
 #[derive(Bundle, Debug)]
 pub struct EasyHorizontalLayout (
     Node,
@@ -22,9 +24,8 @@ pub struct EasyHorizontalLayoutStyle {
     pub background_color: BackgroundColor,
 }
 
-//>------------------------------------------
+//>--------------------- IMPLEMENTATION ---------------------
 
-//? Implementation of the "builder API" part of EasyHorizontalLayout, which lets us build the declarative definition of the layout (without spawning it)
 impl EasyHorizontalLayout {
     pub fn new() -> EasyHorizontalLayoutContainer {
         EasyHorizontalLayoutContainer {
@@ -72,7 +73,6 @@ impl EasyNode for EasyHorizontalLayoutContainer {
     }
 }
 
-//? Implementation of the Container trait for EasyHorizontalLayoutContainer, which lets us treat it as a node of the UI tree with children and observers
 impl Container for EasyHorizontalLayoutContainer {
     fn take_bundle(&mut self) -> impl Bundle {
         std::mem::replace(&mut self.bundle, EasyHorizontalLayout::default_bundle())
@@ -87,7 +87,7 @@ impl PushObserver for EasyHorizontalLayoutContainer {
     fn push_observer(&mut self, o: Observer) { self.observers.push(o); }
 }
 
-//>------------------------------------------
+//>--------------------- HELPERS --------------------------
 
 impl std::ops::Deref for EasyHorizontalLayoutStyle {
     type Target = Node;

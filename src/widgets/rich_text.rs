@@ -112,16 +112,12 @@ impl Container<EasySpan> for EasyRichTextContainer {
     fn take_bundle(&mut self) -> impl Bundle {
         std::mem::replace(&mut self.bundle, EasyRichText::default_bundle())
     }
-    /// Returns only the spans that were successfully pushed (any non-span
-    /// would have panicked in `push_child`).
     fn take_children(&mut self) -> Vec<EasySpan> {
         std::mem::take(&mut self.children)
     }
     fn take_observers(&mut self) -> Vec<Observer> { std::mem::take(&mut self.observers) }
 }
 impl PushChild<EasySpan> for EasyRichTextContainer {
-    /// **Runtime safety net**: only `EasyElement::Span` is allowed.
-    /// Panics if anything else is pushed (e.g. via `with_child`).
     fn push_child(&mut self, c: EasySpan) {
        self.children.push(c);
     }

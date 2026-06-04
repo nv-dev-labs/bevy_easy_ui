@@ -53,71 +53,54 @@ impl From<EasySpan> for EasyElement {
 }
 
 impl EasyElement {
-    pub fn spawn_in(self, p: &mut ChildSpawnerCommands) {
+    /// Spawns this EasyElement in the world, as a child of the given parent. This is done by matching on the type of the element (container vs non-container) and calling the appropriate helper function to spawn it.
+     pub fn spawn_in(self, p: &mut ChildSpawnerCommands) {
         match self {
-            // Button is a Container<EasyButton>: we spawn the bundle, then
-            // recursively descend into its children (e.g. the label text).
-            EasyElement::ButtonContainer(mut b) => {
-                let entity = p.spawn(b.take_bundle()).id();
-                let kids = b.take_children();
-                p.commands().entity(entity).with_children(|sub| {
-                    for child in kids {
-                        child.spawn_in(sub);
-                    }
-                });
-                for observer in b.take_observers() {
-                    p.commands().spawn(observer.with_entity(entity));
-                }
-            }
-            EasyElement::RichTextContainer(mut t) => {
-                let entity = p.spawn(t.take_bundle()).id();
-                let kids = t.take_children();
-                p.commands().entity(entity).with_children(|sub| {
-                    for child in kids {
-                        // EasySpan is a leaf bundle, spawn it directly.
-                        sub.spawn(child);
-                    }
-                });
-                for observer in t.take_observers() {
-                    p.commands().spawn(observer.with_entity(entity));
-                }
-            }
-            EasyElement::VerticalContainer(mut c) => {
-                let entity = p.spawn(c.take_bundle()).id();
-                let kids = c.take_children();
-                p.commands().entity(entity).with_children(|sub| {
-                    for child in kids {
-                        child.spawn_in(sub);
-                    }
-                });
-                for observer in c.take_observers() {
-                    p.commands().spawn(observer.with_entity(entity));
-                }
-            }
-            EasyElement::HorizontalContainer(mut c) => {
-                let entity = p.spawn(c.take_bundle()).id();
-                let kids = c.take_children();
-                p.commands().entity(entity).with_children(|sub| {
-                    for child in kids {
-                        child.spawn_in(sub);
-                    }
-                });
-                for observer in c.take_observers() {
-                    p.commands().spawn(observer.with_entity(entity));
-                }
-            }
-            EasyElement::Image(i) => {
-                p.spawn(i);
-            },
-            EasyElement::Text(t) => {
-                p.spawn(t);
-            },
-            EasyElement::Label(l) => {
-                p.spawn(l);
-            },
-            EasyElement::Span(s) => {
-                p.spawn(s);
-            }
+            // Containers (use the generic helper)
+            EasyElement::ButtonContainer(c)
+                => spawn_container(c, p),
+            EasyElement::RichTextContainer(c)
+                => spawn_rich_text(c, p),
+            EasyElement::VerticalContainer(c)
+                => spawn_container(c, p),
+            EasyElement::HorizontalContainer(c)
+                => spawn_container(c, p),
+
+            // Leaves
+            EasyElement::Image(i)   => { p.spawn(i); }
+            EasyElement::Text(t)    => { p.spawn(t); }
+            EasyElement::Label(l)   => { p.spawn(l); }
+            EasyElement::Span(s)    => { p.spawn(s); }
         }
+    }
+}
+
+
+/// **Helper function** to spawn an EasyElement that is a container (i.e. can have children). 
+/// It spawns the container itself, then recursively spawns its children, and finally spawns its observers.
+fn spawn_container(mut c: impl Container<EasyElement>, p: &mut ChildSpawnerCommands) {
+    let entity = p.spawn(c.take_bundle()).id();
+    let kids = c.take_children();
+    p.commands().entity(entity).with_children(|sub| {
+        for child in kids {
+            child.spawn_in(sub);
+        }
+    });
+    for observer in c.take_observers() {
+        p.commands().spawn(observer.with_entity(entity));
+    }
+}
+
+/// **Helper function** to spawn an EasyRichTextContainer, which is a special case because it has a different bundle and children type (EasySpan only instead of generic EasyElement).
+fn spawn_rich_text(mut t: EasyRichTextContainer, p: &mut ChildSpawnerCommands) {
+    let entity = p.spawn(t.take_bundle()).id();
+    let kids = t.take_children();
+    p.commands().entity(entity).with_children(|sub| {
+        for child in kids {
+            sub.spawn(child);
+        }
+    });
+    for observer in t.take_observers() {
+        p.commands().spawn(observer.with_entity(entity));
     }
 }

@@ -6,7 +6,8 @@ use crate::core::element::EasyElement;
 
 /// The heart of the system: a Container is just "something that can have
 /// children, observers, and be spawned". We extend this trait to anything
-/// that can live in the UI tree (leaf nodes like EasyText are excluded).
+/// that can live in the UI tree.
+/// Are not Containers: EasyText, EasySpan, EasyImage, EasyLabel.
 pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
     /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
     fn take_bundle(&mut self) -> impl Bundle;

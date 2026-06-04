@@ -27,7 +27,6 @@ pub struct EasyButtonStyle {
 
 //>--------------------- IMPLEMENTATION ---------------------
 
-//? Implementation of the "builder API" part of EasyButton, which lets us build the declarative definition of the button (without spawning it)
 impl EasyButton {
     pub fn new() -> EasyButtonContainer {
          EasyButtonContainer {
@@ -47,8 +46,6 @@ impl EasyButton {
     }
 }
 
-//? Style setters + EasyNode on the container so that we can chain
-//? `.width(...)`, `.border_color(...)`, etc. directly after `EasyButton::new()`.
 impl EasyButtonContainer {
     pub fn with_border_color(mut self, border_color: Color) -> Self {
         self.bundle.2 = BorderColor::all(border_color);
@@ -74,7 +71,6 @@ impl EasyNode for EasyButtonContainer {
     }
 }
 
-//? Implementation of the Container trait for EasyButtonContainer, which lets us treat it as a node of the UI tree with children and observers
 impl Container for EasyButtonContainer {
     fn take_bundle(&mut self) -> impl Bundle {
         std::mem::replace(&mut self.bundle, EasyButton::default_bundle())
