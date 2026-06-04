@@ -1,4 +1,4 @@
-use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont, TextLayout}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
+use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak, LineHeight, TextColor, TextFont, TextLayout}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
 
 //>--------------------- STRUCTURES ---------------------
 
@@ -12,6 +12,7 @@ pub struct EasyLabel {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
     pub label: Label,
 }
 
@@ -24,6 +25,7 @@ pub struct EasyLabelStyle {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -39,6 +41,7 @@ impl EasyLabel {
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
+            line_height: LineHeight::default(),
             label: Label
         }
     }
@@ -51,11 +54,22 @@ impl EasyLabel {
         self.background_color = style.background_color;
         self.border_color = style.border_color;
         self.text_layout = style.text_layout;
+        self.line_height = style.line_height;
         self
     }
 
-    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
-        self.text_layout = text_layout;
+    pub fn with_line_height(mut self, line_height: LineHeight) -> Self {
+        self.line_height = line_height;
+        self
+    }
+
+    pub fn with_justify(mut self, justify: Justify) -> Self {
+        self.text_layout.justify = justify;
+        self
+    }
+
+    pub fn with_linebreak(mut self, linebreak: LineBreak) -> Self {
+        self.text_layout.linebreak = linebreak;
         self
     }
 
@@ -112,11 +126,6 @@ impl EasyLabel {
 
 //>--------------------- HELPERS ---------------------
 
-impl std::ops::Deref for EasyLabelStyle {
-    type Target = Node;
-    fn deref(&self) -> &Self::Target { &self.node }
-}
-
 impl From<EasyLabel> for (
     Text,
     Node,
@@ -126,6 +135,7 @@ impl From<EasyLabel> for (
     BackgroundColor,
     BorderColor,
     TextLayout,
+    LineHeight,
     Label
 ) {
     fn from(label: EasyLabel) -> (
@@ -137,6 +147,7 @@ impl From<EasyLabel> for (
         BackgroundColor,
         BorderColor,
         TextLayout,
+        LineHeight,
         Label
     ) {
         (
@@ -148,6 +159,7 @@ impl From<EasyLabel> for (
             label.background_color,
             label.border_color,
             label.text_layout,
+            label.line_height,
             label.label
         )
     }

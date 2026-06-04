@@ -57,11 +57,6 @@ impl EasyNode for EasyImage {
 
 //>--------------------- HELPERS --------------------------
 
-impl std::ops::Deref for EasyImageStyle {
-    type Target = Node;
-    fn deref(&self) -> &Self::Target { &self.node }
-}
-
 impl From<EasyImage> for (ImageNode, Node, BorderColor) {
     fn from(image: EasyImage) -> (ImageNode, Node, BorderColor) {
        (image.image_node, image.node, image.border_color)

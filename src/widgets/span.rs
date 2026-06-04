@@ -1,7 +1,7 @@
 
 
 
-use bevy::{prelude::*, text::{FontFeatures, FontSmoothing}};
+use bevy::{prelude::*, text::{FontFeatures, FontSmoothing, LineHeight}};
 
 //>--------------------- STRUCTURES ---------------------
 
@@ -14,6 +14,7 @@ pub struct EasySpan {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
 }
 
 #[derive(Default, Debug)]
@@ -24,6 +25,7 @@ pub struct EasySpanStyle {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -38,6 +40,7 @@ impl EasySpan {
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
+            line_height: LineHeight::default(),
         }
     }
 
@@ -48,11 +51,22 @@ impl EasySpan {
         self.background_color = style.background_color;
         self.border_color = style.border_color;
         self.text_layout = style.text_layout;
+        self.line_height = style.line_height;
         self
     }
 
-    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
-        self.text_layout = text_layout;
+    pub fn with_line_height(mut self, line_height: LineHeight) -> Self {
+        self.line_height = line_height;
+        self
+    }
+
+    pub fn with_justify(mut self, justify: Justify) -> Self {
+        self.text_layout.justify = justify;
+        self
+    }
+
+    pub fn with_linebreak(mut self, linebreak: LineBreak) -> Self {
+        self.text_layout.linebreak = linebreak;
         self
     }
 
@@ -116,7 +130,8 @@ impl From<EasySpan> for (
     TextShadow,
     BackgroundColor,
     BorderColor,
-    TextLayout
+    TextLayout,
+    LineHeight
 ) {
     fn from(text: EasySpan) -> (
         TextSpan,
@@ -125,7 +140,8 @@ impl From<EasySpan> for (
         TextShadow,
         BackgroundColor,
         BorderColor,
-        TextLayout
+        TextLayout,
+        LineHeight
     ) {
        (
             text.text_span,
@@ -134,7 +150,8 @@ impl From<EasySpan> for (
             text.text_shadow,
             text.background_color,
             text.border_color,
-            text.text_layout
+            text.text_layout,
+            text.line_height
         )
     }
 }

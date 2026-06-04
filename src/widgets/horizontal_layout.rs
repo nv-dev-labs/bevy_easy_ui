@@ -93,11 +93,6 @@ impl PushObserver for EasyHorizontalLayoutContainer {
 
 //>--------------------- HELPERS --------------------------
 
-impl std::ops::Deref for EasyHorizontalLayoutStyle {
-    type Target = Node;
-    fn deref(&self) -> &Self::Target { &self.node }
-}
-
 impl From<EasyHorizontalLayout> for (Node, BackgroundColor, BorderColor) {
     fn from(layout: EasyHorizontalLayout) -> (Node, BackgroundColor, BorderColor) {
        (layout.node, layout.background_color, layout.border_color)

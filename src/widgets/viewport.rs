@@ -1,5 +1,5 @@
 use bevy::{
-    ecs::entity::Entity,
+    ecs::{bundle::Bundle, entity::Entity},
     ui::{
         Node,
         widget::ViewportNode
@@ -10,11 +10,13 @@ use crate::core::node::EasyNode;
 
 //>--------------------- STRUCTURES ---------------------
 
+#[derive(Bundle, Debug)]
 pub struct EasyViewport {
     pub node: Node,
     pub viewport: ViewportNode,
 }
 
+#[derive(Default, Debug)]
 pub struct EasyViewportStyle {
     pub node: Node,
 }
@@ -42,14 +44,6 @@ impl EasyNode for EasyViewport {
 }
 
 //>--------------------- HELPERS --------------------------
-
-impl std::ops::Deref for EasyViewportStyle {
-    type Target = Node;
-
-    fn deref(&self) -> &Self::Target {
-        &self.node
-    }
-}
 
 impl From<EasyViewport> for (
     Node,

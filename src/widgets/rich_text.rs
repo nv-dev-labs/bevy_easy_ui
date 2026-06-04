@@ -1,4 +1,4 @@
-use bevy::{prelude::*, text::{FontFeatures, FontSmoothing}};
+use bevy::{prelude::*, text::{FontFeatures, FontSmoothing, LineHeight}};
 
 use crate::{
     core::{
@@ -23,6 +23,7 @@ pub struct EasyRichText {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
 }
 
 pub struct EasyRichTextContainer {
@@ -40,6 +41,7 @@ pub struct EasyRichTextStyle {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
+    pub line_height: LineHeight,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -56,6 +58,7 @@ impl EasyRichText {
                 background_color: BackgroundColor::default(),
                 border_color: BorderColor::default(),
                 text_layout: TextLayout::default(),
+                line_height: LineHeight::default(),
             },
             children: Vec::new(),
             observers: Vec::new(),
@@ -72,6 +75,7 @@ impl EasyRichText {
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
+            line_height: LineHeight::default(),
         }
     }
 }
@@ -85,11 +89,22 @@ impl EasyRichTextContainer {
         self.bundle.background_color = style.background_color;
         self.bundle.border_color = style.border_color;
         self.bundle.text_layout = style.text_layout;
+        self.bundle.line_height = style.line_height;
         self
     }
 
-    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
-        self.bundle.text_layout = text_layout;
+    pub fn with_line_height(mut self, line_height: LineHeight) -> Self {
+        self.bundle.line_height = line_height;
+        self
+    }
+
+    pub fn with_justify(mut self, justify: Justify) -> Self {
+        self.bundle.text_layout.justify = justify;
+        self
+    }
+
+    pub fn with_linebreak(mut self, linebreak: LineBreak) -> Self {
+        self.bundle.text_layout.linebreak = linebreak;
         self
     }
 
@@ -170,11 +185,6 @@ impl PushObserver<EasySpan> for EasyRichTextContainer {
 
 //>--------------------- HELPERS ---------------------
 
-impl std::ops::Deref for EasyRichTextStyle {
-    type Target = Node;
-    fn deref(&self) -> &Self::Target { &self.node }
-}
-
 impl From<EasyRichText> for (
     Text,
     Node,
@@ -183,7 +193,8 @@ impl From<EasyRichText> for (
     TextShadow,
     BackgroundColor,
     BorderColor,
-    TextLayout
+    TextLayout,
+    LineHeight
 ) {
     fn from(text: EasyRichText) -> (
         Text,
@@ -193,7 +204,8 @@ impl From<EasyRichText> for (
         TextShadow,
         BackgroundColor,
         BorderColor,
-        TextLayout
+        TextLayout,
+        LineHeight
     ) {
        (
             text.text,
@@ -203,7 +215,8 @@ impl From<EasyRichText> for (
             text.text_shadow,
             text.background_color,
             text.border_color,
-            text.text_layout
+            text.text_layout,
+            text.line_height
         )
     }
 }

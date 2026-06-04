@@ -97,11 +97,6 @@ impl PushObserver for EasyButtonContainer {
 
 //>--------------------- HELPERS ---------------------
 
-impl std::ops::Deref for EasyButtonStyle {
-    type Target = Node;
-    fn deref(&self) -> &Self::Target { &self.node }
-}
-
 // This allows us to convert an EasyButton into the actual components needed to spawn it in Bevy
 impl From<EasyButton> for (Button, Node, BorderColor, BackgroundColor,) {
     fn from(button: EasyButton) -> (Button, Node, BorderColor, BackgroundColor) {

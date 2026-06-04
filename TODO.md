@@ -12,14 +12,14 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 
 | # | Component / Feature | Why priority | Status |
 |---|---|---|---|
-| 1 | `BackgroundColor` setters on all containers | Critical — impossible to color a layout background today | ❌ |
-| 2 | `EasyViewport` widget | One of the 5 native Bevy UI widgets is missing | ❌ |
+| 1 | `BackgroundColor` setters on all containers | Critical — impossible to color a layout background today | ✅ |
+| 2 | `EasyViewport` widget | One of the 5 native Bevy UI widgets is missing | 🔧 |
 | 3 | `BoxShadow` | Very common, no simple Bevy alternative | ❌ |
 | 4 | `Outline` | Modern (0.17+), important for accessibility | ❌ |
 | 5 | `ZIndex` / `GlobalZIndex` | Critical for stacking elements | ❌ |
-| 6 | `TextLayout` (justify, linebreak) | Multi-line text is a very common case | ❌ |
+| 6 | `TextLayout` (justify, linebreak) | Multi-line text is a very common case | ✅ |
 | 7 | `ScrollPosition` / scrollable container | Ultra-common use case (lists, scroll views) | ❌ |
-| 8 | Advanced `ImageNode` setters | `EasyImage` is limited without them | ❌ |
+| 8 | Advanced `ImageNode` setters | `EasyImage` is limited without them | ✅ |
 | 9 | Gradients (`BackgroundGradient`, `BorderGradient`) | Native in Bevy 0.15+ | ❌ |
 | 10 | Focus / `TabIndex` | Basic accessibility | ❌ |
 
@@ -30,8 +30,8 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | `Button` | ✅ DONE | `EasyButton` |
 | `Text` | ✅ DONE | `EasyText` |
 | `Label` | ✅ DONE | `EasyLabel` |
-| `ImageNode` | ✅ DONE | `EasyImage` |
-| `ViewportNode` | ❌ TODO | `EasyViewport` (missing) |
+| `ImageNode` | ✅ DONE | `EasyImage` + `EasyImageNode` trait |
+| `ViewportNode` | 🔧 DOING | `EasyViewport` (struct exists, no `Bundle` derive) |
 
 ## Core components
 
@@ -39,8 +39,8 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 |---|---|---|
 | `Node` | ✅ DONE | 100% covered via `EasyNode` trait (display, box_sizing, size, position, align, margin, padding, border, flex, grid) |
 | `BorderRadius` | ✅ DONE | Via `EasyNode::with_border_radius` |
-| `BackgroundColor` | 🔧 DOING | Setter only on `EasyButton`, not on layouts/containers |
-| `BorderColor` | 🔧 DOING | Setter only on `EasyButton` / `EasyImage`, not on layouts |
+| `BackgroundColor` | ✅ DONE | Setter on `EasyButton`, `EasyHorizontalLayout`, `EasyVerticalLayout`, `EasyText`, `EasyRichText`, `EasySpan`, `EasyLabel`. Missing on `EasyImage` and `EasyViewport`. |
+| `BorderColor` | ✅ DONE | Setter on all bundles that include it (except `EasyViewport` which has no border) |
 | `BackgroundGradient` | ❌ TODO | Linear / radial / conic gradients |
 | `BorderGradient` | ❌ TODO | Border gradients |
 | `BoxShadow` | ❌ TODO | No shadow helper |
@@ -71,26 +71,28 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 
 ## Text components
 
-`EasyText` currently exposes: `with_text`, `with_color`, `with_text_shadow`, `with_font_family`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`.
+`EasyText` / `EasyLabel` / `EasySpan` / `EasyRichText` currently expose: `with_text`, `with_color`, `with_text_shadow`, `with_font_family`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`, `with_background_color`, `with_border_color`, `with_text_layout`, `with_justify`, `with_linebreak`, `with_line_height`, `with_style`.
 
 | Component | Status | Missing setter |
 |---|---|---|
-| `TextLayout` (justify) | ❌ TODO | `.with_justify(JustifyText::Center)` |
-| `TextLayout` (linebreak) | ❌ TODO | `.with_linebreak(LineBreak::WordOrCharacter)` |
-| `LineHeight` | ❌ TODO | `.with_line_height(...)` |
+| `TextLayout` (justify) | ✅ DONE | `.with_justify(Justify::Center)` |
+| `TextLayout` (linebreak) | ✅ DONE | `.with_linebreak(LineBreak::WordOrCharacter)` |
+| `LineHeight` | ✅ DONE | `.with_line_height(LineHeight::Px(20.0))` |
 | `TextSpan` | ✅ DONE | `EasySpan` |
 
 ## Image components
 
-`EasyImage` currently exposes: `with_border_color`, plus the `EasyImageNode` trait.
+`EasyImage` + `EasyImageNode` trait currently expose all major setters.
 
-| Component | Status | Missing setter |
+| Component | Status | Setter |
 |---|---|---|
-| `ImageNode.color` (tint) | ❌ TODO | `.with_color(Color)` |
-| `ImageNode.flip_x` / `flip_y` | 🔧 DOING | Via `EasyImageNode` (verify) |
-| `ImageNode.rect` | ❌ TODO | `.with_rect(Rect)` |
-| `ImageNode.image_mode` | ❌ TODO | `.with_mode(NodeImageMode::Fill)` |
-| `ImageNode.texture_atlas` | ❌ TODO | `.with_texture_atlas(TextureAtlas)` |
+| `ImageNode.color` (tint) | ✅ DONE | `.with_image_color(Color)` |
+| `ImageNode.image` (handle) | ✅ DONE | `.with_image(Handle<Image>)` |
+| `ImageNode.flip_x` / `flip_y` | ✅ DONE | `.with_flip_x(bool)` / `.with_flip_y(bool)` |
+| `ImageNode.rect` | ✅ DONE | `.with_rect(Rect)` |
+| `ImageNode.image_mode` | ✅ DONE | `.with_image_mode(NodeImageMode)` |
+| `ImageNode.texture_atlas` | ✅ DONE | `.with_texture_atlas(TextureAtlas)` |
+| `EasyImage` `with_background_color` | ❌ TODO | Bundle has no `BackgroundColor` field |
 
 ## Rendering and picking
 
@@ -131,3 +133,35 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | Component | Status |
 |---|---|
 | Node transitions / easings | ❌ TODO — no animation helper |
+
+## Viewport widget details
+
+`EasyViewport` is currently a plain struct (not a `Bundle`). It is converted to a tuple `(Node, ViewportNode)` at spawn time. To complete it:
+
+- [ ] Add `#[derive(Bundle)]` on `EasyViewport`
+- [ ] Make it a `Container` (optional, for HUD overlay children)
+- [ ] Add `with_target_camera(Entity)` helper
+- [ ] Re-export in `prelude`
+
+## Recently completed (since session start)
+
+- ✅ **Refactored `Container` trait to be generic** over the child type (`Container<C: Into<EasyElement>>`)
+- ✅ **Compile-time type-checked `with_child`** — `EasyRichTextContainer` now refuses any non-`EasySpan` at compile time
+- ✅ **Bundles converted from tuple-struct to named-struct** for self-documenting access (`self.node` instead of `self.1`)
+- ✅ **`BackgroundColor` and `BorderColor` added** to `EasyText`, `EasyRichText`, `EasyLabel`, `EasySpan`, `EasyVerticalLayout`, `EasyHorizontalLayout`
+- ✅ **Setters `with_background_color` / `with_border_color` added** on all bundles that include them
+- ✅ **`with_text_layout(TextLayout)` setter added** on text widgets
+- ✅ **`with_justify(Justify)` sugar added** on text widgets
+- ✅ **`with_linebreak(LineBreak)` sugar added** on text widgets
+- ✅ **`LineHeight` field and `with_line_height` setter added** on text widgets
+- ✅ **`EasyViewport` widget skeleton created**
+- ✅ **`EasyImageNode` trait** exposing all `ImageNode` setters (`with_image_color`, `with_image`, `with_texture_atlas`, `with_flip_x`, `with_flip_y`, `with_rect`, `with_image_mode`)
+- ✅ **All comments translated to English**
+- ✅ **License set to MIT OR Apache-2.0** (Bevy-compatible), `LICENSE-MIT` and `LICENSE-APACHE` files added, `Cargo.toml` updated
+- ✅ **README translated to English** with full API docs
+
+## Known design debts
+
+- 🔧 **Massive setter duplication** — 8 widgets × ~10 setters each. Solution being designed: extension traits + blanket impl, or `impl_widget!` macro.
+- 🔧 **`with_background_color` on `EasyImage`** — `BackgroundColor` missing from its bundle
+- 🔧 **`EasyViewport` not derived as `Bundle`** — should be added for consistency
