@@ -9,66 +9,72 @@ use crate::core::element::EasyElement;
 /// that can live in the UI tree.
 /// Are not Containers: EasyText, EasySpan, EasyImage, EasyLabel.
 pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
-    /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
-    fn take_bundle(&mut self) -> impl Bundle;
-    /// Takes the Vec of children (to empty it on spawn)
-    fn take_children(&mut self) -> Vec<C>;
-    /// Takes the Vec of observers
-    fn take_observers(&mut self) -> Vec<Observer>;
+  /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
+  fn take_bundle(&mut self) -> impl Bundle;
+  /// Takes the Vec of children (to empty it on spawn)
+  fn take_children(&mut self) -> Vec<C>;
+  /// Takes the Vec of observers
+  fn take_observers(&mut self) -> Vec<Observer>;
 
-    /// Adds a child
-    fn with_child(mut self, child: impl Into<C>) -> Self
-    where
-        Self: PushChild<C>,
-    {
-        self.push_child(child.into());
-        self
-    }
+  /// Adds a child
+  fn with_child(mut self, child: impl Into<C>) -> Self
+  where
+    Self: PushChild<C>,
+  {
+    self.push_child(child.into());
+    self
+  }
 
-    /// Adds an observer
-    fn with_observer<E, ObsB, M>(mut self, observer: impl IntoObserverSystem<E, ObsB, M> + 'static) -> Self
-    where
-        Self: PushObserver<C>,
-        E: Event,
-        ObsB: Bundle,
-    {
-        self.push_observer(Observer::new(observer));
-        self
-    }
+  /// Adds an observer
+  fn with_observer<E, ObsB, M>(
+    mut self,
+    observer: impl IntoObserverSystem<E, ObsB, M> + 'static,
+  ) -> Self
+  where
+    Self: PushObserver<C>,
+    E: Event,
+    ObsB: Bundle,
+  {
+    self.push_observer(Observer::new(observer));
+    self
+  }
 
-    /// Spawns into the hierarchy
-    fn spawn(self, commands: &mut Commands) -> Entity
-    where
-        Self: PushChild<C> + PushObserver<C>,
-    {
-        // internal "mut" version — see below
-        spawn_container(self, commands)
-    }
+  /// Spawns into the hierarchy
+  fn spawn(self, commands: &mut Commands) -> Entity
+  where
+    Self: PushChild<C> + PushObserver<C>,
+  {
+    // internal "mut" version — see below
+    spawn_container(self, commands)
+  }
 }
 
 // Helpers so we can push into self from within the trait (by default, we
 // store things in internal fields — each concrete type defines push_child/push_observer).
 pub trait PushChild<C: Into<EasyElement> = EasyElement>: Container<C> {
-    fn push_child(&mut self, child: C);
+  fn push_child(&mut self, child: C);
 }
 pub trait PushObserver<C: Into<EasyElement> = EasyElement>: Container<C> {
-    fn push_observer(&mut self, observer: Observer);
+  fn push_observer(&mut self, observer: Observer);
 }
 
-fn spawn_container<C: Into<EasyElement>>(mut c: impl Container<C> + PushChild<C> + PushObserver<C>, commands: &mut Commands) -> Entity {
-    let bundle = c.take_bundle();
-    let children = c.take_children();
-    let observers = c.take_observers();
+fn spawn_container<C: Into<EasyElement>>(
+  mut c: impl Container<C> + PushChild<C> + PushObserver<C>,
+  commands: &mut Commands,
+) -> Entity {
+  let bundle = c.take_bundle();
+  let children = c.take_children();
+  let observers = c.take_observers();
 
-    let entity = commands.spawn(bundle).id();
-    commands.entity(entity).with_children(|p| {
-        for child in children {
-            let el: EasyElement = child.into();
-            el.spawn_in(p);
-        }
-    });
-    for observer in observers {
-        commands.spawn(observer.with_entity(entity));
+  let entity = commands.spawn(bundle).id();
+  commands.entity(entity).with_children(|p| {
+    for child in children {
+      let el: EasyElement = child.into();
+      el.spawn_in(p);
     }
-    entity
+  });
+  for observer in observers {
+    commands.spawn(observer.with_entity(entity));
+  }
+  entity
 }
