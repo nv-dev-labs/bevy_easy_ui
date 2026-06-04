@@ -31,6 +31,8 @@ use crate::helpers::colors::EasyColor;
 pub struct EasyStyle {
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub border_gradient: BorderGradient,
+    pub background_gradient: BackgroundGradient,
     pub box_shadow: BoxShadow,
 }
 

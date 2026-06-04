@@ -51,14 +51,6 @@ impl PushObserver for EasyHorizontalLayoutContainer {
 
 //>--------------------- BUILDER API ---------------------
 
-impl EasyHorizontalLayoutContainer {
-    pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
-        self.bundle.node = style.node;
-        self.bundle.box_style = style.box_style;
-        self
-    }
-}
-
 impl EasyHorizontalLayout {
     pub fn new() -> EasyHorizontalLayoutContainer {
         EasyHorizontalLayoutContainer {
@@ -80,5 +72,13 @@ impl EasyHorizontalLayout {
             node: Node::default(),
             box_style: EasyStyle::default(),
         }
+    }
+}
+
+impl EasyHorizontalLayoutContainer {
+    pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
+        self.bundle.node = style.node;
+        self.bundle.box_style = style.box_style;
+        self
     }
 }

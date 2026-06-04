@@ -77,11 +77,7 @@ impl EasyVerticalLayout {
 impl EasyVerticalLayoutContainer {
     pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
         self.bundle.node = style.node;
-        self.bundle.box_style = EasyStyle {
-            background_color: style.box_style.background_color,
-            border_color: style.box_style.border_color,
-            box_shadow: style.box_style.box_shadow,
-        };
+        self.bundle.box_style = style.box_style;
         self
     }
 }

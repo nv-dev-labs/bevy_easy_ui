@@ -81,9 +81,7 @@ impl EasyButton {
 impl EasyButtonContainer {
     pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
         self.bundle.node = style.node;
-        self.bundle.box_style.border_color = style.box_style.border_color;
-        self.bundle.box_style.background_color = style.box_style.background_color;
-        self.bundle.box_style.box_shadow = style.box_style.box_shadow;
+        self.bundle.box_style = style.box_style;
         self
     }
 }

@@ -51,11 +51,7 @@ impl EasyImage {
 
     pub fn with_style(mut self, style: EasyImageStyle) -> Self {
         self.node = style.node;
-        self.box_style = EasyStyle {
-            box_shadow: style.box_style.box_shadow,
-            background_color: style.box_style.background_color,
-            border_color: style.box_style.border_color,
-        };
+        self.box_style = style.box_style;
         self
     }
 }
