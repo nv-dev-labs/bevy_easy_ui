@@ -33,7 +33,7 @@ impl EasyImage {
         self
     }
 
-    pub fn border_color(mut self, border_color: Color) -> Self {
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
         self.2 = BorderColor::all(border_color);
         self
     }

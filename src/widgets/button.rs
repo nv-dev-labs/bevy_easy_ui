@@ -45,35 +45,25 @@ impl EasyButton {
     fn default_inner() -> Self {
         EasyButton(Button, Node::default(), BorderColor::default(), BackgroundColor::default())
     }
-
-    pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
-        self.1 = style.node;
-        self.2 = style.border_color;
-        self.3 = style.background_color;
-        self
-    }
-
-    pub fn border_color(mut self, border_color: Color) -> Self {
-        self.2 = BorderColor::all(border_color);
-        self
-    }
-
-    pub fn background_color(mut self, background_color: Color) -> Self {
-        self.3 = BackgroundColor(background_color);
-        self
-    }
 }
 
 //? Style setters + EasyNode on the container so that we can chain
 //? `.width(...)`, `.border_color(...)`, etc. directly after `EasyButton::new()`.
 impl EasyButtonContainer {
-    pub fn border_color(mut self, border_color: Color) -> Self {
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
         self.bundle.2 = BorderColor::all(border_color);
         self
     }
 
-    pub fn background_color(mut self, background_color: Color) -> Self {
+    pub fn with_background_color(mut self, background_color: Color) -> Self {
         self.bundle.3 = BackgroundColor(background_color);
+        self
+    }
+
+    pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
+        self.bundle.1 = style.node;
+        self.bundle.2 = style.border_color;
+        self.bundle.3 = style.background_color;
         self
     }
 }

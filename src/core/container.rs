@@ -16,7 +16,7 @@ pub trait Container: Sized {
     fn take_observers(&mut self) -> Vec<Observer>;
 
     /// Adds a child
-    fn child(mut self, child: impl Into<EasyElement>) -> Self
+    fn with_child(mut self, child: impl Into<EasyElement>) -> Self
     where
         Self: PushChild,
     {
@@ -25,7 +25,7 @@ pub trait Container: Sized {
     }
 
     /// Adds an observer
-    fn observe<E, ObsB, M>(mut self, observer: impl IntoObserverSystem<E, ObsB, M> + 'static) -> Self
+    fn with_observer<E, ObsB, M>(mut self, observer: impl IntoObserverSystem<E, ObsB, M> + 'static) -> Self
     where
         Self: PushObserver,
         E: Event,

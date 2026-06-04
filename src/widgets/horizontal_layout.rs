@@ -41,9 +41,11 @@ impl EasyHorizontalLayout {
     fn default_bundle() -> Self {
         EasyHorizontalLayout(Node::default())
     }
+}
 
+impl EasyHorizontalLayoutContainer {
     pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
-        self.0 = style.node;
+        self.bundle.0 = style.node;
         self
     }
 }

@@ -41,16 +41,18 @@ impl EasyVerticalLayout {
     fn default_bundle() -> Self {
         EasyVerticalLayout(Node::default())
     }
-
-    pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
-        self.0 = style.node;
-        self
-    }
 }
 
 impl EasyNode for EasyVerticalLayoutContainer {
     fn node_mut(&mut self) -> &mut Node {
         &mut self.bundle.0
+    }
+}
+
+impl EasyVerticalLayoutContainer {
+    pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
+        self.bundle.0 = style.node;
+        self
     }
 }
 
