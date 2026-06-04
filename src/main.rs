@@ -97,10 +97,10 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_child(
           EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN),
         )
-        .with_child(
-          // ! Throws a compile-time error if changed to something else, e.g. `EasyText::new("Not a span")`
-          EasySpan::new("Only EasySpan is accepted in EasyRichText."),
-        ),
+        // .with_child(
+        //   ! Throws a compile-time error (EasySpan compulsory for EasyRichText children) !
+        //   EasyButton::new();
+        // ),
     )
     .spawn(&mut commands);
 }
