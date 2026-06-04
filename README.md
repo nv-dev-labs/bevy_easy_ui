@@ -4,6 +4,22 @@ A declarative, fluent abstraction layer (builder pattern) on top of [Bevy 0.18](
 
 ---
 
+## Versioning
+
+`bevy_easy_ui` follows **Bevy's exact version number**. This means:
+
+- `bevy_easy_ui = "0.18.1"` is built against `bevy = "0.18.1"`
+- `bevy_easy_ui = "0.19.0"` will be built against `bevy = "0.19.0"`
+- There is **no independent versioning** — the crate's version *is* the Bevy version it targets.
+
+| `bevy_easy_ui` | Targets Bevy | Status |
+|---|---|---|
+| `0.18.1` | `0.18.1` | ✅ Current |
+
+This convention makes it impossible to accidentally use a version of `bevy_easy_ui` built against a different Bevy version.
+
+---
+
 ## Goal
 
 With the standard Bevy UI API, creating a simple styled button containing some text requires chaining several `commands.spawn(...)`, `with_children(...)` and `insert(...)` calls. `bevy_easy_ui` offers a **declarative** and **chainable** alternative:
@@ -44,7 +60,7 @@ EasyButton::new()
 
 ## Dependency
 
-Add the crate to your `Cargo.toml`:
+Add the crate to your `Cargo.toml`. **The version of `bevy_easy_ui` must match the version of `bevy` you depend on** — see the [Versioning](#versioning) section above.
 
 ```toml
 [dependencies]
