@@ -25,7 +25,10 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_overflow_clip_margin(mut self, overflow_clip_margin: OverflowClipMargin) -> Self {
+  fn with_overflow_clip_margin(
+    mut self,
+    overflow_clip_margin: OverflowClipMargin,
+  ) -> Self {
     self.node_mut().overflow_clip_margin = overflow_clip_margin;
     self
   }
@@ -128,7 +131,13 @@ pub trait EasyNode: Sized {
 
   //? MARGIN AND PADDING
 
-  fn with_margin(mut self, top: Val, right: Val, bottom: Val, left: Val) -> Self {
+  fn with_margin(
+    mut self,
+    top: Val,
+    right: Val,
+    bottom: Val,
+    left: Val,
+  ) -> Self {
     self.node_mut().margin = UiRect {
       top,
       right,
@@ -138,7 +147,13 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_padding(mut self, top: Val, right: Val, bottom: Val, left: Val) -> Self {
+  fn with_padding(
+    mut self,
+    top: Val,
+    right: Val,
+    bottom: Val,
+    left: Val,
+  ) -> Self {
     self.node_mut().padding = UiRect {
       top,
       right,
@@ -156,7 +171,13 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_border_width(mut self, top: Val, right: Val, bottom: Val, left: Val) -> Self {
+  fn with_border_width(
+    mut self,
+    top: Val,
+    right: Val,
+    bottom: Val,
+    left: Val,
+  ) -> Self {
     self.node_mut().border = UiRect {
       top,
       right,
@@ -226,12 +247,18 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_grid_template_rows(mut self, grid_template_rows: Vec<RepeatedGridTrack>) -> Self {
+  fn with_grid_template_rows(
+    mut self,
+    grid_template_rows: Vec<RepeatedGridTrack>,
+  ) -> Self {
     self.node_mut().grid_template_rows = grid_template_rows;
     self
   }
 
-  fn with_grid_template_columns(mut self, grid_template_columns: Vec<RepeatedGridTrack>) -> Self {
+  fn with_grid_template_columns(
+    mut self,
+    grid_template_columns: Vec<RepeatedGridTrack>,
+  ) -> Self {
     self.node_mut().grid_template_columns = grid_template_columns;
     self
   }
@@ -241,7 +268,10 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_grid_auto_columns(mut self, grid_auto_columns: Vec<GridTrack>) -> Self {
+  fn with_grid_auto_columns(
+    mut self,
+    grid_auto_columns: Vec<GridTrack>,
+  ) -> Self {
     self.node_mut().grid_auto_columns = grid_auto_columns;
     self
   }

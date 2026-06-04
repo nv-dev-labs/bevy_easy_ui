@@ -28,7 +28,7 @@ pub struct EasyViewportStyle {
 //>--------------------- IMPLEMENTATION ---------------------
 
 impl EasyStackStyleExt for EasyViewport {
-  fn stack_style_mut(&mut self) -> &mut EasyStackStyle {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
     &mut self.stack_style
   }
 }

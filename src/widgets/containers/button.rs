@@ -4,7 +4,7 @@ use crate::core::{
   container::{Container, PushChild, PushObserver},
   element::EasyElement,
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt},
+  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -14,6 +14,7 @@ pub struct EasyButton {
   pub button: Button,
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 pub struct EasyButtonContainer {
@@ -26,6 +27,7 @@ pub struct EasyButtonContainer {
 pub struct EasyButtonStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 //>--------------------- ACCESSOR IMPL ---------------------
@@ -33,6 +35,12 @@ pub struct EasyButtonStyle {
 impl EasyBoxStyleExt for EasyButtonContainer {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
     &mut self.bundle.box_style
+  }
+}
+
+impl EasyStackStyleExt for EasyButtonContainer {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
+    &mut self.bundle.stack_style
   }
 }
 
@@ -78,6 +86,7 @@ impl EasyButton {
           ..default()
         },
         box_style: EasyBoxStyle::default(),
+        stack_style: EasyStackStyle::default(),
       },
       children: Vec::new(),
       observers: Vec::new(),
@@ -89,6 +98,7 @@ impl EasyButton {
       button: Button,
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
+      stack_style: EasyStackStyle::default(),
     }
   }
 }
@@ -97,6 +107,7 @@ impl EasyButtonContainer {
   pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
     self.bundle.node = style.node;
     self.bundle.box_style = style.box_style;
+    self.bundle.stack_style = style.stack_style;
     self
   }
 }

@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::core::{
   image_node::EasyImageNode,
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt},
+  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -13,15 +13,23 @@ pub struct EasyImage {
   pub image_node: ImageNode,
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 #[derive(Default, Debug)]
 pub struct EasyImageStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
+
+impl EasyStackStyleExt for EasyImage {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
+    &mut self.stack_style
+  }
+}
 
 impl EasyBoxStyleExt for EasyImage {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
@@ -52,12 +60,14 @@ impl EasyImage {
         ..default()
       },
       box_style: EasyBoxStyle::default(),
+      stack_style: EasyStackStyle::default(),
     }
   }
 
   pub fn with_style(mut self, style: EasyImageStyle) -> Self {
     self.node = style.node;
     self.box_style = style.box_style;
+    self.stack_style = style.stack_style;
     self
   }
 }

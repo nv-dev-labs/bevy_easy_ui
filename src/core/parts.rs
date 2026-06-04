@@ -4,8 +4,8 @@ use bevy::{
   math::Vec2,
   prelude::*,
   text::{
-    Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak, LineHeight, TextColor,
-    TextFont, TextLayout,
+    Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak,
+    LineHeight, TextColor, TextFont, TextLayout,
   },
   ui::widget::TextShadow,
 };
@@ -74,15 +74,15 @@ impl Default for EasyTextProps {
 //>===========================================================================
 
 pub trait EasyStackStyleExt: Sized {
-  fn stack_style_mut(&mut self) -> &mut EasyStackStyle;
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle;
 
   fn with_z_index(mut self, z_index: i32) -> Self {
-    self.stack_style_mut().z_index = ZIndex(z_index);
+    self.easy_stack_style_mut().z_index = ZIndex(z_index);
     self
   }
 
   fn with_global_z_index(mut self, global_z_index: i32) -> Self {
-    self.stack_style_mut().global_z_index = GlobalZIndex(global_z_index);
+    self.easy_stack_style_mut().global_z_index = GlobalZIndex(global_z_index);
     self
   }
 }
@@ -110,7 +110,10 @@ pub trait EasyBoxStyleExt: Sized {
     self
   }
 
-  fn with_background_gradient(mut self, background_gradient: BackgroundGradient) -> Self {
+  fn with_background_gradient(
+    mut self,
+    background_gradient: BackgroundGradient,
+  ) -> Self {
     self.easy_style_mut().background_gradient = background_gradient;
     self
   }

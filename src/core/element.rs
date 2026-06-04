@@ -4,8 +4,10 @@ use crate::{
   core::container::Container,
   widgets::{
     containers::{
-      button::EasyButtonContainer, horizontal_layout::EasyHorizontalLayoutContainer,
-      rich_text::EasyRichTextContainer, vertical_layout::EasyVerticalLayoutContainer,
+      button::EasyButtonContainer,
+      horizontal_layout::EasyHorizontalLayoutContainer,
+      rich_text::EasyRichTextContainer,
+      vertical_layout::EasyVerticalLayoutContainer,
     },
     image::EasyImage,
     label::EasyLabel,
@@ -105,7 +107,10 @@ impl EasyElement {
 
 /// **Helper function** to spawn an EasyElement that is a container (i.e. can have children).
 /// It spawns the container itself, then recursively spawns its children, and finally spawns its observers.
-fn spawn_container(mut c: impl Container<EasyElement>, p: &mut ChildSpawnerCommands) {
+fn spawn_container(
+  mut c: impl Container<EasyElement>,
+  p: &mut ChildSpawnerCommands,
+) {
   let entity = p.spawn(c.take_bundle()).id();
   let kids = c.take_children();
   p.commands().entity(entity).with_children(|sub| {

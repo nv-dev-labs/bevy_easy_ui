@@ -4,7 +4,7 @@ use crate::{
   core::{
     container::{Container, PushChild, PushObserver},
     node::EasyNode,
-    parts::{EasyBoxStyle, EasyBoxStyleExt, EasyTextProps, EasyTextPropsExt},
+    parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt, EasyTextProps, EasyTextPropsExt},
   },
   widgets::span::EasySpan,
 };
@@ -17,6 +17,7 @@ pub struct EasyRichText {
   pub node: Node,
   pub box_style: EasyBoxStyle,
   pub text_style: EasyTextProps,
+  pub stack_style: EasyStackStyle,
 }
 
 pub struct EasyRichTextContainer {
@@ -30,9 +31,16 @@ pub struct EasyRichTextStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
   pub text_style: EasyTextProps,
+  pub stack_style: EasyStackStyle,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
+
+impl EasyStackStyleExt for EasyRichTextContainer {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
+    &mut self.bundle.stack_style
+  }
+}
 
 impl EasyBoxStyleExt for EasyRichTextContainer {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
@@ -84,6 +92,7 @@ impl EasyRichText {
         node: Node::default(),
         text_style: EasyTextProps::default(),
         box_style: EasyBoxStyle::default(),
+        stack_style: EasyStackStyle::default(),
       },
       children: Vec::new(),
       observers: Vec::new(),
@@ -96,6 +105,7 @@ impl EasyRichText {
       node: Node::default(),
       text_style: EasyTextProps::default(),
       box_style: EasyBoxStyle::default(),
+      stack_style: EasyStackStyle::default(),
     }
   }
 }
@@ -105,6 +115,7 @@ impl EasyRichTextContainer {
     self.bundle.node = style.node;
     self.bundle.box_style = style.box_style;
     self.bundle.text_style = style.text_style;
+    self.bundle.stack_style = style.stack_style;
     self
   }
 }

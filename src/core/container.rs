@@ -54,7 +54,9 @@ pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
 pub trait PushChild<C: Into<EasyElement> = EasyElement>: Container<C> {
   fn push_child(&mut self, child: C);
 }
-pub trait PushObserver<C: Into<EasyElement> = EasyElement>: Container<C> {
+pub trait PushObserver<C: Into<EasyElement> = EasyElement>:
+  Container<C>
+{
   fn push_observer(&mut self, observer: Observer);
 }
 

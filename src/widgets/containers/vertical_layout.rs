@@ -4,7 +4,7 @@ use crate::core::{
   container::{Container, PushChild, PushObserver},
   element::EasyElement,
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt},
+  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -13,6 +13,7 @@ use crate::core::{
 pub struct EasyVerticalLayout {
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 pub struct EasyVerticalLayoutContainer {
@@ -25,6 +26,7 @@ pub struct EasyVerticalLayoutContainer {
 pub struct EasyVerticalLayoutStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
+  pub stack_style: EasyStackStyle,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
@@ -32,6 +34,12 @@ pub struct EasyVerticalLayoutStyle {
 impl EasyBoxStyleExt for EasyVerticalLayoutContainer {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
     &mut self.bundle.box_style
+  }
+}
+
+impl EasyStackStyleExt for EasyVerticalLayoutContainer {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
+    &mut self.bundle.stack_style
   }
 }
 
@@ -75,6 +83,7 @@ impl EasyVerticalLayout {
           ..default()
         },
         box_style: EasyBoxStyle::default(),
+        stack_style: EasyStackStyle::default(),
       },
       children: Vec::new(),
       observers: Vec::new(),
@@ -85,6 +94,7 @@ impl EasyVerticalLayout {
     EasyVerticalLayout {
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
+      stack_style: EasyStackStyle::default(),
     }
   }
 }
@@ -93,6 +103,7 @@ impl EasyVerticalLayoutContainer {
   pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
     self.bundle.node = style.node;
     self.bundle.box_style = style.box_style;
+    self.bundle.stack_style = style.stack_style;
     self
   }
 }

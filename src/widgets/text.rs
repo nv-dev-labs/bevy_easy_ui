@@ -2,7 +2,10 @@ use bevy::prelude::*;
 
 use crate::core::{
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyTextProps, EasyTextPropsExt},
+  parts::{
+    EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
+    EasyTextProps, EasyTextPropsExt,
+  },
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -13,6 +16,7 @@ pub struct EasyText {
   pub node: Node,
   pub box_style: EasyBoxStyle,
   pub text_style: EasyTextProps,
+  pub stack_style: EasyStackStyle,
 }
 
 #[derive(Default, Debug)]
@@ -20,9 +24,16 @@ pub struct EasyTextStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
   pub text_style: EasyTextProps,
+  pub stack_style: EasyStackStyle,
 }
 
 //>--------------------- ACCESSOR IMPLS ---------------------
+
+impl EasyStackStyleExt for EasyText {
+  fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
+    &mut self.stack_style
+  }
+}
 
 impl EasyBoxStyleExt for EasyText {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
@@ -51,6 +62,7 @@ impl EasyText {
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
       text_style: EasyTextProps::default(),
+      stack_style: EasyStackStyle::default(),
     }
   }
 
@@ -58,6 +70,7 @@ impl EasyText {
     self.node = style.node;
     self.text_style = style.text_style;
     self.box_style = style.box_style;
+    self.stack_style = style.stack_style;
     self
   }
 

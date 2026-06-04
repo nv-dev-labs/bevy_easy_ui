@@ -94,7 +94,9 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_color(EasyColor::BLUE)
         .with_child(EasySpan::new("This is a rich text widget. "))
         .with_child(EasySpan::new("I'm in red. ").with_color(EasyColor::RED))
-        .with_child(EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN))
+        .with_child(
+          EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN),
+        )
         .with_child(
           // ! Throws a compile-time error if changed to something else, e.g. `EasyText::new("Not a span")`
           EasySpan::new("Only EasySpan is accepted in EasyRichText."),
