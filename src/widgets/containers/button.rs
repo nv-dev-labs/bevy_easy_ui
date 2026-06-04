@@ -10,6 +10,7 @@ pub struct EasyButton {
     pub node: Node,
     pub border_color: BorderColor,
     pub background_color: BackgroundColor,
+    pub box_shadow: BoxShadow,
 }
 
 pub struct EasyButtonContainer {
@@ -23,6 +24,7 @@ pub struct EasyButtonStyle {
     pub node: Node,
     pub border_color: BorderColor,
     pub background_color: BackgroundColor,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -40,6 +42,7 @@ impl EasyButton {
                 },
                 border_color: BorderColor::default(),
                 background_color: BackgroundColor::default(),
+                box_shadow: BoxShadow::default(),
             },
             children: Vec::new(),
             observers: Vec::new(),
@@ -52,6 +55,7 @@ impl EasyButton {
             node: Node::default(),
             border_color: BorderColor::default(),
             background_color: BackgroundColor::default(),
+            box_shadow: BoxShadow::default(),
         }
     }
 }
@@ -67,10 +71,16 @@ impl EasyButtonContainer {
         self
     }
 
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.bundle.box_shadow = box_shadow;
+        self
+    }
+
     pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
         self.bundle.node = style.node;
         self.bundle.border_color = style.border_color;
         self.bundle.background_color = style.background_color;
+        self.bundle.box_shadow = style.box_shadow;
         self
     }
 }
@@ -98,8 +108,26 @@ impl PushObserver for EasyButtonContainer {
 //>--------------------- HELPERS ---------------------
 
 // This allows us to convert an EasyButton into the actual components needed to spawn it in Bevy
-impl From<EasyButton> for (Button, Node, BorderColor, BackgroundColor,) {
-    fn from(button: EasyButton) -> (Button, Node, BorderColor, BackgroundColor) {
-       (button.button, button.node, button.border_color, button.background_color)
+impl From<EasyButton> for (
+    Button,
+    Node,
+    BorderColor,
+    BackgroundColor,
+    BoxShadow
+) {
+    fn from(button: EasyButton) -> (
+        Button,
+        Node,
+        BorderColor,
+        BackgroundColor,
+        BoxShadow
+    ) {
+        (
+            button.button,
+            button.node, 
+            button.border_color, 
+            button.background_color, 
+            button.box_shadow
+        )
     }
 }

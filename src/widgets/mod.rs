@@ -1,7 +1,4 @@
-pub mod button;
-pub mod rich_text;
-pub mod horizontal_layout;
-pub mod vertical_layout;
+pub mod containers;
 pub mod image;
 pub mod text;
 pub mod span;

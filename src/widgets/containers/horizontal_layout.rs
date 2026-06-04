@@ -5,38 +5,41 @@ use crate::core::{container::{Container, PushChild, PushObserver}, element::Easy
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
-pub struct EasyVerticalLayout {
+pub struct EasyHorizontalLayout {
     pub node: Node,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub box_shadow: BoxShadow,
 }
 
-pub struct EasyVerticalLayoutContainer {
-    bundle: EasyVerticalLayout,
+pub struct EasyHorizontalLayoutContainer {
+    bundle: EasyHorizontalLayout,
     children: Vec<EasyElement>,
     observers: Vec<Observer>,
 }
 
 #[derive(Default, Debug)]
-pub struct EasyVerticalLayoutStyle {
+pub struct EasyHorizontalLayoutStyle {
     pub node: Node,
     pub border_color: BorderColor,
     pub background_color: BackgroundColor,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
 
-impl EasyVerticalLayout {
-    pub fn new() -> EasyVerticalLayoutContainer {
-        EasyVerticalLayoutContainer {
-            bundle: EasyVerticalLayout {
+impl EasyHorizontalLayout {
+    pub fn new() -> EasyHorizontalLayoutContainer {
+        EasyHorizontalLayoutContainer {
+            bundle: EasyHorizontalLayout {
                 node: Node {
                     display: Display::Flex,
-                    flex_direction: FlexDirection::Column,
+                    flex_direction: FlexDirection::Row,
                     ..default()
                 },
                 background_color: BackgroundColor::default(),
                 border_color: BorderColor::default(),
+                box_shadow: BoxShadow::default(),
             },
             children: Vec::new(),
             observers: Vec::new(),
@@ -44,25 +47,21 @@ impl EasyVerticalLayout {
     }
 
     fn default_bundle() -> Self {
-        EasyVerticalLayout {
+        EasyHorizontalLayout {
             node: Node::default(),
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
+            box_shadow: BoxShadow::default(),
         }
     }
 }
 
-impl EasyNode for EasyVerticalLayoutContainer {
-    fn node_mut(&mut self) -> &mut Node {
-        &mut self.bundle.node
-    }
-}
-
-impl EasyVerticalLayoutContainer {
-    pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
+impl EasyHorizontalLayoutContainer {
+    pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
         self.bundle.node = style.node;
         self.bundle.background_color = style.background_color;
         self.bundle.border_color = style.border_color;
+        self.bundle.box_shadow = style.box_shadow;
         self
     }
 
@@ -75,26 +74,52 @@ impl EasyVerticalLayoutContainer {
         self.bundle.border_color = BorderColor::all(border_color);
         self
     }
+
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.bundle.box_shadow = box_shadow;
+        self
+    }
 }
 
-impl Container for EasyVerticalLayoutContainer {
+impl EasyNode for EasyHorizontalLayoutContainer {
+    fn node_mut(&mut self) -> &mut Node {
+        &mut self.bundle.node
+    }
+}
+
+impl Container for EasyHorizontalLayoutContainer {
     fn take_bundle(&mut self) -> impl Bundle {
-        std::mem::replace(&mut self.bundle, EasyVerticalLayout::default_bundle())
+        std::mem::replace(&mut self.bundle, EasyHorizontalLayout::default_bundle())
     }
     fn take_children(&mut self) -> Vec<EasyElement> { std::mem::take(&mut self.children) }
     fn take_observers(&mut self) -> Vec<Observer> { std::mem::take(&mut self.observers) }
 }
-impl PushChild for EasyVerticalLayoutContainer {
+impl PushChild for EasyHorizontalLayoutContainer {
     fn push_child(&mut self, c: EasyElement) { self.children.push(c); }
 }
-impl PushObserver for EasyVerticalLayoutContainer {
+impl PushObserver for EasyHorizontalLayoutContainer {
     fn push_observer(&mut self, o: Observer) { self.observers.push(o); }
 }
 
 //>--------------------- HELPERS --------------------------
 
-impl From<EasyVerticalLayout> for (Node, BackgroundColor, BorderColor) {
-    fn from(layout: EasyVerticalLayout) -> (Node, BackgroundColor, BorderColor) {
-       (layout.node, layout.background_color, layout.border_color)
+impl From<EasyHorizontalLayout> for (
+    Node,
+    BackgroundColor,
+    BorderColor,
+    BoxShadow
+) {
+    fn from(layout: EasyHorizontalLayout) -> (
+        Node,
+        BackgroundColor,
+        BorderColor,
+        BoxShadow
+    ) {
+       (
+        layout.node,
+        layout.background_color,
+        layout.border_color,
+        layout.box_shadow
+       )
     }
 }

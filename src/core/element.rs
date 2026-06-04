@@ -1,6 +1,20 @@
 use bevy::prelude::*;
 
-use crate::{core::container::Container, widgets::{button::EasyButtonContainer, horizontal_layout::EasyHorizontalLayoutContainer, image::EasyImage, label::EasyLabel, rich_text::EasyRichTextContainer, span::EasySpan, text::EasyText, vertical_layout::EasyVerticalLayoutContainer}};
+use crate::{
+    core::container::Container,
+    widgets::{
+        containers::{
+            button::EasyButtonContainer, 
+            horizontal_layout::EasyHorizontalLayoutContainer,
+            vertical_layout::EasyVerticalLayoutContainer,
+            rich_text::EasyRichTextContainer
+        },
+        image::EasyImage,
+        label::EasyLabel,
+        span::EasySpan,
+        text::EasyText,
+    }
+};
 
 //>--------------------- STRUCTURES ---------------------
 

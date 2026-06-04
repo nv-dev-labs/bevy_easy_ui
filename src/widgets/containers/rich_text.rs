@@ -24,6 +24,7 @@ pub struct EasyRichText {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
 }
 
 pub struct EasyRichTextContainer {
@@ -42,6 +43,7 @@ pub struct EasyRichTextStyle {
     pub border_color: BorderColor,
     pub text_layout: TextLayout,
     pub line_height: LineHeight,
+    pub box_shadow: BoxShadow,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -59,6 +61,7 @@ impl EasyRichText {
                 border_color: BorderColor::default(),
                 text_layout: TextLayout::default(),
                 line_height: LineHeight::default(),
+                box_shadow: BoxShadow::default(),
             },
             children: Vec::new(),
             observers: Vec::new(),
@@ -76,6 +79,7 @@ impl EasyRichText {
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
             line_height: LineHeight::default(),
+            box_shadow: BoxShadow::default(),
         }
     }
 }
@@ -90,6 +94,7 @@ impl EasyRichTextContainer {
         self.bundle.border_color = style.border_color;
         self.bundle.text_layout = style.text_layout;
         self.bundle.line_height = style.line_height;
+        self.bundle.box_shadow = style.box_shadow;
         self
     }
 
@@ -157,6 +162,11 @@ impl EasyRichTextContainer {
         self.bundle.text_font.font_features = font_features;
         self
     }
+
+    pub fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
+        self.bundle.box_shadow = box_shadow;
+        self
+    }
 }
 
 impl EasyNode for EasyRichTextContainer {
@@ -194,7 +204,8 @@ impl From<EasyRichText> for (
     BackgroundColor,
     BorderColor,
     TextLayout,
-    LineHeight
+    LineHeight,
+    BoxShadow
 ) {
     fn from(text: EasyRichText) -> (
         Text,
@@ -205,7 +216,8 @@ impl From<EasyRichText> for (
         BackgroundColor,
         BorderColor,
         TextLayout,
-        LineHeight
+        LineHeight,
+        BoxShadow
     ) {
        (
             text.text,
@@ -216,7 +228,8 @@ impl From<EasyRichText> for (
             text.background_color,
             text.border_color,
             text.text_layout,
-            text.line_height
+            text.line_height,
+            text.box_shadow
         )
     }
 }

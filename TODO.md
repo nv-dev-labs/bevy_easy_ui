@@ -31,7 +31,7 @@ Inventory of Bevy UI 0.18.1 features and their coverage status in `bevy_easy_ui`
 | `Text` | ✅ DONE | `EasyText` |
 | `Label` | ✅ DONE | `EasyLabel` |
 | `ImageNode` | ✅ DONE | `EasyImage` + `EasyImageNode` trait |
-| `ViewportNode` | 🔧 DOING | `EasyViewport` (struct exists, no `Bundle` derive) |
+| `ViewportNode` | ✅ DONE | `EasyViewport` |
 
 ## Core components
 
