@@ -13,6 +13,7 @@ pub struct EasyText {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 #[derive(Default, Debug)]
@@ -23,6 +24,7 @@ pub struct EasyTextStyle {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -36,7 +38,8 @@ impl EasyText {
             text_color: TextColor::default(),
             text_shadow: TextShadow::default(),
             background_color: BackgroundColor::default(),
-            border_color: BorderColor::default()
+            border_color: BorderColor::default(),
+            text_layout: TextLayout::default(),
         }
     }
 
@@ -47,6 +50,12 @@ impl EasyText {
         self.text_shadow = style.text_shadow;
         self.background_color = style.background_color;
         self.border_color = style.border_color;
+        self.text_layout = style.text_layout;
+        self
+    }
+
+    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
+        self.text_layout = text_layout;
         self
     }
 
@@ -114,8 +123,35 @@ impl std::ops::Deref for EasyTextStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyText> for (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-    fn from(text: EasyText) -> (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-       (text.text, text.node, text.text_font, text.text_color, text.text_shadow, text.background_color, text.border_color)
+impl From<EasyText> for (
+    Text,
+    Node,
+    TextFont,
+    TextColor,
+    TextShadow,
+    BackgroundColor,
+    BorderColor,
+    TextLayout
+) {
+    fn from(text: EasyText) -> (
+        Text,
+        Node,
+        TextFont,
+        TextColor,
+        TextShadow,
+        BackgroundColor,
+        BorderColor,
+        TextLayout
+    ) {
+       (
+        text.text,
+        text.node,
+        text.text_font,
+        text.text_color,
+        text.text_shadow,
+        text.background_color,
+        text.border_color,
+        text.text_layout
+       )
     }
 }

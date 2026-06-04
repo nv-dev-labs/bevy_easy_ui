@@ -22,6 +22,7 @@ pub struct EasyRichText {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 pub struct EasyRichTextContainer {
@@ -38,6 +39,7 @@ pub struct EasyRichTextStyle {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -53,6 +55,7 @@ impl EasyRichText {
                 text_shadow: TextShadow::default(),
                 background_color: BackgroundColor::default(),
                 border_color: BorderColor::default(),
+                text_layout: TextLayout::default(),
             },
             children: Vec::new(),
             observers: Vec::new(),
@@ -68,6 +71,7 @@ impl EasyRichText {
             text_shadow: TextShadow::default(),
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
+            text_layout: TextLayout::default(),
         }
     }
 }
@@ -80,6 +84,12 @@ impl EasyRichTextContainer {
         self.bundle.text_shadow = style.text_shadow;
         self.bundle.background_color = style.background_color;
         self.bundle.border_color = style.border_color;
+        self.bundle.text_layout = style.text_layout;
+        self
+    }
+
+    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
+        self.bundle.text_layout = text_layout;
         self
     }
 
@@ -165,8 +175,35 @@ impl std::ops::Deref for EasyRichTextStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyRichText> for (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-    fn from(text: EasyRichText) -> (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-       (text.text, text.node, text.text_font, text.text_color, text.text_shadow, text.background_color, text.border_color)
+impl From<EasyRichText> for (
+    Text,
+    Node,
+    TextFont,
+    TextColor,
+    TextShadow,
+    BackgroundColor,
+    BorderColor,
+    TextLayout
+) {
+    fn from(text: EasyRichText) -> (
+        Text,
+        Node,
+        TextFont,
+        TextColor,
+        TextShadow,
+        BackgroundColor,
+        BorderColor,
+        TextLayout
+    ) {
+       (
+            text.text,
+            text.node,
+            text.text_font,
+            text.text_color,
+            text.text_shadow,
+            text.background_color,
+            text.border_color,
+            text.text_layout
+        )
     }
 }

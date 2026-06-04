@@ -13,6 +13,7 @@ pub struct EasySpan {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 #[derive(Default, Debug)]
@@ -22,6 +23,7 @@ pub struct EasySpanStyle {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -35,6 +37,7 @@ impl EasySpan {
             text_shadow: TextShadow::default(),
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
+            text_layout: TextLayout::default(),
         }
     }
 
@@ -44,6 +47,12 @@ impl EasySpan {
         self.text_shadow = style.text_shadow;
         self.background_color = style.background_color;
         self.border_color = style.border_color;
+        self.text_layout = style.text_layout;
+        self
+    }
+
+    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
+        self.text_layout = text_layout;
         self
     }
 
@@ -100,8 +109,32 @@ impl EasySpan {
 
 //>--------------------- HELPERS ---------------------
 
-impl From<EasySpan> for (TextSpan, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-    fn from(text: EasySpan) -> (TextSpan, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
-       (text.text_span, text.text_font, text.text_color, text.text_shadow, text.background_color, text.border_color)
+impl From<EasySpan> for (
+    TextSpan,
+    TextFont,
+    TextColor,
+    TextShadow,
+    BackgroundColor,
+    BorderColor,
+    TextLayout
+) {
+    fn from(text: EasySpan) -> (
+        TextSpan,
+        TextFont,
+        TextColor,
+        TextShadow,
+        BackgroundColor,
+        BorderColor,
+        TextLayout
+    ) {
+       (
+            text.text_span,
+            text.text_font,
+            text.text_color,
+            text.text_shadow,
+            text.background_color,
+            text.border_color,
+            text.text_layout
+        )
     }
 }

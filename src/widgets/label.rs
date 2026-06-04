@@ -1,4 +1,4 @@
-use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
+use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont, TextLayout}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
 
 //>--------------------- STRUCTURES ---------------------
 
@@ -11,7 +11,8 @@ pub struct EasyLabel {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
-    pub label: Label
+    pub text_layout: TextLayout,
+    pub label: Label,
 }
 
 #[derive(Default, Debug)]
@@ -22,6 +23,7 @@ pub struct EasyLabelStyle {
     pub text_shadow: TextShadow,
     pub background_color: BackgroundColor,
     pub border_color: BorderColor,
+    pub text_layout: TextLayout,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -36,6 +38,7 @@ impl EasyLabel {
             text_shadow: TextShadow::default(),
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
+            text_layout: TextLayout::default(),
             label: Label
         }
     }
@@ -47,6 +50,12 @@ impl EasyLabel {
         self.text_shadow = style.text_shadow;
         self.background_color = style.background_color;
         self.border_color = style.border_color;
+        self.text_layout = style.text_layout;
+        self
+    }
+
+    pub fn with_text_layout(mut self, text_layout: TextLayout) -> Self {
+        self.text_layout = text_layout;
         self
     }
 
@@ -108,9 +117,39 @@ impl std::ops::Deref for EasyLabelStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyLabel> for (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor, Label) {
-    fn from(label: EasyLabel) -> (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor, Label) {
-       (label.text, label.node, label.text_font, label.text_color, label.text_shadow, label.background_color, label.border_color, label.label)
+impl From<EasyLabel> for (
+    Text,
+    Node,
+    TextFont,
+    TextColor,
+    TextShadow,
+    BackgroundColor,
+    BorderColor,
+    TextLayout,
+    Label
+) {
+    fn from(label: EasyLabel) -> (
+        Text,
+        Node,
+        TextFont,
+        TextColor,
+        TextShadow,
+        BackgroundColor,
+        BorderColor,
+        TextLayout,
+        Label
+    ) {
+        (
+            label.text,
+            label.node,
+            label.text_font,
+            label.text_color,
+            label.text_shadow,
+            label.background_color,
+            label.border_color,
+            label.text_layout,
+            label.label
+        )
     }
 }
 
