@@ -3,6 +3,8 @@
 
 use bevy::{prelude::*, text::{FontFeatures, FontSmoothing, LineHeight}};
 
+use crate::helpers::colors::EasyColor;
+
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
@@ -36,7 +38,10 @@ impl EasySpan {
             text_span: TextSpan::new(text),
             text_font: TextFont::default(),
             text_color: TextColor::default(),
-            text_shadow: TextShadow::default(),
+            text_shadow: TextShadow {
+                color: EasyColor::TRANSPARENT,
+                offset: Vec2::new(0.0, 0.0),
+            },
             background_color: BackgroundColor::default(),
             border_color: BorderColor::default(),
             text_layout: TextLayout::default(),
