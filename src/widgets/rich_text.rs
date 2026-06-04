@@ -14,13 +14,15 @@ use crate::{
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
-pub struct EasyRichText (
-    Text,
-    Node,
-    TextFont,
-    TextColor,
-    TextShadow,
-);
+pub struct EasyRichText {
+    pub text: Text,
+    pub node: Node,
+    pub text_font: TextFont,
+    pub text_color: TextColor,
+    pub text_shadow: TextShadow,
+    pub background_color: BackgroundColor,
+    pub border_color: BorderColor,
+}
 
 pub struct EasyRichTextContainer {
     bundle: EasyRichText,
@@ -34,6 +36,8 @@ pub struct EasyRichTextStyle {
     pub text_font: TextFont,
     pub text_color: TextColor,
     pub text_shadow: TextShadow,
+    pub background_color: BackgroundColor,
+    pub border_color: BorderColor,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
@@ -41,70 +45,98 @@ pub struct EasyRichTextStyle {
 impl EasyRichText {
     pub fn new() -> EasyRichTextContainer {
          EasyRichTextContainer {
-            bundle: EasyRichText(Text::new(""), Node::default(), TextFont::default(), TextColor::default(), TextShadow::default()),
+            bundle: EasyRichText {
+                text: Text::new(""),
+                node: Node::default(),
+                text_font: TextFont::default(),
+                text_color: TextColor::default(),
+                text_shadow: TextShadow::default(),
+                background_color: BackgroundColor::default(),
+                border_color: BorderColor::default(),
+            },
             children: Vec::new(),
             observers: Vec::new(),
         }
     }
 
     fn default_bundle() -> Self {
-        EasyRichText(Text::new(""), Node::default(), TextFont::default(), TextColor::default(), TextShadow::default())
+        EasyRichText {
+            text: Text::new(""),
+            node: Node::default(),
+            text_font: TextFont::default(),
+            text_color: TextColor::default(),
+            text_shadow: TextShadow::default(),
+            background_color: BackgroundColor::default(),
+            border_color: BorderColor::default(),
+        }
     }
 }
 
 impl EasyRichTextContainer {
     pub fn with_style(mut self, style: EasyRichTextStyle) -> Self {
-        self.bundle.1 = style.node;
-        self.bundle.2 = style.text_font;
-        self.bundle.3 = style.text_color;
-        self.bundle.4 = style.text_shadow;
+        self.bundle.node = style.node;
+        self.bundle.text_font = style.text_font;
+        self.bundle.text_color = style.text_color;
+        self.bundle.text_shadow = style.text_shadow;
+        self.bundle.background_color = style.background_color;
+        self.bundle.border_color = style.border_color;
+        self
+    }
+
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
+        self.bundle.border_color = BorderColor::all(border_color);
+        self
+    }
+
+    pub fn with_background_color(mut self, background_color: Color) -> Self {
+        self.bundle.background_color = BackgroundColor(background_color);
         self
     }
 
     pub fn with_text(mut self, text: &str) -> Self {
-        self.bundle.0 = Text::new(text);
+        self.bundle.text = Text::new(text);
         self
     }
 
     pub fn with_color(mut self, text_color: Color) -> Self {
-        self.bundle.3 = TextColor(text_color);
+        self.bundle.text_color = TextColor(text_color);
         self
     }
 
     pub fn with_text_shadow(mut self, text_shadow: TextShadow) -> Self {
-        self.bundle.4 = text_shadow;
+        self.bundle.text_shadow = text_shadow;
         self
     }
 
     pub fn with_font_family(mut self, text_font: Handle<Font>) -> Self {
-        self.bundle.2.font = text_font;
+        self.bundle.text_font.font = text_font;
         self
     }
 
     pub fn with_font_size(mut self, font_size: f32) -> Self {
-        self.bundle.2.font_size = font_size;
+        self.bundle.text_font.font_size = font_size;
         self
     }
 
     pub fn with_font_weight(mut self, font_weight: FontWeight) -> Self {
-        self.bundle.2.weight = font_weight;
+        self.bundle.text_font.weight = font_weight;
         self
     }
 
     pub fn with_smoothing(mut self, font_smoothing: FontSmoothing) -> Self {
-        self.bundle.2.font_smoothing = font_smoothing;
+        self.bundle.text_font.font_smoothing = font_smoothing;
         self
     }
 
     pub fn with_features(mut self, font_features: FontFeatures) -> Self {
-        self.bundle.2.font_features = font_features;
+        self.bundle.text_font.font_features = font_features;
         self
     }
 }
 
 impl EasyNode for EasyRichTextContainer {
     fn node_mut(&mut self) -> &mut Node {
-        &mut self.bundle.1
+        &mut self.bundle.node
     }
 }
 
@@ -133,8 +165,8 @@ impl std::ops::Deref for EasyRichTextStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyRichText> for (Text, Node, TextFont, TextColor, TextShadow) {
-    fn from(text: EasyRichText) -> (Text, Node, TextFont, TextColor, TextShadow) {
-       (text.0, text.1, text.2, text.3, text.4)
+impl From<EasyRichText> for (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
+    fn from(text: EasyRichText) -> (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor) {
+       (text.text, text.node, text.text_font, text.text_color, text.text_shadow, text.background_color, text.border_color)
     }
 }

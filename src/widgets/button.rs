@@ -5,12 +5,12 @@ use crate::core::{container::{Container, PushChild, PushObserver}, element::Easy
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
-pub struct EasyButton (
-    Button,
-    Node,
-    BorderColor,
-    BackgroundColor,
-);
+pub struct EasyButton {
+    pub button: Button,
+    pub node: Node,
+    pub border_color: BorderColor,
+    pub background_color: BackgroundColor,
+}
 
 pub struct EasyButtonContainer {
     bundle: EasyButton,
@@ -30,44 +30,54 @@ pub struct EasyButtonStyle {
 impl EasyButton {
     pub fn new() -> EasyButtonContainer {
          EasyButtonContainer {
-            bundle: EasyButton(Button, Node {
-                display: Display::Flex,
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            }, BorderColor::default(), BackgroundColor::default()),
+            bundle: EasyButton {
+                button: Button,
+                node: Node {
+                    display: Display::Flex,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    ..default()
+                },
+                border_color: BorderColor::default(),
+                background_color: BackgroundColor::default(),
+            },
             children: Vec::new(),
             observers: Vec::new(),
         }
     }
 
     fn default_bundle() -> Self {
-        EasyButton(Button, Node::default(), BorderColor::default(), BackgroundColor::default())
+        EasyButton {
+            button: Button,
+            node: Node::default(),
+            border_color: BorderColor::default(),
+            background_color: BackgroundColor::default(),
+        }
     }
 }
 
 impl EasyButtonContainer {
     pub fn with_border_color(mut self, border_color: Color) -> Self {
-        self.bundle.2 = BorderColor::all(border_color);
+        self.bundle.border_color = BorderColor::all(border_color);
         self
     }
 
     pub fn with_background_color(mut self, background_color: Color) -> Self {
-        self.bundle.3 = BackgroundColor(background_color);
+        self.bundle.background_color = BackgroundColor(background_color);
         self
     }
 
     pub fn with_style(mut self, style: EasyButtonStyle) -> Self {
-        self.bundle.1 = style.node;
-        self.bundle.2 = style.border_color;
-        self.bundle.3 = style.background_color;
+        self.bundle.node = style.node;
+        self.bundle.border_color = style.border_color;
+        self.bundle.background_color = style.background_color;
         self
     }
 }
 
 impl EasyNode for EasyButtonContainer {
     fn node_mut(&mut self) -> &mut Node {
-        &mut self.bundle.1
+        &mut self.bundle.node
     }
 }
 
@@ -95,6 +105,6 @@ impl std::ops::Deref for EasyButtonStyle {
 // This allows us to convert an EasyButton into the actual components needed to spawn it in Bevy
 impl From<EasyButton> for (Button, Node, BorderColor, BackgroundColor,) {
     fn from(button: EasyButton) -> (Button, Node, BorderColor, BackgroundColor) {
-       (button.0, button.1, button.2, button.3)
+       (button.button, button.node, button.border_color, button.background_color)
     }
 }

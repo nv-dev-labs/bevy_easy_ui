@@ -1,16 +1,18 @@
-use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont}, ui::{Node, widget::{Label, Text, TextShadow}}};
+use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont}, ui::{BackgroundColor, BorderColor, Node, widget::{Label, Text, TextShadow}}};
 
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
-pub struct EasyLabel (
-    Text,
-    Node,
-    TextFont,
-    TextColor,
-    TextShadow,
-    Label
-);
+pub struct EasyLabel {
+    pub text: Text,
+    pub node: Node,
+    pub text_font: TextFont,
+    pub text_color: TextColor,
+    pub text_shadow: TextShadow,
+    pub background_color: BackgroundColor,
+    pub border_color: BorderColor,
+    pub label: Label
+}
 
 #[derive(Default, Debug)]
 pub struct EasyLabelStyle {
@@ -18,67 +20,83 @@ pub struct EasyLabelStyle {
     pub text_font: TextFont,
     pub text_color: TextColor,
     pub text_shadow: TextShadow,
+    pub background_color: BackgroundColor,
+    pub border_color: BorderColor,
 }
 
 //>--------------------- IMPLEMENTATION ---------------------
 
 impl EasyLabel {
     pub fn new(text: &str) -> Self {
-        EasyLabel(
-            Text::new(text),
-            Node::default(),
-            TextFont::default(),
-            TextColor::default(),
-            TextShadow::default(),
-            Label
-        )
+        EasyLabel {
+            text: Text::new(text),
+            node: Node::default(),
+            text_font: TextFont::default(),
+            text_color: TextColor::default(),
+            text_shadow: TextShadow::default(),
+            background_color: BackgroundColor::default(),
+            border_color: BorderColor::default(),
+            label: Label
+        }
     }
 
     pub fn with_style(mut self, style: EasyLabelStyle) -> Self {
-        self.1 = style.node;
-        self.2 = style.text_font;
-        self.3 = style.text_color;
-        self.4 = style.text_shadow;
+        self.node = style.node;
+        self.text_font = style.text_font;
+        self.text_color = style.text_color;
+        self.text_shadow = style.text_shadow;
+        self.background_color = style.background_color;
+        self.border_color = style.border_color;
+        self
+    }
+
+    pub fn with_background_color(mut self, background_color: Color) -> Self {
+        self.background_color = BackgroundColor(background_color);
+        self
+    }
+
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
+        self.border_color = BorderColor::all(border_color);
         self
     }
 
     pub fn with_text(mut self, text: &str) -> Self {
-        self.0 = Text::new(text);
+        self.text = Text::new(text);
         self
     }
 
     pub fn with_color(mut self, text_color: Color) -> Self {
-        self.3 = TextColor(text_color);
+        self.text_color = TextColor(text_color);
         self
     }
 
     pub fn with_text_shadow(mut self, text_shadow: TextShadow) -> Self {
-        self.4 = text_shadow;
+        self.text_shadow = text_shadow;
         self
     }
 
     pub fn with_font_family(mut self, text_font: Handle<Font>) -> Self {
-        self.2.font = text_font;
+        self.text_font.font = text_font;
         self
     }
 
     pub fn with_font_size(mut self, font_size: f32) -> Self {
-        self.2.font_size = font_size;
+        self.text_font.font_size = font_size;
         self
     }
 
     pub fn with_font_weight(mut self, font_weight: FontWeight) -> Self {
-        self.2.weight = font_weight;
+        self.text_font.weight = font_weight;
         self
     }
 
     pub fn with_smoothing(mut self, font_smoothing: FontSmoothing) -> Self {
-        self.2.font_smoothing = font_smoothing;
+        self.text_font.font_smoothing = font_smoothing;
         self
     }
 
     pub fn with_features(mut self, font_features: FontFeatures) -> Self {
-        self.2.font_features = font_features;
+        self.text_font.font_features = font_features;
         self
     }
 }
@@ -90,9 +108,9 @@ impl std::ops::Deref for EasyLabelStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyLabel> for (Text, Node, TextFont, TextColor, TextShadow, Label) {
-    fn from(label: EasyLabel) -> (Text, Node, TextFont, TextColor, TextShadow, Label) {
-       (label.0, label.1, label.2, label.3, label.4, label.5)
+impl From<EasyLabel> for (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor, Label) {
+    fn from(label: EasyLabel) -> (Text, Node, TextFont, TextColor, TextShadow, BackgroundColor, BorderColor, Label) {
+       (label.text, label.node, label.text_font, label.text_color, label.text_shadow, label.background_color, label.border_color, label.label)
     }
 }
 

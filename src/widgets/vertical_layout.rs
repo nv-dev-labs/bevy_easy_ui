@@ -5,9 +5,11 @@ use crate::core::{container::{Container, PushChild, PushObserver}, element::Easy
 //>--------------------- STRUCTURES ---------------------
 
 #[derive(Bundle, Debug)]
-pub struct EasyVerticalLayout (
-    Node,
-);
+pub struct EasyVerticalLayout {
+    pub node: Node,
+    pub background_color: BackgroundColor,
+    pub border_color: BorderColor,
+}
 
 pub struct EasyVerticalLayoutContainer {
     bundle: EasyVerticalLayout,
@@ -25,34 +27,52 @@ pub struct EasyVerticalLayoutStyle {
 //>--------------------- IMPLEMENTATION ---------------------
 
 impl EasyVerticalLayout {
-    /// Creates a builder that IS ALREADY a container: you can chain
-    /// `.child(...)`, `.observe(...)`, `.spawn(commands)` directly.
     pub fn new() -> EasyVerticalLayoutContainer {
         EasyVerticalLayoutContainer {
-            bundle: EasyVerticalLayout(Node {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Column,
-                ..default()
-            }),
+            bundle: EasyVerticalLayout {
+                node: Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    ..default()
+                },
+                background_color: BackgroundColor::default(),
+                border_color: BorderColor::default(),
+            },
             children: Vec::new(),
             observers: Vec::new(),
         }
     }
 
     fn default_bundle() -> Self {
-        EasyVerticalLayout(Node::default())
+        EasyVerticalLayout {
+            node: Node::default(),
+            background_color: BackgroundColor::default(),
+            border_color: BorderColor::default(),
+        }
     }
 }
 
 impl EasyNode for EasyVerticalLayoutContainer {
     fn node_mut(&mut self) -> &mut Node {
-        &mut self.bundle.0
+        &mut self.bundle.node
     }
 }
 
 impl EasyVerticalLayoutContainer {
     pub fn with_style(mut self, style: EasyVerticalLayoutStyle) -> Self {
-        self.bundle.0 = style.node;
+        self.bundle.node = style.node;
+        self.bundle.background_color = style.background_color;
+        self.bundle.border_color = style.border_color;
+        self
+    }
+
+    pub fn with_background_color(mut self, background_color: Color) -> Self {
+        self.bundle.background_color = BackgroundColor(background_color);
+        self
+    }
+
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
+        self.bundle.border_color = BorderColor::all(border_color);
         self
     }
 }
@@ -78,8 +98,8 @@ impl std::ops::Deref for EasyVerticalLayoutStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyVerticalLayout> for (Node,) {
-    fn from(layout: EasyVerticalLayout) -> (Node,) {
-       (layout.0,)
+impl From<EasyVerticalLayout> for (Node, BackgroundColor, BorderColor) {
+    fn from(layout: EasyVerticalLayout) -> (Node, BackgroundColor, BorderColor) {
+       (layout.node, layout.background_color, layout.border_color)
     }
 }
