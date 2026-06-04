@@ -1,7 +1,8 @@
-use bevy::{asset::Handle, color::Color, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont}, ui::{Node, widget::{Label, Text, TextShadow}}};
+use bevy::{asset::Handle, color::Color, ecs::bundle::Bundle, text::{Font, FontFeatures, FontSmoothing, FontWeight, TextColor, TextFont}, ui::{Node, widget::{Label, Text, TextShadow}}};
 
 //>--------------------- STRUCTURES ---------------------
 
+#[derive(Bundle, Debug)]
 pub struct EasyLabel (
     Text,
     Node,
@@ -11,6 +12,7 @@ pub struct EasyLabel (
     Label
 );
 
+#[derive(Default, Debug)]
 pub struct EasyLabelStyle {
     pub node: Node,
     pub text_font: TextFont,
