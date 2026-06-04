@@ -5,3 +5,4 @@ pub mod vertical_layout;
 pub mod image;
 pub mod text;
 pub mod span;
+pub mod label;
