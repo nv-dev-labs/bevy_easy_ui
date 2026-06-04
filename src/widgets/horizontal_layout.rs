@@ -2,9 +2,11 @@ use bevy::prelude::*;
 
 use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode};
 
-#[derive(Bundle)]
+#[derive(Bundle, Debug)]
 pub struct EasyHorizontalLayout (
     Node,
+    BackgroundColor,
+    BorderColor,
 );
 
 pub struct EasyHorizontalLayoutContainer {
@@ -13,7 +15,7 @@ pub struct EasyHorizontalLayoutContainer {
     observers: Vec<Observer>,
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct EasyHorizontalLayoutStyle {
     pub node: Node,
     pub border_color: BorderColor,
@@ -24,28 +26,42 @@ pub struct EasyHorizontalLayoutStyle {
 
 //? Implementation of the "builder API" part of EasyHorizontalLayout, which lets us build the declarative definition of the layout (without spawning it)
 impl EasyHorizontalLayout {
-    /// Creates a builder that IS ALREADY a container: you can chain
-    /// `.child(...)`, `.observe(...)`, `.spawn(commands)` directly.
     pub fn new() -> EasyHorizontalLayoutContainer {
         EasyHorizontalLayoutContainer {
-            bundle: EasyHorizontalLayout(Node {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Row,
-                ..default()
-            }),
+            bundle: EasyHorizontalLayout(
+                Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Row,
+                    ..default()
+                },
+                BackgroundColor::default(), 
+                BorderColor::default()
+            ),
             children: Vec::new(),
             observers: Vec::new(),
         }
     }
 
     fn default_bundle() -> Self {
-        EasyHorizontalLayout(Node::default())
+        EasyHorizontalLayout(Node::default(), BackgroundColor::default(), BorderColor::default())
     }
 }
 
 impl EasyHorizontalLayoutContainer {
     pub fn with_style(mut self, style: EasyHorizontalLayoutStyle) -> Self {
         self.bundle.0 = style.node;
+        self.bundle.1 = style.background_color;
+        self.bundle.2 = style.border_color;
+        self
+    }
+
+    pub fn with_background_color(mut self, background_color: Color) -> Self {
+        self.bundle.1 = BackgroundColor(background_color);
+        self
+    }
+
+    pub fn with_border_color(mut self, border_color: Color) -> Self {
+        self.bundle.2 = BorderColor::all(border_color);
         self
     }
 }
@@ -78,8 +94,8 @@ impl std::ops::Deref for EasyHorizontalLayoutStyle {
     fn deref(&self) -> &Self::Target { &self.node }
 }
 
-impl From<EasyHorizontalLayout> for (Node,) {
-    fn from(layout: EasyHorizontalLayout) -> (Node,) {
-       (layout.0,)
+impl From<EasyHorizontalLayout> for (Node, BackgroundColor, BorderColor) {
+    fn from(layout: EasyHorizontalLayout) -> (Node, BackgroundColor, BorderColor) {
+       (layout.0, layout.1, layout.2)
     }
 }

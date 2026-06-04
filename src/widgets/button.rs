@@ -4,7 +4,7 @@ use crate::core::{container::{Container, PushChild, PushObserver}, element::Easy
 
 //>--------------------- STRUCTURES ---------------------
 
-#[derive(Bundle)]
+#[derive(Bundle, Debug)]
 pub struct EasyButton (
     Button,
     Node,
@@ -18,7 +18,7 @@ pub struct EasyButtonContainer {
     observers: Vec<Observer>,
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct EasyButtonStyle {
     pub node: Node,
     pub border_color: BorderColor,
@@ -42,7 +42,7 @@ impl EasyButton {
         }
     }
 
-    fn default_inner() -> Self {
+    fn default_bundle() -> Self {
         EasyButton(Button, Node::default(), BorderColor::default(), BackgroundColor::default())
     }
 }
@@ -77,7 +77,7 @@ impl EasyNode for EasyButtonContainer {
 //? Implementation of the Container trait for EasyButtonContainer, which lets us treat it as a node of the UI tree with children and observers
 impl Container for EasyButtonContainer {
     fn take_bundle(&mut self) -> impl Bundle {
-        std::mem::replace(&mut self.bundle, EasyButton::default_inner())
+        std::mem::replace(&mut self.bundle, EasyButton::default_bundle())
     }
     fn take_children(&mut self) -> Vec<EasyElement> { std::mem::take(&mut self.children) }
     fn take_observers(&mut self) -> Vec<Observer> { std::mem::take(&mut self.observers) }

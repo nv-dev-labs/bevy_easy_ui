@@ -4,7 +4,7 @@ use crate::core::node::EasyNode;
 
 //>--------------------- STRUCTURES ---------------------
 
-#[derive(Bundle)]
+#[derive(Bundle, Debug)]
 pub struct EasyText (
     Text,
     Node,
@@ -13,6 +13,7 @@ pub struct EasyText (
     TextShadow,
 );
 
+#[derive(Default, Debug)]
 pub struct EasyTextStyle {
     pub node: Node,
     pub text_font: TextFont,

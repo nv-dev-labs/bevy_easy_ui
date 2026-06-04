@@ -4,14 +4,14 @@ use crate::core::{image_node::EasyImageNode, node::EasyNode};
 
 //>--------------------- STRUCTURES ---------------------
 
-#[derive(Bundle)]
+#[derive(Bundle, Debug)]
 pub struct EasyImage (
     ImageNode,
     Node,
     BorderColor
 );
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct EasyImageStyle {
     pub node: Node,
     pub border_color: BorderColor,

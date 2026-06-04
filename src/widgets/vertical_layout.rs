@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::core::{container::{Container, PushChild, PushObserver}, element::EasyElement, node::EasyNode};
 
-#[derive(Bundle)]
+#[derive(Bundle, Debug)]
 pub struct EasyVerticalLayout (
     Node,
 );
@@ -13,7 +13,7 @@ pub struct EasyVerticalLayoutContainer {
     observers: Vec<Observer>,
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct EasyVerticalLayoutStyle {
     pub node: Node,
     pub border_color: BorderColor,
