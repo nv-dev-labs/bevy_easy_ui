@@ -9,6 +9,7 @@ keywords = ["bevy", "ui", "gui", "builder"]
 categories = ["gui", "interface-development", "game-development"]
 readme = "README.md"
 exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak"]
+rust-version = "1.85.0"
 
 [dependencies]
 bevy = "0.18.1"

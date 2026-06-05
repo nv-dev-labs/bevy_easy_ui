@@ -4,6 +4,7 @@
 [![docs.rs](https://img.shields.io/docsrs/bevy_easy_ui)](https://docs.rs/bevy_easy_ui)
 [![Crates.io](https://img.shields.io/crates/v/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui)
 [![License](https://img.shields.io/crates/l/bevy_easy_ui)](LICENSE-MIT)
+[![License](https://img.shields.io/crates/l/bevy_easy_ui)](LICENSE-APACHE)
 
 A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system.
 
@@ -47,14 +48,6 @@ Every setter is chainable, type-checked, and the trait system prevents misusing 
 ---
 
 ## Quick start
-
-Add the dependency — its version **must** match your `bevy` version:
-
-```toml
-[dependencies]
-bevy = "0.18.1"
-bevy_easy_ui = "0.18.1"
-```
 
 ```rust
 use bevy::prelude::*;
@@ -135,6 +128,62 @@ cargo run --example rich_text
 
 ---
 
+## Reusable styles with `with_style`
+
+Every widget also exposes a `with_style(style: <Widget>Style)` setter that swaps the **whole** style bundle at once — `Node` + `EasyBoxStyle` + `EasyStackStyle` (+ `EasyTextStyle` for text widgets). It's the same shape as a Bevy bundle, but assembled ahead of time.
+
+Use it when you have a few pre-defined looks (e.g. a theme) you want to apply as a unit, without chaining ten `with_*` calls every time:
+
+```rust
+use bevy::prelude::*;
+use bevy_easy_ui::prelude::*;
+
+// Define a style once
+fn primary_button_style() -> EasyButtonStyle {
+    EasyButtonStyle {
+        node: Node {
+            width: px(200.0),
+            height: px(64.0),
+            padding: UiRect::all(px(12.0)),
+            ..default()
+        },
+        box_style: EasyBoxStyle {
+            background_color: BackgroundColor(EasyColor::BLUE),
+            border_color: BorderColor::all(EasyColor::WHITE),
+            ..default()
+        },
+        stack_style: EasyStackStyle {
+            z_index: ZIndex(2),
+            ..default()
+        },
+    }
+}
+
+fn setup(mut commands: Commands) {
+    commands.spawn(Camera2d);
+
+    EasyVerticalLayout::new()
+        .with_width(percent(100.0))
+        .with_height(percent(100.0))
+        .with_justify_content(JustifyContent::Center)
+        .with_align_items(AlignItems::Center)
+        .with_child(
+            EasyButton::new()
+                .with_style(primary_button_style())
+                .with_child(
+                    EasyLabel::new("Click me!")
+                        .with_color(EasyColor::WHITE)
+                        .with_font_size(24.0),
+                ),
+        )
+        .spawn(&mut commands);
+}
+```
+
+The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `EasyHorizontalLayoutStyle`, `EasyRichTextStyle`, `EasyLabelStyle`, `EasyTextWidgetStyle`, `EasySpanStyle`, `EasyImageStyle`, `EasyViewportStyle`.
+
+---
+
 ## The traits
 
 Three extension traits add the builder setters on top of Bevy's components. They are implemented for every widget that owns the matching Bevy component, so the setters are always available.
@@ -159,6 +208,13 @@ Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_
 ## Colors
 
 `EasyColor` exposes constants for the common Bevy `Color`s (`WHITE`, `BLACK`) plus aliases (`DARK_GRAY`, `LIGHT_BLUE`, …). All values are `pub const Color`, so they slot directly into `with_background_color(EasyColor::BLUE)`.
+However, you can create your own colors with `EasyColor::from_rgba()` using srgba() from Bevy.
+
+---
+
+## Contribution
+
+Contributions are very welcome! Open an issue or a PR if you have any suggestions, questions, or want to add a new widget or feature.
 
 ---
 

@@ -3,7 +3,14 @@ use bevy_easy_ui::prelude::*;
 
 fn main() {
   App::new()
-    .add_plugins(DefaultPlugins)
+    .add_plugins(DefaultPlugins.set(WindowPlugin { 
+        primary_window: Some(Window {
+          mode: WindowMode::Windowed,
+          ..default()
+      }),
+      exit_condition: ExitCondition::DontExit,
+      ..default()
+    }))
     .add_systems(Startup, setup)
     .run();
 }
@@ -12,6 +19,15 @@ fn setup(mut commands: Commands) {
   commands.spawn(Camera2d);
 
   EasyVerticalLayout::new()
+    .with_style(
+      EasyVerticalLayoutStyle { 
+        node: Node {
+          ..default()
+        }, 
+        box_style: EasyBoxStyle::default(), 
+        stack_style: EasyStackStyle::default()
+      }
+    )
     .with_z_index(0)
     .with_background_color(EasyColor::DARK_GRAY)
     .with_width(percent(100.))
