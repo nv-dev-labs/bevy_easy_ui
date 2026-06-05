@@ -1,3 +1,4 @@
+//! Working thanks to event system. Create a scrollable widget for vertical scrolling !
 use bevy::prelude::*;
 use bevy_easy_ui::prelude::*;
 
