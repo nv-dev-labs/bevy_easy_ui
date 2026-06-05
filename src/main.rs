@@ -24,6 +24,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
   commands.spawn(Camera2d);
 
   EasyVerticalLayout::new()
+    .with_z_index(0)
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -31,12 +32,14 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_child(
       // Vertical layout test
       EasyVerticalLayout::new()
+        .with_z_index(1)
         .with_align_items(AlignItems::Center)
         .with_background_color(EasyColor::BLUE)
         .with_padding(px(10.), px(10.), px(10.), px(10.))
         .with_margin(px(0.), px(0.), px(20.), px(0.))
         .with_child(
           EasyButton::new()
+            .with_z_index(2)
             .with_border_color(EasyColor::WHITE)
             .with_border(px(2.), px(10.))
             .with_margin(px(0.), px(0.), px(20.), px(0.))
@@ -46,13 +49,15 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             .with_observer(hover_in)
             .with_observer(hover_out)
             .with_child(
-              EasyText::new("Click me!")
+              EasyLabel::new("Click me!")
+                .with_z_index(3)
                 .with_color(EasyColor::WHITE)
                 .with_font_size(24.),
             ),
         )
         .with_child(
           EasyImage::new(asset_server.load("bevy.png"))
+            .with_z_index(2)
             .with_flip_x(true)
             .with_width(px(50.))
             .with_height(px(50.)),
@@ -61,6 +66,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_child(
       // Horizontal layout test
       EasyHorizontalLayout::new()
+        .with_z_index(1)
         .with_border(px(2.), px(0.))
         .with_border_color(EasyColor::RED)
         .with_justify_content(JustifyContent::Center)
@@ -69,6 +75,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_align_items(AlignItems::Center)
         .with_child(
           EasyButton::new()
+            .with_z_index(2)
             .with_border_color(EasyColor::WHITE)
             .with_border(px(2.), px(10.))
             .with_width(px(150.))
@@ -78,12 +85,14 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             .with_observer(hover_out)
             .with_child(
               EasyLabel::new("To the left !")
+                .with_z_index(3)
                 .with_color(EasyColor::WHITE)
                 .with_font_size(18.),
             ),
         )
         .with_child(
           EasyText::new("To the right !")
+            .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(18.),
         ),
@@ -91,11 +100,12 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_child(
       // Rich text test
       EasyRichText::new()
+        .with_z_index(1)
         .with_color(EasyColor::BLUE)
-        .with_child(EasySpan::new("This is a rich text widget. "))
-        .with_child(EasySpan::new("I'm in red. ").with_color(EasyColor::RED))
+        .with_child(EasySpan::new("This is a rich text widget. ").with_z_index(2))
+        .with_child(EasySpan::new("I'm in red. ").with_color(EasyColor::RED).with_z_index(2))
         .with_child(
-          EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN),
+          EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN).with_z_index(2),
         )
         // .with_child(
         //   ! Throws a compile-time error (EasySpan compulsory for EasyRichText children) !
