@@ -4,7 +4,10 @@ use crate::{
   core::{
     container::{Container, PushChild, PushObserver},
     node::EasyNode,
-    parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt, EasyTextProps, EasyTextPropsExt},
+    parts::{
+      EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
+      EasyTextProps, EasyTextPropsExt,
+    },
   },
   widgets::span::EasySpan,
 };

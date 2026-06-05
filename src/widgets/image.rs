@@ -55,10 +55,7 @@ impl EasyImage {
   pub fn new(image: Handle<Image>) -> EasyImage {
     EasyImage {
       image_node: ImageNode::new(image),
-      node: Node {
-        display: Display::Flex,
-        ..default()
-      },
+      node: Node::default(),
       box_style: EasyBoxStyle::default(),
       stack_style: EasyStackStyle::default(),
     }

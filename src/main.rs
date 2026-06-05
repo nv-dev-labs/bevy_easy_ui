@@ -102,15 +102,22 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
       EasyRichText::new()
         .with_z_index(1)
         .with_color(EasyColor::BLUE)
-        .with_child(EasySpan::new("This is a rich text widget. ").with_z_index(2))
-        .with_child(EasySpan::new("I'm in red. ").with_color(EasyColor::RED).with_z_index(2))
         .with_child(
-          EasySpan::new("And I'm in green. ").with_color(EasyColor::GREEN).with_z_index(2),
+          EasySpan::new("This is a rich text widget. ").with_z_index(2),
         )
-        // .with_child(
-        //   ! Throws a compile-time error (EasySpan compulsory for EasyRichText children) !
-        //   EasyButton::new();
-        // ),
+        .with_child(
+          EasySpan::new("I'm in red. ")
+            .with_color(EasyColor::RED)
+            .with_z_index(2),
+        )
+        .with_child(
+          EasySpan::new("And I'm in green. ")
+            .with_color(EasyColor::GREEN)
+            .with_z_index(2),
+        ), // .with_child(
+           //   ! Throws a compile-time error (EasySpan compulsory for EasyRichText children) !
+           //   EasyButton::new();
+           // ),
     )
     .spawn(&mut commands);
 }
