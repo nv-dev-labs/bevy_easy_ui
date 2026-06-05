@@ -23,6 +23,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_row_gap(px(16.))
     .with_child(
       EasyLabel::new("Horizontal scroll carousel")
+        .with_z_index(1)
         .with_color(EasyColor::WHITE)
         .with_font_size(20.),
     );
@@ -32,7 +33,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_background_color(EasyColor::BLACK)
     .with_border_color(EasyColor::WHITE)
     .with_border(px(2.), px(8.))
-    .with_width(px(400.))
+    .with_width(px(120.))
     .with_height(px(160.))
     .with_overflow(Overflow::scroll_x())
     .with_scrollbar_width(8.0)
@@ -43,12 +44,13 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
   let mut row = row;
   for i in 0..12 {
     row = row.with_child(
-      EasyImage::new(image.clone())
-        .with_width(px(120.))
-        .with_height(px(120.))
-        .with_border_radius(px(12.), px(12.), px(12.), px(12.)),
+      EasyLabel::new(format!("Item {i}"))
+        .with_z_index(2)
+        .with_min_width(px(120.))
+        .with_background_color(EasyColor::BLUE)
+        .with_padding(px(10.), px(10.), px(10.), px(10.))
+        .with_flex_shrink(0.0),
     );
-    let _ = i;
   }
 
   carousel = carousel.with_child(row);

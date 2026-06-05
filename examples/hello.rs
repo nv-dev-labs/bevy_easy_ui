@@ -3,14 +3,7 @@ use bevy_easy_ui::prelude::*;
 
 fn main() {
   App::new()
-    .add_plugins(DefaultPlugins.set(WindowPlugin { 
-        primary_window: Some(Window {
-          mode: WindowMode::Windowed,
-          ..default()
-      }),
-      exit_condition: ExitCondition::DontExit,
-      ..default()
-    }))
+    .add_plugins(DefaultPlugins)
     .add_systems(Startup, setup)
     .run();
 }
@@ -36,12 +29,14 @@ fn setup(mut commands: Commands) {
     .with_align_items(AlignItems::Center)
     .with_child(
       EasyButton::new()
+        .with_z_index(1)
         .with_background_color(EasyColor::BLUE)
         .with_border_color(EasyColor::WHITE)
         .with_border(px(2.), px(10.))
         .with_padding(px(20.), px(40.), px(20.), px(40.))
         .with_child(
           EasyLabel::new("Hello, Bevy!")
+            .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(32.),
         ),

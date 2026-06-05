@@ -39,6 +39,7 @@ fn setup(mut commands: Commands) {
     .with_row_gap(px(20.))
     .with_child(
       EasyButton::new()
+        .with_z_index(1)
         .with_background_color(EasyColor::DARK_GRAY)
         .with_border_color(EasyColor::WHITE)
         .with_border(px(2.), px(8.))
@@ -48,12 +49,14 @@ fn setup(mut commands: Commands) {
         .with_observer(click)
         .with_child(
           EasyLabel::new("Click me!")
+            .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(24.),
         ),
     )
     .with_child(
       EasyButton::new()
+        .with_z_index(1)
         .with_background_color(EasyColor::DARK_GRAY)
         .with_border_color(EasyColor::WHITE)
         .with_border(px(2.), px(8.))
@@ -63,12 +66,14 @@ fn setup(mut commands: Commands) {
         .with_observer(click)
         .with_child(
           EasyLabel::new("Submit")
+            .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(24.),
         ),
     )
     .with_child(
       EasyButton::new()
+        .with_z_index(1)
         .with_background_color(EasyColor::DARK_GRAY)
         .with_border_color(EasyColor::WHITE)
         .with_border(px(2.), px(8.))
@@ -78,6 +83,7 @@ fn setup(mut commands: Commands) {
         .with_observer(click)
         .with_child(
           EasyLabel::new("Cancel")
+            .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(24.),
         ),

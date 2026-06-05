@@ -35,28 +35,32 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_row_gap(px(20.))
     .with_child(
       EasyButton::new()
-        .with_background_color(EasyColor::WHITE)
-        .with_border_color(EasyColor::BLACK)
+        .with_z_index(1)
+        .with_background_color(EasyColor::BLUE)
+        .with_border_color(EasyColor::DARK_BLUE)
         .with_border(px(2.), px(50.))
         .with_padding(px(8.), px(8.), px(8.), px(8.))
         .with_observer(hover_in)
         .with_observer(hover_out)
         .with_child(
           EasyImage::new(icon.clone())
+            .with_z_index(2)
             .with_width(px(64.))
             .with_height(px(64.)),
         ),
     )
     .with_child(
       EasyButton::new()
-        .with_background_color(EasyColor::WHITE)
-        .with_border_color(EasyColor::BLACK)
+        .with_z_index(1)
+        .with_background_color(EasyColor::BLUE)
+        .with_border_color(EasyColor::DARK_BLUE)
         .with_border(px(2.), px(50.))
         .with_padding(px(8.), px(8.), px(8.), px(8.))
         .with_observer(hover_in)
         .with_observer(hover_out)
         .with_child(
           EasyImage::new(icon)
+            .with_z_index(2)
             .with_width(px(32.))
             .with_height(px(32.)),
         ),
