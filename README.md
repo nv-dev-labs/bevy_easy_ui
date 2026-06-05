@@ -1,50 +1,54 @@
 # bevy_easy_ui
 
-A declarative, fluent abstraction layer (builder pattern) on top of [Bevy 0.18](https://bevyengine.org/)'s UI system, designed to build interfaces without having to manually juggle `Bundle`s, `Entity` ids, and `ChildBuilder` calls every time.
+[![CI](https://github.com/nvetroff/bevy_easy_ui/actions/workflows/ci.yml/badge.svg)](https://github.com/nvetroff/bevy_easy_ui/actions/workflows/ci.yml)
+[![docs.rs](https://img.shields.io/docsrs/bevy_easy_ui)](https://docs.rs/bevy_easy_ui)
+[![Crates.io](https://img.shields.io/crates/v/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui)
+[![License](https://img.shields.io/crates/l/bevy_easy_ui)](LICENSE-MIT)
+
+A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system.
 
 ---
 
-## Goal
+## What is it
 
-With the standard Bevy UI API, creating a simple styled button containing some text requires chaining several `commands.spawn(...)`, `with_children(...)` and `insert(...)` calls. `bevy_easy_ui` offers a **declarative** and **chainable** alternative:
+`bevy_easy_ui` turns this:
 
 ```rust
-// Classic Bevy API
 commands.spawn((
     Button,
     Node { width: px(200.0), height: px(80.0), ..default() },
-    BorderColor::all(EasyColor::WHITE),
-    BackgroundColor(EasyColor::BLACK),
+    BorderColor::all(Color::WHITE),
+    BackgroundColor(Color::BLACK),
 ))
 .with_children(|parent| {
     parent.spawn((
         Text::new("Click me!"),
         TextFont { font_size: 24.0, ..default() },
-        TextColor(EasyColor::WHITE),
+        TextColor(Color::WHITE),
     ));
 });
 ```
 
+…into this:
+
 ```rust
-// With bevy_easy_ui
 EasyButton::new()
-    .border_color(EasyColor::WHITE)
-    .border(px(2.0), px(10.0))
-    .width(px(200.0))
-    .height(px(80.0))
-    .child(
-        EasyLabel::new("Click me!")
-            .color(EasyColor::WHITE)
-            .font_size(24.0)
-    )
+    .with_border_color(EasyColor::WHITE)
+    .with_border(px(2.0), px(10.0))
+    .with_width(px(200.0))
+    .with_height(px(80.0))
+    .with_background_color(EasyColor::BLACK)
+    .with_child(EasyLabel::new("Click me!").with_color(EasyColor::WHITE).with_font_size(24.0))
     .spawn(&mut commands);
 ```
 
+Every setter is chainable, type-checked, and the trait system prevents misusing a container as a leaf (or vice versa).
+
 ---
 
-## Dependency
+## Quick start
 
-Add the crate to your `Cargo.toml`. **The version of `bevy_easy_ui` must match the version of `bevy` you depend on** — see the [Versioning](#versioning) section above.
+Add the dependency — its version **must** match your `bevy` version:
 
 ```toml
 [dependencies]
@@ -52,34 +56,7 @@ bevy = "0.18.1"
 bevy_easy_ui = "0.18.1"
 ```
 
-> The crate only depends on `bevy`. No additional external dependencies.
-
----
-
-## Quick Start
-
-### 1. Import the prelude
-
 ```rust
-use bevy::prelude::*;
-use bevy_easy_ui::prelude::*;
-```
-
-The `prelude` re-exports the widgets and helpers (colors) ready to use.
-
-### 2. Build a UI tree
-
-The API follows a three-step pattern:
-
-1. **Pick a root container** (e.g. `EasyVerticalLayout::new()`).
-2. **Chain setters** through the methods of the `EasyNode` trait (size, margins, padding, alignment, flex, etc.).
-3. **Add children** with `.child(...)` and finish with `.spawn(&mut commands)`.
-
-### Full example
-
-A screen made of a centered button above a horizontal row containing a button and a text:
-
-````rust
 use bevy::prelude::*;
 use bevy_easy_ui::prelude::*;
 
@@ -90,178 +67,101 @@ fn main() {
         .run();
 }
 
-fn hover_in(hover_in: On<Pointer<Over>>, mut commands: Commands) {
-    commands.entity(hover_in.entity).insert(BackgroundColor(EasyColor::DARK_BLUE));
-}
-
-fn hover_out(hover_out: On<Pointer<Out>>, mut commands: Commands) {
-    commands.entity(hover_out.entity).insert(BackgroundColor(EasyColor::BLACK));
-}
-
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
 
     EasyVerticalLayout::new()
-        .width(percent(100.0))
-        .height(percent(100.0))
-        .justify_content(JustifyContent::Center)
-        .align_items(AlignItems::Center)
-        .child(
+        .with_z_index(1)
+        .with_width(percent(100.0))
+        .with_height(percent(100.0))
+        .with_justify_content(JustifyContent::Center)
+        .with_align_items(AlignItems::Center)
+        .with_child(
             EasyButton::new()
-                .border_color(EasyColor::WHITE)
-                .border(px(2.0), px(10.0))
-                .margin(px(0.0), px(0.0), px(20.0), px(0.0))
-                .width(px(200.0))
-                .height(px(80.0))
-                .observe(hover_in)
-                .observe(hover_out)
-                .child(
-                    EasyLabel::new("Click me!")
-                        .color(EasyColor::WHITE)
-                        .font_size(24.0)
-                )
-        )
-        .child(
-            EasyHorizontalLayout::new()
-                .justify_content(JustifyContent::Center)
-                .align_items(AlignItems::Center)
-                .child(
-                    EasyButton::new()
-                        .border_color(EasyColor::WHITE)
-                        .border(px(2.0), px(10.0))
-                        .width(px(150.0))
-                        .height(px(60.0))
-                        .observe(hover_in)
-                        .observe(hover_out)
-                        .child(
-                            EasyLabel::new("To the left !")
-                                .color(EasyColor::WHITE)
-                                .font_size(18.0)
-                        )
-                )
-                .child(
-                    EasyText::new("To the right !")
-                        .color(EasyColor::WHITE)
-                        .font_size(18.0)
-                )
+                .with_z_index(2)
+                .with_border_color(EasyColor::WHITE)
+                .with_border(px(2.0), px(10.0))
+                .with_background_color(EasyColor::BLACK)
+                .with_child(EasyLabel::new("Click me!").with_color(EasyColor::WHITE).with_font_size(24.0).with_z_index(3))
         )
         .spawn(&mut commands);
 }
-````
+```
+
+That's the whole library. Run with `cargo run` and a centered dark button with white border and text appears.
 
 ---
 
-## Provided Widgets
+## Examples
 
-| Widget | Description |
+Each example is a standalone `cargo run --example NAME` showcasing a specific widget or pattern.
+
+| Example | What it shows |
 |---|---|
-| `EasyVerticalLayout` | Flex **column** container (`FlexDirection::Column`) |
-| `EasyHorizontalLayout` | Flex **row** container (`FlexDirection::Row`) |
-| `EasyButton` | Clickable button (Bundle `Button + Node + BorderColor + BackgroundColor`) |
-| `EasyText` | Styled text label (Bundle `Text + Node + TextFont + TextColor + TextShadow`) |
+| `hello` | Minimal setup: a centered button with a label |
+| `button_with_observers` | Buttons with `Pointer<Over>` / `Pointer<Out>` / `Pointer<Click>` observers (hover, click feedback) |
+| `image_button` | Icon button built from `EasyButton` + `EasyImage` as a child |
+| `rounded_image` | `EasyImage` with various `border_radius` values (sharp, small, full, asymmetric) |
+| `scroll_vertical` | Scrollable `EasyVerticalLayout` using `with_overflow(Overflow::scroll())` |
+| `carousel` | Horizontal scroll carousel using `with_overflow(Overflow::scroll_x())` |
+| `viewport` | `EasyViewport` rendering a live camera output into a UI node |
+| `rich_text` | `EasyRichText` with per-`EasySpan` colors, sizes, and justify |
 
-**Containers** (vertical/horizontal layouts and buttons) implement the `Container` trait and expose:
-- `.child(impl Into<EasyElement>)` — adds a child
-- `.observe(impl IntoObserverSystem)` — attaches a Bevy observer
+```bash
+cargo run --example hello
+cargo run --example rich_text
+```
+
+---
+
+## Widgets
+
+| Widget | Bevy base | Purpose |
+|---|---|---|
+| `EasyVerticalLayout` | `Node` + `FlexDirection::Column` | Flex column container |
+| `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | Flex row container |
+| `EasyButton` | `Button` + `Node` | Clickable button (accepts children + observers) |
+| `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | Styled text |
+| `EasyLabel` | `Text` + `Node` + `Label` | Text marked as a label |
+| `EasySpan` | `TextSpan` | Inline span used inside `EasyRichText` |
+| `EasyRichText` | `Text` + `TextSpan` children | Multi-style text |
+| `EasyImage` | `ImageNode` + `Node` | Image (rect, color, flip, mode, atlas) |
+| `EasyViewport` | `Node` + `ViewportNode` | UI node displaying a `Camera` render target |
+
+**Containers** (layouts, buttons, viewport) implement the `Container` trait and expose:
+- `.with_child(impl Into<EasyElement>)` — adds a child
+- `.with_observer(impl IntoObserverSystem)` — attaches a Bevy observer
 - `.spawn(&mut Commands)` — finalizes and spawns the tree
 
-### Element hierarchy
+---
 
-Every node that can be inserted into a container implements `Into<EasyElement>`, which makes the typing strict and composition safe:
+## The traits
 
-```rust
-EasyVerticalLayout::new()
-    .child(EasyText::new("Hello"))              // text
-    .child(EasyButton::new().child(...))        // button
-    .child(EasyHorizontalLayout::new()...)      // sub-layout
-    .spawn(&mut commands);
-```
+Three extension traits add the builder setters on top of Bevy's components. They are implemented for every widget that owns the matching Bevy component, so the setters are always available.
+
+### `EasyNode` — `Node` properties
+Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_position`, `with_top`, etc.), alignment (`with_align_items`, `with_justify_content`, …), spacing (`with_margin`, `with_padding`, `with_row_gap`, `with_column_gap`), borders (`with_border`, `with_border_radius`, `with_border_color` is in `EasyBoxStyleExt`), flex (`with_flex_direction`, `with_flex_wrap`, `with_flex_grow`, `with_flex_shrink`, `with_flex_basis`), grid (`with_grid_template_*`, `with_grid_auto_*`, `with_grid_row`, `with_grid_column`), overflow (`with_overflow`, `with_scrollbar_width`, `with_overflow_clip_margin`), display (`with_display`, `with_box_sizing`, `with_aspect_ratio`).
+
+### `EasyBoxStyleExt` — background, border, shadow
+`with_background_color`, `with_border_color`, `with_box_shadow`, `with_border_gradient`, `with_background_gradient`, `with_outline`.
+
+### `EasyStackStyleExt` — z-index
+`with_z_index`, `with_global_z_index`.
+
+### `EasyTextStyleExt` — text-specific
+`with_color` (text color), `with_font_family`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`, `with_justify`, `with_linebreak`, `with_line_height`, `with_text_shadow` / `with_shadow`.
+
+### `EasyImageNode` — `ImageNode` properties
+`with_image`, `with_image_color`, `with_texture_atlas`, `with_flip_x`, `with_flip_y`, `with_rect`, `with_image_mode`.
 
 ---
 
-## The `EasyNode` trait
+## Colors
 
-Every widget implements `EasyNode`, which exposes a fluent API for Bevy's `Node` **properties**:
-
-| Category | Methods |
-|---|---|
-| **Size** | `.width()`, `.height()`, `.min_width()`, `.min_height()`, `.max_width()`, `.max_height()` |
-| **Position** | `.position()`, `.top()`, `.right()`, `.bottom()`, `.left()` |
-| **Alignment** | `.align_items()`, `.justify_items()`, `.align_self()`, `.justify_self()`, `.align_content()`, `.justify_content()` |
-| **Spacing** | `.margin(t, r, b, l)`, `.padding(t, r, b, l)`, `.row_gap()`, `.column_gap()` |
-| **Borders** | `.border(width, radius)`, `.border_width(t, r, b, l)`, `.border_radius(tl, tr, br, bl)`, `.border_color()` |
-| **Flex** | `.flex_direction()`, `.flex_wrap()`, `.flex_grow()`, `.flex_shrink()`, `.flex_basis()` |
-| **Misc** | `.display()`, `.box_sizing()`, `.overflow()`, `.aspect_ratio()`, etc. |
-
-> All methods take `self` by value and return `Self`, which makes chaining possible.
-
----
-
-## Colors (`EasyColor`)
-
-A static helper that exposes a ready-to-use Bevy `Color` palette:
-
-```rust
-EasyColor::WHITE
-EasyColor::BLACK
-EasyColor::RED
-EasyColor::DARK_BLUE
-EasyColor::LIGHT_GREEN
-// etc.
-
-// Or build a custom color:
-EasyColor::from_rgba(0.2, 0.4, 0.6, 1.0)
-```
-
----
-
-## Internal Architecture (overview)
-
-```
-src/
-├── lib.rs                 # Module re-exports
-├── prelude.rs             # Ergonomic prelude
-├── main.rs                # Application example
-├── core/
-│   ├── mod.rs
-│   ├── container.rs       # `Container` trait (spawn logic)
-│   ├── element.rs         # `EasyElement` enum (polymorphic node)
-│   └── node.rs            # `EasyNode` trait (`Node` setters)
-├── widgets/
-│   ├── mod.rs
-│   ├── button.rs          # EasyButton / EasyButtonContainer
-│   ├── text.rs            # EasyText
-│   ├── horizontal_layout.rs
-│   └── vertical_layout.rs
-└── helpers/
-    ├── mod.rs
-    └── colors.rs          # `EasyColor` palette
-```
-
-### Design principles
-
-1. **Declarative construction without immediate spawn**: `EasyButton::new()` returns an `EasyButtonContainer` (a *builder*), not a bundle.
-2. **Separation of bundle / children / observers**: the `Container` stores the Bevy bundle, the `Vec<EasyElement>` and the `Vec<Observer>` independently.
-3. **Atomic spawn**: `.spawn(commands)` inserts the bundle, attaches children through `with_children`, then attaches observers. Everything happens in a single recursive call.
-4. **Strict typing through `EasyElement`**: it is impossible to insert an invalid widget into a container.
-
----
-
-## Current Limitations
-
-- No support for `Image`, `ZIndex`, `GlobalZIndex` or `Transform` beyond what `Node` provides.
-- Widgets are not (yet) full-fledged Bevy components — they cannot be reused as-is inside a `Query`.
-- No automatic focus / keyboard navigation handling.
+`EasyColor` exposes constants for the common Bevy `Color`s (`WHITE`, `BLACK`) plus aliases (`DARK_GRAY`, `LIGHT_BLUE`, …). All values are `pub const Color`, so they slot directly into `with_background_color(EasyColor::BLUE)`.
 
 ---
 
 ## License
 
-This crate is dual-licensed under either
-
-- [MIT License](LICENSE-MIT)
-- [Apache License, Version 2.0](LICENSE-APACHE)
-
-at your option, following the same licensing scheme as [Bevy](https://github.com/bevyengine/bevy).
-
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+Dual-licensed under [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE) at your option.

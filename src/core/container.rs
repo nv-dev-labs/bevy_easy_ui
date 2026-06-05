@@ -61,7 +61,7 @@ pub trait PushObserver<C: Into<EasyElement> = EasyElement>:
 }
 
 fn spawn_container<C: Into<EasyElement>>(
-  mut c: impl Container<C> + PushChild<C> + PushObserver<C>,
+  mut c: impl PushChild<C> + PushObserver<C>,
   commands: &mut Commands,
 ) -> Entity {
   let bundle = c.take_bundle();

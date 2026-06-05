@@ -75,6 +75,7 @@ impl PushObserver for EasyButtonContainer {
 //>--------------------- BUILDER API ---------------------
 
 impl EasyButton {
+  #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyButtonContainer {
     EasyButtonContainer {
       bundle: EasyButton {
@@ -93,7 +94,7 @@ impl EasyButton {
     }
   }
 
-  fn default_bundle() -> Self {
+  pub fn default_bundle() -> Self {
     EasyButton {
       button: Button,
       node: Node::default(),

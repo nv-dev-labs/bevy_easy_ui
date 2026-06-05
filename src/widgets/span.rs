@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::core::parts::{
   EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
-  EasyTextProps, EasyTextPropsExt,
+  EasyTextStyle, EasyTextStyleExt,
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -11,14 +11,14 @@ use crate::core::parts::{
 pub struct EasySpan {
   pub text_span: TextSpan,
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
 }
 
 #[derive(Default, Debug)]
 pub struct EasySpanStyle {
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
 }
 
@@ -36,8 +36,8 @@ impl EasyBoxStyleExt for EasySpan {
   }
 }
 
-impl EasyTextPropsExt for EasySpan {
-  fn easy_props_mut(&mut self) -> &mut EasyTextProps {
+impl EasyTextStyleExt for EasySpan {
+  fn easy_text_style_mut(&mut self) -> &mut EasyTextStyle {
     &mut self.text_style
   }
 }
@@ -49,7 +49,7 @@ impl EasySpan {
     EasySpan {
       text_span: TextSpan::new(text),
       box_style: EasyBoxStyle::default(),
-      text_style: EasyTextProps::default(),
+      text_style: EasyTextStyle::default(),
       stack_style: EasyStackStyle::default(),
     }
   }

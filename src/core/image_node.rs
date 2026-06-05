@@ -12,7 +12,7 @@ pub trait EasyImageNode: Sized {
   fn node_mut(&mut self) -> &mut ImageNode;
 
   fn with_image_color(mut self, color: Color) -> Self {
-    self.node_mut().color = color.into();
+    self.node_mut().color = color;
     self
   }
 

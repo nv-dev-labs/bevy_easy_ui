@@ -10,7 +10,7 @@ use crate::core::{
   node::EasyNode,
   parts::{
     EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
-    EasyTextProps, EasyTextPropsExt,
+    EasyTextStyle, EasyTextStyleExt,
   },
 };
 
@@ -21,7 +21,7 @@ pub struct EasyLabel {
   pub text: Text,
   pub node: Node,
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
   pub label: Label,
 }
@@ -30,7 +30,7 @@ pub struct EasyLabel {
 pub struct EasyLabelStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
 }
 
@@ -48,8 +48,8 @@ impl EasyBoxStyleExt for EasyLabel {
   }
 }
 
-impl EasyTextPropsExt for EasyLabel {
-  fn easy_props_mut(&mut self) -> &mut EasyTextProps {
+impl EasyTextStyleExt for EasyLabel {
+  fn easy_text_style_mut(&mut self) -> &mut EasyTextStyle {
     &mut self.text_style
   }
 }
@@ -68,7 +68,7 @@ impl EasyLabel {
       text: Text::new(text),
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
-      text_style: EasyTextProps::default(),
+      text_style: EasyTextStyle::default(),
       stack_style: EasyStackStyle::default(),
       label: Label,
     }

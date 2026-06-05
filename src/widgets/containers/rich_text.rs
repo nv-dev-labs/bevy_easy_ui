@@ -6,7 +6,7 @@ use crate::{
     node::EasyNode,
     parts::{
       EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
-      EasyTextProps, EasyTextPropsExt,
+      EasyTextStyle, EasyTextStyleExt,
     },
   },
   widgets::span::EasySpan,
@@ -19,7 +19,7 @@ pub struct EasyRichText {
   pub text: Text,
   pub node: Node,
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
 }
 
@@ -33,7 +33,7 @@ pub struct EasyRichTextContainer {
 pub struct EasyRichTextStyle {
   pub node: Node,
   pub box_style: EasyBoxStyle,
-  pub text_style: EasyTextProps,
+  pub text_style: EasyTextStyle,
   pub stack_style: EasyStackStyle,
 }
 
@@ -51,8 +51,8 @@ impl EasyBoxStyleExt for EasyRichTextContainer {
   }
 }
 
-impl EasyTextPropsExt for EasyRichTextContainer {
-  fn easy_props_mut(&mut self) -> &mut EasyTextProps {
+impl EasyTextStyleExt for EasyRichTextContainer {
+  fn easy_text_style_mut(&mut self) -> &mut EasyTextStyle {
     &mut self.bundle.text_style
   }
 }
@@ -88,12 +88,13 @@ impl PushObserver<EasySpan> for EasyRichTextContainer {
 //>--------------------- BUILDER API ---------------------
 
 impl EasyRichText {
+  #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyRichTextContainer {
     EasyRichTextContainer {
       bundle: EasyRichText {
         text: Text::new(""),
         node: Node::default(),
-        text_style: EasyTextProps::default(),
+        text_style: EasyTextStyle::default(),
         box_style: EasyBoxStyle::default(),
         stack_style: EasyStackStyle::default(),
       },
@@ -102,11 +103,11 @@ impl EasyRichText {
     }
   }
 
-  fn default_bundle() -> Self {
+  pub fn default_bundle() -> Self {
     EasyRichText {
       text: Text::new(""),
       node: Node::default(),
-      text_style: EasyTextProps::default(),
+      text_style: EasyTextStyle::default(),
       box_style: EasyBoxStyle::default(),
       stack_style: EasyStackStyle::default(),
     }

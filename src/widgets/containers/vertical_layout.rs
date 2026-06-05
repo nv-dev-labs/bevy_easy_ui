@@ -74,6 +74,7 @@ impl PushObserver for EasyVerticalLayoutContainer {
 //>--------------------- BUILDER API ---------------------
 
 impl EasyVerticalLayout {
+  #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyVerticalLayoutContainer {
     EasyVerticalLayoutContainer {
       bundle: EasyVerticalLayout {

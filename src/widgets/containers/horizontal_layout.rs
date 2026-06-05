@@ -74,6 +74,7 @@ impl PushObserver for EasyHorizontalLayoutContainer {
 //>--------------------- BUILDER API ---------------------
 
 impl EasyHorizontalLayout {
+  #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyHorizontalLayoutContainer {
     EasyHorizontalLayoutContainer {
       bundle: EasyHorizontalLayout {
@@ -90,7 +91,7 @@ impl EasyHorizontalLayout {
     }
   }
 
-  fn default_bundle() -> Self {
+  pub fn default_bundle() -> Self {
     EasyHorizontalLayout {
       node: Node::default(),
       box_style: EasyBoxStyle::default(),

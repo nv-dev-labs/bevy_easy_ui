@@ -21,7 +21,7 @@ use crate::helpers::colors::EasyColor;
 // — no attribute needed.
 //
 // IMPORTANT: Bevy's `Text` already requires `TextFont`, `TextColor`,
-// `TextLayout`, `LineHeight` via `#[require(...)]`. So `EasyTextProps`
+// `TextLayout`, `LineHeight` via `#[require(...)]`. So `EasyTextStyle`
 // cannot include them (would create duplicates when flattened alongside `Text`).
 // It only contains `TextShadow` (not required by `Text`).
 
@@ -46,7 +46,7 @@ pub struct EasyStackStyle {
 // === Text-specific extra props (only what Text does NOT require) ===
 // Used by text-bearing widgets (Text, Label, Span, RichText).
 #[derive(Bundle, Debug, Clone)]
-pub struct EasyTextProps {
+pub struct EasyTextStyle {
   pub text_shadow: TextShadow,
   pub text_font: TextFont,
   pub text_color: TextColor,
@@ -54,7 +54,7 @@ pub struct EasyTextProps {
   pub line_height: LineHeight,
 }
 
-impl Default for EasyTextProps {
+impl Default for EasyTextStyle {
   fn default() -> Self {
     Self {
       text_shadow: TextShadow {
@@ -128,61 +128,61 @@ pub trait EasyBoxStyleExt: Sized {
   }
 }
 
-// === EasyTextPropsExt (for text-bearing widgets) ===
-pub trait EasyTextPropsExt: Sized {
-  fn easy_props_mut(&mut self) -> &mut EasyTextProps;
+// === EasyTextStyleExt (for text-bearing widgets) ===
+pub trait EasyTextStyleExt: Sized {
+  fn easy_text_style_mut(&mut self) -> &mut EasyTextStyle;
 
   fn with_color(mut self, text_color: Color) -> Self {
-    self.easy_props_mut().text_color = TextColor(text_color);
+    self.easy_text_style_mut().text_color = TextColor(text_color);
     self
   }
 
   fn with_text_shadow(mut self, text_shadow: TextShadow) -> Self {
-    self.easy_props_mut().text_shadow = text_shadow;
+    self.easy_text_style_mut().text_shadow = text_shadow;
     self
   }
 
   fn with_shadow(mut self, text_shadow: TextShadow) -> Self {
-    self.easy_props_mut().text_shadow = text_shadow;
+    self.easy_text_style_mut().text_shadow = text_shadow;
     self
   }
 
   fn with_font_family(mut self, font: Handle<Font>) -> Self {
-    self.easy_props_mut().text_font.font = font;
+    self.easy_text_style_mut().text_font.font = font;
     self
   }
 
   fn with_font_size(mut self, font_size: f32) -> Self {
-    self.easy_props_mut().text_font.font_size = font_size;
+    self.easy_text_style_mut().text_font.font_size = font_size;
     self
   }
 
   fn with_font_weight(mut self, font_weight: FontWeight) -> Self {
-    self.easy_props_mut().text_font.weight = font_weight;
+    self.easy_text_style_mut().text_font.weight = font_weight;
     self
   }
 
   fn with_smoothing(mut self, font_smoothing: FontSmoothing) -> Self {
-    self.easy_props_mut().text_font.font_smoothing = font_smoothing;
+    self.easy_text_style_mut().text_font.font_smoothing = font_smoothing;
     self
   }
 
   fn with_features(mut self, font_features: FontFeatures) -> Self {
-    self.easy_props_mut().text_font.font_features = font_features;
+    self.easy_text_style_mut().text_font.font_features = font_features;
     self
   }
   fn with_justify(mut self, justify: Justify) -> Self {
-    self.easy_props_mut().text_layout.justify = justify;
+    self.easy_text_style_mut().text_layout.justify = justify;
     self
   }
 
   fn with_linebreak(mut self, linebreak: LineBreak) -> Self {
-    self.easy_props_mut().text_layout.linebreak = linebreak;
+    self.easy_text_style_mut().text_layout.linebreak = linebreak;
     self
   }
 
   fn with_line_height(mut self, line_height: LineHeight) -> Self {
-    self.easy_props_mut().line_height = line_height;
+    self.easy_text_style_mut().line_height = line_height;
     self
   }
 }
