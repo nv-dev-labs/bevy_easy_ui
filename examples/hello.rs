@@ -18,7 +18,7 @@ fn setup(mut commands: Commands) {
       stack_style: EasyStackStyle::default(),
     })
     .with_z_index(0)
-    .with_background_color(EasyColor::DARK_GRAY)
+    .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -26,14 +26,14 @@ fn setup(mut commands: Commands) {
     .with_child(
       EasyButton::new()
         .with_z_index(1)
-        .with_background_color(EasyColor::BLUE)
-        .with_border_color(EasyColor::WHITE)
+        .with_background_color(BLUE.into())
+        .with_border_color(WHITE.into())
         .with_border(px(2.), px(10.))
         .with_padding(px(20.), px(40.), px(20.), px(40.))
         .with_child(
           EasyLabel::new("Hello, Bevy!")
             .with_z_index(2)
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(32.),
         ),
     )

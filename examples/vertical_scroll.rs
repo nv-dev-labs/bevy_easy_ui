@@ -87,7 +87,7 @@ fn setup(mut commands: Commands) {
 
   EasyVerticalLayout::new()
     .with_z_index(0)
-    .with_background_color(EasyColor::DARK_GRAY)
+    .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -96,8 +96,8 @@ fn setup(mut commands: Commands) {
     .with_child(
       EasyVerticalLayout::new()
         .with_z_index(1)
-        .with_background_color(EasyColor::BLACK)
-        .with_border_color(EasyColor::WHITE)
+        .with_background_color(BLACK.into())
+        .with_border_color(WHITE.into())
         .with_border(px(2.), px(8.))
         .with_width(px(320.))
         .with_height(px(300.))
@@ -109,57 +109,57 @@ fn setup(mut commands: Commands) {
         .with_child(
           EasyLabel::new("Scrollable list")
             .with_z_index(2)
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(18.),
         )
         .with_child(
           EasyText::new("Item 1")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 2")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 3")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 4")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 5")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 6")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 7")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 8")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 9")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         )
         .with_child(
           EasyText::new("Item 10")
-            .with_color(EasyColor::LIGHT_GRAY)
+            .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         ),
     )

@@ -13,7 +13,7 @@ fn setup(mut commands: Commands) {
 
   EasyVerticalLayout::new()
     .with_z_index(0)
-    .with_background_color(EasyColor::DARK_GRAY)
+    .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -23,31 +23,31 @@ fn setup(mut commands: Commands) {
       EasyRichText::new()
         .with_z_index(1)
         .with_font_size(28.)
-        .with_color(EasyColor::WHITE)
+        .with_color(WHITE.into())
         .with_child(
           EasySpan::new("Rich text demo. ")
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(28.),
         )
         .with_child(
           EasySpan::new("This part is red. ")
-            .with_color(EasyColor::RED)
+            .with_color(RED.into())
             .with_font_size(32.),
         )
         .with_child(
           EasySpan::new("This part is green and italic. ")
-            .with_color(EasyColor::GREEN)
+            .with_color(GREEN.into())
             .with_justify(Justify::Center)
             .with_font_size(24.),
         )
         .with_child(
           EasySpan::new("And this part is blue with a larger size. ")
-            .with_color(EasyColor::LIGHT_BLUE)
+            .with_color(LIGHT_BLUE.into())
             .with_font_size(36.),
         )
         .with_child(
           EasySpan::new("Back to white.")
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(20.),
         ),
     )

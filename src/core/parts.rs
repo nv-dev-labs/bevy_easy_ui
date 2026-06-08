@@ -1,16 +1,9 @@
 use bevy::{
-  asset::Handle,
-  image::Image,
-  math::Vec2,
-  prelude::*,
-  text::{
+  asset::Handle, color::palettes::css::BLACK, image::Image, math::Vec2, prelude::*, text::{
     Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak,
     LineHeight, TextColor, TextFont, TextLayout,
-  },
-  ui::widget::TextShadow,
+  }, ui::widget::TextShadow
 };
-
-use crate::helpers::colors::EasyColor;
 
 //>===========================================================================
 // BUNDLE PARTS
@@ -58,7 +51,7 @@ impl Default for EasyTextStyle {
   fn default() -> Self {
     Self {
       text_shadow: TextShadow {
-        color: EasyColor::TRANSPARENT,
+        color: BLACK.into(),
         offset: Vec2::ZERO,
       },
       text_font: TextFont::default(),

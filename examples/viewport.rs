@@ -50,7 +50,7 @@ fn setup(
     .with_top(px(0.))
     .with_width(px(640.))
     .with_height(px(360.))
-    .with_border_color(EasyColor::WHITE)
+    .with_border_color(WHITE.into())
     .with_border(px(2.), px(4.))
     .spawn(&mut commands);
 
@@ -59,12 +59,12 @@ fn setup(
     .with_right(px(20.))
     .with_top(px(20.))
     .with_padding(px(10.), px(10.), px(10.), px(10.))
-    .with_background_color(EasyColor::DARK_GRAY)
+    .with_background_color(DARK_GRAY.into())
     .with_child(
       EasyLabel::new(
         "Top-left: ViewportNode rendering a 3D scene into a UI node.",
       )
-      .with_color(EasyColor::WHITE)
+      .with_color(WHITE.into())
       .with_font_size(16.),
     )
     .spawn(&mut commands);

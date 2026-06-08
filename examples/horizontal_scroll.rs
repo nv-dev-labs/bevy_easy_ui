@@ -14,7 +14,7 @@ fn setup(mut commands: Commands) {
 
   let mut carousel = EasyVerticalLayout::new()
     .with_z_index(0)
-    .with_background_color(EasyColor::DARK_GRAY)
+    .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -23,14 +23,14 @@ fn setup(mut commands: Commands) {
     .with_child(
       EasyLabel::new("Horizontal scroll carousel")
         .with_z_index(1)
-        .with_color(EasyColor::WHITE)
+        .with_color(WHITE.into())
         .with_font_size(20.),
     );
 
   let row = EasyHorizontalLayout::new()
     .with_z_index(1)
-    .with_background_color(EasyColor::BLACK)
-    .with_border_color(EasyColor::WHITE)
+    .with_background_color(BLACK.into())
+    .with_border_color(WHITE.into())
     .with_border(px(2.), px(8.))
     .with_width(px(120.))
     .with_height(px(160.))
@@ -46,7 +46,7 @@ fn setup(mut commands: Commands) {
       EasyLabel::new(&format!("Item {}", i + 1))
         .with_z_index(2)
         .with_min_width(px(120.))
-        .with_background_color(EasyColor::BLUE)
+        .with_background_color(BLUE.into())
         .with_padding(px(10.), px(10.), px(10.), px(10.))
         .with_flex_shrink(0.0),
     )

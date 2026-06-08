@@ -16,16 +16,6 @@ Légende : `[feat]` feature · `[fix]` bug · `[refactor]` dette technique · `[
 ## 1 — Wrappers manquants des widgets Bevy non natifs
 - [ ] [feat] `EasyTextInput` — pas natif, à construire (Node + Text + state + keyboard).
 
-## 3 — Consistance & bugs
-- [ ] [fix] `EasySpan` n'implémente pas `EasyNode` → ne peut pas chaîner `with_padding` / `with_width` sur un span. À corriger si on veut l'aligner sur `EasyLabel`.
-
-## 4 — Setters manquants côté traits
-À comparer avec `bevy::ui::Node` 0.18 :
-- [ ] [feat] `with_overflow_clip_box(OverflowClipBox)`
-- [ ] [feat] `with_translation(Vec2|Vec3)` / `with_rotation(Val|Rot2)` / `with_scale(Vec2)`
-- [ ] [feat] `with_cursor_icon(CursorIcon)` (Grab, Grabbing, Pointer, Text, Wait…)
-- [ ] [feat] `with_pickable(bool)` / `with_pickable(PickingBehavior)`
-
 ## 5 — Tests & doc
 - [ ] [feat] Tests unitaires : `Container::spawn` consomme les observers ; `with_overflow(Overflow::scroll())` se propage dans le `Node`.
 - [ ] [chore] Doc-tests sur les setters `with_*` publics.

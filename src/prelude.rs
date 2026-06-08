@@ -12,6 +12,9 @@ pub use crate::widgets::image::*;
 pub use crate::widgets::label::*;
 pub use crate::widgets::span::*;
 pub use crate::widgets::text::*;
+pub use crate::widgets::text_input::*;
 pub use crate::widgets::viewport::*;
 
-pub use crate::helpers::colors::*;
+// Re-exports to make it easier for users
+pub use bevy_ui_text_input::TextInputPlugin;
+pub use bevy::color::palettes::css::*;

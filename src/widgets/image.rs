@@ -74,14 +74,9 @@ impl EasyNode for EasyImageBuilder {
 
 impl EasyImage {
   #[allow(clippy::new_ret_no_self)]
-  pub fn new(image: Handle<Image>) -> EasyImageBuilder {
+  pub fn new() -> EasyImageBuilder {
     EasyImageBuilder {
-      bundle: EasyImage {
-        image_node: ImageNode::new(image),
-        node: Node::default(),
-        box_style: EasyBoxStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyImage::default_bundle(),
       observers: Vec::new(),
     }
   }

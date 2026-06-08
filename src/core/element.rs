@@ -13,6 +13,7 @@ use crate::{
     label::EasyLabelBuilder,
     span::EasySpanBuilder,
     text::EasyTextBuilder,
+    text_input::EasyTextInputBuilder,
   },
 };
 
@@ -30,6 +31,7 @@ pub enum EasyElement {
   Text(EasyTextBuilder),
   Label(EasyLabelBuilder),
   Span(EasySpanBuilder),
+  TextInput(EasyTextInputBuilder),
 }
 
 //>--------------------- IMPLEMENTATIONS ---------------------
@@ -77,6 +79,11 @@ impl From<EasySpanBuilder> for EasyElement {
     EasyElement::Span(s)
   }
 }
+impl From<EasyTextInputBuilder> for EasyElement {
+  fn from(t: EasyTextInputBuilder) -> Self {
+    EasyElement::TextInput(t)
+  }
+}
 
 impl EasyElement {
   /// Spawns this EasyElement in the world, as a child of the given parent. This is done by matching on the type of the element (container vs non-container) and calling the appropriate helper function to spawn it.
@@ -93,6 +100,7 @@ impl EasyElement {
       EasyElement::Text(t) => spawn_with_observers(t, p),
       EasyElement::Label(l) => spawn_with_observers(l, p),
       EasyElement::Span(s) => spawn_with_observers(s, p),
+      EasyElement::TextInput(t) => spawn_with_observers(t, p),
     }
   }
 }

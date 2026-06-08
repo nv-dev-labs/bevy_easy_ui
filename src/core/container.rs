@@ -4,7 +4,7 @@ use bevy::prelude::*;
 
 use crate::core::element::EasyElement;
 
-//>--------------------- CONTAINERS ---------------------
+//>--------------------- CONTAINERS (observers & children) ---------------------
 pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
   /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
   fn take_bundle(&mut self) -> impl Bundle;
@@ -76,7 +76,7 @@ fn spawn_container<C: Into<EasyElement>>(
   entity
 }
 
-//>--------------------- LEAF ELEMENTS (with observers but no children) ---------------------
+//>--------------------- LEAF ELEMENTS (observers only) ---------------------
 
 pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
   fn take_bundle(&mut self) -> impl Bundle;

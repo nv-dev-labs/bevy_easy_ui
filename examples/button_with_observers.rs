@@ -11,19 +11,19 @@ fn main() {
 fn hover_in(hover_in: On<Pointer<Over>>, mut commands: Commands) {
   commands
     .entity(hover_in.entity)
-    .insert(BackgroundColor(EasyColor::BLUE));
+    .insert(BackgroundColor(BLUE.into()));
 }
 
 fn hover_out(hover_out: On<Pointer<Out>>, mut commands: Commands) {
   commands
     .entity(hover_out.entity)
-    .insert(BackgroundColor(EasyColor::DARK_GRAY));
+    .insert(BackgroundColor(DARK_GRAY.into()));
 }
 
 fn click(click: On<Pointer<Click>>, mut commands: Commands) {
   commands
     .entity(click.entity)
-    .insert(BackgroundColor(EasyColor::RED));
+    .insert(BackgroundColor(RED.into()));
 }
 
 fn setup(mut commands: Commands) {
@@ -31,7 +31,7 @@ fn setup(mut commands: Commands) {
 
   EasyVerticalLayout::new()
     .with_z_index(0)
-    .with_background_color(EasyColor::BLACK)
+    .with_background_color(BLACK.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
@@ -40,8 +40,8 @@ fn setup(mut commands: Commands) {
     .with_child(
       EasyButton::new()
         .with_z_index(1)
-        .with_background_color(EasyColor::DARK_GRAY)
-        .with_border_color(EasyColor::WHITE)
+        .with_background_color(DARK_GRAY.into())
+        .with_border_color(WHITE.into())
         .with_border(px(2.), px(8.))
         .with_padding(px(10.), px(24.), px(10.), px(24.))
         .with_observer(hover_in)
@@ -50,15 +50,15 @@ fn setup(mut commands: Commands) {
         .with_child(
           EasyLabel::new("Click me!")
             .with_z_index(2)
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(24.),
         ),
     )
     .with_child(
       EasyButton::new()
         .with_z_index(1)
-        .with_background_color(EasyColor::DARK_GRAY)
-        .with_border_color(EasyColor::WHITE)
+        .with_background_color(DARK_GRAY.into())
+        .with_border_color(WHITE.into())
         .with_border(px(2.), px(8.))
         .with_padding(px(10.), px(24.), px(10.), px(24.))
         .with_observer(hover_in)
@@ -67,15 +67,15 @@ fn setup(mut commands: Commands) {
         .with_child(
           EasyLabel::new("Submit")
             .with_z_index(2)
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(24.),
         ),
     )
     .with_child(
       EasyButton::new()
         .with_z_index(1)
-        .with_background_color(EasyColor::DARK_GRAY)
-        .with_border_color(EasyColor::WHITE)
+        .with_background_color(DARK_GRAY.into())
+        .with_border_color(WHITE.into())
         .with_border(px(2.), px(8.))
         .with_padding(px(10.), px(24.), px(10.), px(24.))
         .with_observer(hover_in)
@@ -84,7 +84,7 @@ fn setup(mut commands: Commands) {
         .with_child(
           EasyLabel::new("Cancel")
             .with_z_index(2)
-            .with_color(EasyColor::WHITE)
+            .with_color(WHITE.into())
             .with_font_size(24.),
         ),
     )
