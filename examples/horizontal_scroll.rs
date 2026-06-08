@@ -9,7 +9,7 @@ fn main() {
     .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands) {
   commands.spawn(Camera2d);
 
   let mut carousel = EasyVerticalLayout::new()
