@@ -107,7 +107,7 @@ fn setup(mut commands: Commands) {
         .with_row_gap(px(6.))
         .with_align_items(AlignItems::Stretch)
         .with_child(
-          EasyLabel::new("Scrollable list (try scrolling!)")
+          EasyLabel::new("Scrollable list")
             .with_z_index(2)
             .with_color(EasyColor::WHITE)
             .with_font_size(18.),
@@ -162,56 +162,6 @@ fn setup(mut commands: Commands) {
             .with_color(EasyColor::LIGHT_GRAY)
             .with_z_index(2),
         )
-        .with_child(
-          EasyText::new("Item 11")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 12")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 13")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 14")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 15")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 16")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 17")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 18")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 19")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        )
-        .with_child(
-          EasyText::new("Item 20")
-            .with_color(EasyColor::LIGHT_GRAY)
-            .with_z_index(2),
-        ),
     )
     .spawn(&mut commands);
 }
