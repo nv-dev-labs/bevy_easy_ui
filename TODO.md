@@ -14,9 +14,7 @@ ET
 Légende : `[feat]` feature · `[fix]` bug · `[refactor]` dette technique · `[chore]` méta.
 
 ## 1 — Wrappers manquants des widgets Bevy non natifs
-- [ ] [feat] `EasyCheckbox` — pas natif dans Bevy, à construire (Node + Button + image toggle + composant state).
 - [ ] [feat] `EasyTextInput` — pas natif, à construire (Node + Text + state + keyboard).
-- [ ] [feat] `EasyProgressBar` — pas natif, à construire (track + fill calculé depuis un composant).
 
 ## 3 — Consistance & bugs
 - [ ] [fix] `EasySpan` n'implémente pas `EasyNode` → ne peut pas chaîner `with_padding` / `with_width` sur un span. À corriger si on veut l'aligner sur `EasyLabel`.

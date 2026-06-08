@@ -12,8 +12,6 @@ fn main() {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
   commands.spawn(Camera2d);
 
-  let image = asset_server.load("bevy.png");
-
   let mut carousel = EasyVerticalLayout::new()
     .with_z_index(0)
     .with_background_color(EasyColor::DARK_GRAY)
@@ -43,7 +41,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_align_items(AlignItems::Center);
 
   let mut row = row;
-  for i in 0..12 {
+  for i in 0..5 {
     row = row.with_child(
       EasyLabel::new(&format!("Item {}", i + 1))
         .with_z_index(2)
@@ -51,7 +49,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_background_color(EasyColor::BLUE)
         .with_padding(px(10.), px(10.), px(10.), px(10.))
         .with_flex_shrink(0.0),
-      )
+    )
   }
 
   carousel = carousel.with_child(row);

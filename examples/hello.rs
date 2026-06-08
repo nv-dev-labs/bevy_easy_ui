@@ -12,15 +12,11 @@ fn setup(mut commands: Commands) {
   commands.spawn(Camera2d);
 
   EasyVerticalLayout::new()
-    .with_style(
-      EasyVerticalLayoutStyle { 
-        node: Node {
-          ..default()
-        }, 
-        box_style: EasyBoxStyle::default(), 
-        stack_style: EasyStackStyle::default()
-      }
-    )
+    .with_style(EasyVerticalLayoutStyle {
+      node: Node { ..default() },
+      box_style: EasyBoxStyle::default(),
+      stack_style: EasyStackStyle::default(),
+    })
     .with_z_index(0)
     .with_background_color(EasyColor::DARK_GRAY)
     .with_width(percent(100.))

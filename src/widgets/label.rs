@@ -1,5 +1,8 @@
 use bevy::{
-  ecs::bundle::Bundle,
+  ecs::{
+    bundle::Bundle, event::Event, observer::Observer,
+    system::IntoObserverSystem,
+  },
   ui::{
     Node,
     widget::{Label, Text},
@@ -7,6 +10,7 @@ use bevy::{
 };
 
 use crate::core::{
+  container::WithObservers,
   node::EasyNode,
   parts::{
     EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
@@ -26,6 +30,11 @@ pub struct EasyLabel {
   pub label: Label,
 }
 
+pub struct EasyLabelBuilder {
+  bundle: EasyLabel,
+  observers: Vec<Observer>,
+}
+
 #[derive(Default, Debug)]
 pub struct EasyLabelStyle {
   pub node: Node,
@@ -36,36 +45,60 @@ pub struct EasyLabelStyle {
 
 //>--------------------- ACCESSOR IMPLS ---------------------
 
-impl EasyStackStyleExt for EasyLabel {
+impl WithObservers for EasyLabelBuilder {
+  fn take_bundle(&mut self) -> impl Bundle {
+    std::mem::replace(&mut self.bundle, EasyLabel::default_bundle())
+  }
+  fn take_observers(&mut self) -> Vec<Observer> {
+    std::mem::take(&mut self.observers)
+  }
+}
+
+impl EasyStackStyleExt for EasyLabelBuilder {
   fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
-    &mut self.stack_style
+    &mut self.bundle.stack_style
   }
 }
 
-impl EasyBoxStyleExt for EasyLabel {
+impl EasyBoxStyleExt for EasyLabelBuilder {
   fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
-    &mut self.box_style
+    &mut self.bundle.box_style
   }
 }
 
-impl EasyTextStyleExt for EasyLabel {
+impl EasyTextStyleExt for EasyLabelBuilder {
   fn easy_text_style_mut(&mut self) -> &mut EasyTextStyle {
-    &mut self.text_style
+    &mut self.bundle.text_style
   }
 }
 
-impl EasyNode for EasyLabel {
+impl EasyNode for EasyLabelBuilder {
   fn node_mut(&mut self) -> &mut Node {
-    &mut self.node
+    &mut self.bundle.node
   }
 }
 
 //>--------------------- BUILDER API ---------------------
 
 impl EasyLabel {
-  pub fn new(text: &str) -> Self {
+  #[allow(clippy::new_ret_no_self)]
+  pub fn new(text: &str) -> EasyLabelBuilder {
+    EasyLabelBuilder {
+      bundle: EasyLabel {
+        text: Text::new(text),
+        node: Node::default(),
+        box_style: EasyBoxStyle::default(),
+        text_style: EasyTextStyle::default(),
+        stack_style: EasyStackStyle::default(),
+        label: Label,
+      },
+      observers: Vec::new(),
+    }
+  }
+
+  pub fn default_bundle() -> Self {
     EasyLabel {
-      text: Text::new(text),
+      text: Text::default(),
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
       text_style: EasyTextStyle::default(),
@@ -73,17 +106,31 @@ impl EasyLabel {
       label: Label,
     }
   }
+}
 
+impl EasyLabelBuilder {
   pub fn with_style(mut self, style: EasyLabelStyle) -> Self {
-    self.node = style.node;
-    self.box_style = style.box_style;
-    self.text_style = style.text_style;
-    self.stack_style = style.stack_style;
+    self.bundle.node = style.node;
+    self.bundle.box_style = style.box_style;
+    self.bundle.text_style = style.text_style;
+    self.bundle.stack_style = style.stack_style;
     self
   }
 
   pub fn with_text(mut self, text: &str) -> Self {
-    self.text = Text::new(text);
+    self.bundle.text = Text::new(text);
+    self
+  }
+
+  pub fn with_observer<E, ObsB, M>(
+    mut self,
+    observer: impl IntoObserverSystem<E, ObsB, M> + 'static,
+  ) -> Self
+  where
+    E: Event,
+    ObsB: Bundle,
+  {
+    self.observers.push(Observer::new(observer));
     self
   }
 }

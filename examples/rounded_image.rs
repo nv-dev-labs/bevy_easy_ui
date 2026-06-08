@@ -11,7 +11,7 @@ fn main() {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
   commands.spawn(Camera2d);
 
-  let image = asset_server.load("bevy.png");
+  let image = asset_server.load("200.png");
 
   EasyHorizontalLayout::new()
     .with_z_index(0)

@@ -1,4 +1,4 @@
-pub use crate::core::container::Container;
+pub use crate::core::container::{Container, WithObservers};
 pub use crate::core::image_node::EasyImageNode;
 pub use crate::core::node::EasyNode;
 pub use crate::core::parts::*;

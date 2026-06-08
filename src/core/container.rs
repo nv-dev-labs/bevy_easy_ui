@@ -4,10 +4,7 @@ use bevy::prelude::*;
 
 use crate::core::element::EasyElement;
 
-/// The heart of the system: a Container is just "something that can have
-/// children, observers, and be spawned". We extend this trait to anything
-/// that can live in the UI tree.
-/// Are not Containers: EasyText, EasySpan, EasyImage, EasyLabel.
+//>--------------------- CONTAINERS ---------------------
 pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
   /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
   fn take_bundle(&mut self) -> impl Bundle;
@@ -49,8 +46,6 @@ pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
   }
 }
 
-// Helpers so we can push into self from within the trait (by default, we
-// store things in internal fields — each concrete type defines push_child/push_observer).
 pub trait PushChild<C: Into<EasyElement> = EasyElement>: Container<C> {
   fn push_child(&mut self, child: C);
 }
@@ -75,6 +70,32 @@ fn spawn_container<C: Into<EasyElement>>(
       el.spawn_in(p);
     }
   });
+  for observer in observers {
+    commands.spawn(observer.with_entity(entity));
+  }
+  entity
+}
+
+//>--------------------- LEAF ELEMENTS (with observers but no children) ---------------------
+
+pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
+  fn take_bundle(&mut self) -> impl Bundle;
+  fn take_observers(&mut self) -> Vec<Observer>;
+  /// Spawns the leaf widget into the world as a root entity and attaches
+  /// its observers. Mirrors `Container::spawn` so leaves share the same API.
+  fn spawn(self, commands: &mut Commands) -> Entity {
+    spawn_with_observers(self, commands)
+  }
+}
+
+fn spawn_with_observers<C: Into<EasyElement>>(
+  mut c: impl WithObservers<C>,
+  commands: &mut Commands,
+) -> Entity {
+  let bundle = c.take_bundle();
+  let observers = c.take_observers();
+
+  let entity = commands.spawn(bundle).id();
   for observer in observers {
     commands.spawn(observer.with_entity(entity));
   }

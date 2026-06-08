@@ -9,7 +9,7 @@ use crate::{
       EasyTextStyle, EasyTextStyleExt,
     },
   },
-  widgets::span::EasySpan,
+  widgets::span::EasySpanBuilder,
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -25,7 +25,7 @@ pub struct EasyRichText {
 
 pub struct EasyRichTextContainer {
   bundle: EasyRichText,
-  children: Vec<EasySpan>,
+  children: Vec<EasySpanBuilder>,
   observers: Vec<Observer>,
 }
 
@@ -63,23 +63,23 @@ impl EasyNode for EasyRichTextContainer {
   }
 }
 
-impl Container<EasySpan> for EasyRichTextContainer {
+impl Container<EasySpanBuilder> for EasyRichTextContainer {
   fn take_bundle(&mut self) -> impl Bundle {
     std::mem::replace(&mut self.bundle, EasyRichText::default_bundle())
   }
-  fn take_children(&mut self) -> Vec<EasySpan> {
+  fn take_children(&mut self) -> Vec<EasySpanBuilder> {
     std::mem::take(&mut self.children)
   }
   fn take_observers(&mut self) -> Vec<Observer> {
     std::mem::take(&mut self.observers)
   }
 }
-impl PushChild<EasySpan> for EasyRichTextContainer {
-  fn push_child(&mut self, c: EasySpan) {
+impl PushChild<EasySpanBuilder> for EasyRichTextContainer {
+  fn push_child(&mut self, c: EasySpanBuilder) {
     self.children.push(c);
   }
 }
-impl PushObserver<EasySpan> for EasyRichTextContainer {
+impl PushObserver<EasySpanBuilder> for EasyRichTextContainer {
   fn push_observer(&mut self, o: Observer) {
     self.observers.push(o);
   }

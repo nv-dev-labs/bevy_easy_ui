@@ -1,5 +1,5 @@
-use bevy_easy_ui::prelude::*;
 use bevy::prelude::*;
+use bevy_easy_ui::prelude::*;
 
 fn main() {
   App::new()
@@ -44,16 +44,15 @@ fn setup(
     .spawn(Camera2d)
     .insert(UiTargetCamera(camera_entity));
 
-  commands.spawn(
-    EasyViewport::new(camera_entity)
-      .with_position(PositionType::Absolute)
-      .with_left(px(0.))
-      .with_top(px(0.))
-      .with_width(px(640.))
-      .with_height(px(360.))
-      .with_border_color(EasyColor::WHITE)
-      .with_border(px(2.), px(4.)),
-  );
+  EasyViewport::new(camera_entity)
+    .with_position(PositionType::Absolute)
+    .with_left(px(0.))
+    .with_top(px(0.))
+    .with_width(px(640.))
+    .with_height(px(360.))
+    .with_border_color(EasyColor::WHITE)
+    .with_border(px(2.), px(4.))
+    .spawn(&mut commands);
 
   EasyVerticalLayout::new()
     .with_position(PositionType::Absolute)
