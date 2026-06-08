@@ -119,6 +119,8 @@ impl EasyTextInputBuilder {
     self
   }
 
+  // TODO: Add setters for all text input style properties (TextInputStyle, TextFont, TextColor, LineHeight)
+
   pub fn with_single_line(mut self, single_line: bool) -> Self {
     self.bundle.text_input.mode = if single_line {
       TextInputMode::SingleLine
