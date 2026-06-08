@@ -161,7 +161,7 @@ fn setup(mut commands: Commands) {
           EasyText::new("Item 10")
             .with_color(EasyColor::LIGHT_GRAY)
             .with_z_index(2),
-        )
+        ),
     )
     .spawn(&mut commands);
 }

@@ -51,7 +51,10 @@ impl EasyBoxStyleExt for EasyHorizontalScrollLayoutContainer {
 
 impl Container for EasyHorizontalScrollLayoutContainer {
   fn take_bundle(&mut self) -> impl Bundle {
-    std::mem::replace(&mut self.bundle, EasyHorizontalScrollLayout::default_bundle())
+    std::mem::replace(
+      &mut self.bundle,
+      EasyHorizontalScrollLayout::default_bundle(),
+    )
   }
   fn take_children(&mut self) -> Vec<EasyElement> {
     std::mem::take(&mut self.children)
