@@ -1,20 +1,21 @@
+use crate::prelude::*;
 use bevy::{
   ecs::{
-    bundle::Bundle, event::Event,
-    observer::Observer,
+    bundle::Bundle, event::Event, observer::Observer,
     system::IntoObserverSystem,
-  }, prelude::*, text::{FontFeatures, FontSmoothing, LineHeight}
+  },
+  prelude::*,
+  text::{FontFeatures, FontSmoothing, LineHeight},
 };
-use bevy_ui_text_input::{TextInputBuffer, TextInputMode, TextInputNode, TextInputQueue, TextInputStyle};
-use crate::prelude::*;
+use bevy_ui_text_input::{
+  TextInputBuffer, TextInputMode, TextInputNode, TextInputQueue, TextInputStyle,
+};
 
-use crate::{core::{
+use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{
-    EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt,
-  },
-}};
+  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
+};
 
 //>--------------------- STRUCTURES ---------------------
 
@@ -66,7 +67,6 @@ impl EasyBoxStyleExt for EasyTextInputBuilder {
     &mut self.bundle.box_style
   }
 }
-
 
 impl EasyNode for EasyTextInputBuilder {
   fn node_mut(&mut self) -> &mut Node {

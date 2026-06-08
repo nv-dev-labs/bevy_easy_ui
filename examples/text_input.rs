@@ -30,7 +30,7 @@ fn setup(mut commands: Commands) {
         .with_single_line(true)
         .with_width(percent(100.))
         .with_height(px(50.))
-        .with_color(RED.into())
+        .with_color(RED.into()),
     )
     .spawn(&mut commands);
 }

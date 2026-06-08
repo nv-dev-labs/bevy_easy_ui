@@ -1,8 +1,14 @@
 use bevy::{
-  asset::Handle, color::palettes::css::BLACK, image::Image, math::Vec2, prelude::*, text::{
+  asset::Handle,
+  color::palettes::css::BLACK,
+  image::Image,
+  math::Vec2,
+  prelude::*,
+  text::{
     Font, FontFeatures, FontSmoothing, FontWeight, Justify, LineBreak,
     LineHeight, TextColor, TextFont, TextLayout,
-  }, ui::widget::TextShadow
+  },
+  ui::widget::TextShadow,
 };
 
 //>===========================================================================
