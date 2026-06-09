@@ -6,9 +6,9 @@ license = "MIT OR Apache-2.0"
 description = "A declarative, fluent builder-pattern abstraction layer on top of Bevy's UI system."
 repository = "https://github.com/nv-dev-labs/bevy_easy_ui"
 keywords = ["bevy", "ui", "gui", "builder"]
-categories = ["gui", "interface-development", "game-development"]
+categories = ["interface", "gamedev", "ui", "bevy"]
 readme = "README.md"
-exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak"]
+exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak", ".github"]
 rust-version = "1.85.0"
 
 [dependencies]

@@ -234,7 +234,7 @@ Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_
 
 ## Scrollable containers
 
-The crate ships a tiny `ScrollPlugin` that turns the mouse wheel into a `Scroll` event you can attach to any `Overflow::scroll_*()` node via the `on_scroll_handler` observer:
+The crate ships a tiny `ScrollPlugin` that turns the mouse wheel into a `Scroll` event you can attach to any `Overflow::scroll_*()` node:
 
 ```rust
 use bevy::prelude::*;
