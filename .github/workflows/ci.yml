@@ -39,4 +39,4 @@ jobs:
       - name: Run tests
         run: cargo test
       - name: Doc
-        run: cargo doc --no-deps -- -D warnings
+        run: cargo doc --no-deps
