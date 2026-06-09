@@ -1,7 +1,7 @@
 pub use crate::core::container::{Container, WithObservers};
 pub use crate::core::image_node::EasyImageNode;
 pub use crate::core::node::EasyNode;
-pub use crate::core::parts::*;
+pub use crate::core::parts::{box_style::*, stack_style::*, text_style::*};
 
 pub use crate::widgets::containers::button::*;
 pub use crate::widgets::containers::horizontal_layout::*;
@@ -17,4 +17,7 @@ pub use crate::widgets::viewport::*;
 
 // Re-exports to make it easier for users
 pub use bevy::color::palettes::css::*;
+pub use bevy::text::FontFeatures;
+pub use bevy::text::FontSmoothing;
+
 pub use bevy_ui_text_input::TextInputPlugin;

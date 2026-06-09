@@ -14,7 +14,7 @@ use bevy_ui_text_input::{
 use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
+  parts::{stack_style::EasyStackStyle, stack_style::EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------
@@ -22,7 +22,6 @@ use crate::core::{
 #[derive(Bundle, Debug)]
 pub struct EasyTextInput {
   pub node: Node,
-  pub box_style: EasyBoxStyle,
   pub stack_style: EasyStackStyle,
   pub text_input: TextInputNode,
   pub text_buffer: TextInputBuffer,
@@ -41,7 +40,10 @@ pub struct EasyTextInputBuilder {
 #[derive(Default, Debug)]
 pub struct EasyTextInputStyle {
   pub node: Node,
-  pub box_style: EasyBoxStyle,
+  text_input: TextInputStyle,
+  text_font: TextFont,
+  text_color: TextColor,
+  line_height: LineHeight,
   pub stack_style: EasyStackStyle,
 }
 
@@ -59,12 +61,6 @@ impl WithObservers for EasyTextInputBuilder {
 impl EasyStackStyleExt for EasyTextInputBuilder {
   fn easy_stack_style_mut(&mut self) -> &mut EasyStackStyle {
     &mut self.bundle.stack_style
-  }
-}
-
-impl EasyBoxStyleExt for EasyTextInputBuilder {
-  fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
-    &mut self.bundle.box_style
   }
 }
 
@@ -102,11 +98,6 @@ impl EasyTextInput {
         height: Val::Px(40.),
         ..Default::default()
       },
-      box_style: EasyBoxStyle {
-        background_color: WHITE.into(),
-        border_color: BorderColor::all(Color::BLACK),
-        ..default()
-      },
       stack_style: EasyStackStyle::default(),
     }
   }
@@ -114,7 +105,6 @@ impl EasyTextInput {
 
 impl EasyTextInputBuilder {
   pub fn with_style(mut self, style: EasyTextInputStyle) -> Self {
-    self.bundle.box_style = style.box_style;
     self.bundle.stack_style = style.stack_style;
     self
   }

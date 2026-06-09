@@ -4,7 +4,7 @@ use crate::core::{
   container::{Container, PushChild, PushObserver},
   element::EasyElement,
   node::EasyNode,
-  parts::{EasyBoxStyle, EasyBoxStyleExt, EasyStackStyle, EasyStackStyleExt},
+  parts::{box_style::EasyBoxStyle, box_style::EasyBoxStyleExt, stack_style::EasyStackStyle, stack_style::EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------
