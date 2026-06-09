@@ -13,5 +13,4 @@ rust-version = "1.85.0"
 
 [dependencies]
 bevy = "0.18.1"
-bevy_input_focus = "0.18.1"
 bevy_ui_text_input = "0.7.0"

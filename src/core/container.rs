@@ -84,11 +84,11 @@ pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
   /// Spawns the leaf widget into the world as a root entity and attaches
   /// its observers. Mirrors `Container::spawn` so leaves share the same API.
   fn spawn(self, commands: &mut Commands) -> Entity {
-    spawn_with_observers(self, commands)
+    spawn(self, commands)
   }
 }
 
-fn spawn_with_observers<C: Into<EasyElement>>(
+fn spawn<C: Into<EasyElement>>(
   mut c: impl WithObservers<C>,
   commands: &mut Commands,
 ) -> Entity {

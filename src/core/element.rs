@@ -6,7 +6,10 @@ use crate::{
     containers::{
       button::EasyButtonContainer,
       horizontal_layout::EasyHorizontalLayoutContainer,
+      //radio::{EasyRadioContainer, EasyRadioGroupContainer},
       rich_text::EasyRichTextContainer,
+      //scrollbar::EasyScrollbarContainer,
+      //slider::EasySliderContainer,
       vertical_layout::EasyVerticalLayoutContainer,
     },
     image::EasyImageBuilder,
@@ -96,19 +99,16 @@ impl EasyElement {
       EasyElement::HorizontalContainer(c) => spawn_container(c, p),
 
       // Leaves
-      EasyElement::Image(i) => spawn_with_observers(i, p),
-      EasyElement::Text(t) => spawn_with_observers(t, p),
-      EasyElement::Label(l) => spawn_with_observers(l, p),
-      EasyElement::Span(s) => spawn_with_observers(s, p),
-      EasyElement::TextInput(t) => spawn_with_observers(t, p),
+      EasyElement::Image(i) => spawn(i, p),
+      EasyElement::Text(t) => spawn(t, p),
+      EasyElement::Label(l) => spawn(l, p),
+      EasyElement::Span(s) => spawn(s, p),
+      EasyElement::TextInput(t) => spawn(t, p),
     }
   }
 }
 
-fn spawn_with_observers(
-  mut e: impl WithObservers<EasyElement>,
-  p: &mut ChildSpawnerCommands,
-) {
+fn spawn(mut e: impl WithObservers<EasyElement>, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(e.take_bundle()).id();
   for observer in e.take_observers() {
     p.commands().spawn(observer.with_entity(entity));
@@ -145,7 +145,7 @@ fn spawn_container_special(
   }
   p.commands().entity(entity).with_children(|sub| {
     for child in kids {
-      spawn_with_observers(child, sub);
+      spawn(child, sub);
     }
   });
 }

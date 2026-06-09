@@ -1,12 +1,18 @@
 # bevy_easy_ui
 
-[![CI](https://github.com/Haulun/bevy_easy_ui/actions/workflows/ci.yml/badge.svg)](https://github.com/nvetroff/bevy_easy_ui/actions/workflows/ci.yml)
+[![CI](https://github.com/Haulun/bevy_easy_ui/actions/workflows/ci.yml/badge.svg)](https://github.com/Haulun/bevy_easy_ui/actions/workflows/ci.yml)
 [![docs.rs](https://img.shields.io/docsrs/bevy_easy_ui)](https://docs.rs/bevy_easy_ui)
 [![Crates.io](https://img.shields.io/crates/v/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui)
 [![License](https://img.shields.io/crates/l/bevy_easy_ui)](LICENSE-MIT)
 [![License](https://img.shields.io/crates/l/bevy_easy_ui)](LICENSE-APACHE)
 
-A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system.
+A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input).
+
+## Version compatibility
+
+| bevy_easy_ui | bevy_ui_text_input | bevy |
+|---|---|---|
+| 0.1.0 | 0.7.0 | 0.18.1 |
 
 ---
 
@@ -34,12 +40,16 @@ commands.spawn((
 
 ```rust
 EasyButton::new()
-    .with_border_color(EasyColor::WHITE)
+    .with_border_color(WHITE.into())
     .with_border(px(2.0), px(10.0))
     .with_width(px(200.0))
     .with_height(px(80.0))
-    .with_background_color(EasyColor::BLACK)
-    .with_child(EasyLabel::new("Click me!").with_color(EasyColor::WHITE).with_font_size(24.0))
+    .with_background_color(BLACK.into())
+    .with_child(
+        EasyLabel::new("Click me!")
+            .with_color(WHITE.into())
+            .with_font_size(24.0),
+    )
     .spawn(&mut commands);
 ```
 
@@ -48,6 +58,13 @@ Every setter is chainable, type-checked, and the trait system prevents misusing 
 ---
 
 ## Quick start
+
+```toml
+# Cargo.toml
+[dependencies]
+bevy = "0.18.1"
+bevy_easy_ui = "0.1.0"
+```
 
 ```rust
 use bevy::prelude::*;
@@ -72,16 +89,21 @@ fn setup(mut commands: Commands) {
         .with_child(
             EasyButton::new()
                 .with_z_index(2)
-                .with_border_color(EasyColor::WHITE)
+                .with_border_color(WHITE.into())
                 .with_border(px(2.0), px(10.0))
-                .with_background_color(EasyColor::BLACK)
-                .with_child(EasyLabel::new("Click me!").with_color(EasyColor::WHITE).with_font_size(24.0).with_z_index(3))
+                .with_background_color(BLACK.into())
+                .with_child(
+                    EasyLabel::new("Click me!")
+                        .with_z_index(3)
+                        .with_color(WHITE.into())
+                        .with_font_size(24.0),
+                ),
         )
         .spawn(&mut commands);
 }
 ```
 
-That's the whole library. Run with `cargo run` and a centered dark button with white border and text appears.
+Run with `cargo run` — a centered dark button with a white border and white text appears.
 
 ---
 
@@ -95,10 +117,10 @@ Each example is a standalone `cargo run --example NAME` showcasing a specific wi
 | `button_with_observers` | Buttons with `Pointer<Over>` / `Pointer<Out>` / `Pointer<Click>` observers (hover, click feedback) |
 | `image_button` | Icon button built from `EasyButton` + `EasyImage` as a child |
 | `rounded_image` | `EasyImage` with various `border_radius` values (sharp, small, full, asymmetric) |
-| `scroll_vertical` | Scrollable `EasyVerticalLayout` using `with_overflow(Overflow::scroll())` |
-| `carousel` | Horizontal scroll carousel using `with_overflow(Overflow::scroll_x())` |
+| `scroll` | Scrollable `EasyVerticalLayout` and `EasyHorizontalLayout` using `Overflow::scroll_y()` / `scroll_x()` + the `ScrollPlugin` mouse-wheel observer |
 | `viewport` | `EasyViewport` rendering a live camera output into a UI node |
 | `rich_text` | `EasyRichText` with per-`EasySpan` colors, sizes, and justify |
+| `text_input` | `EasyTextInput` (re-export of `bevy_ui_text_input`) |
 
 ```bash
 cargo run --example hello
@@ -109,22 +131,28 @@ cargo run --example rich_text
 
 ## Widgets
 
-| Widget | Bevy base | Purpose |
-|---|---|---|
-| `EasyVerticalLayout` | `Node` + `FlexDirection::Column` | Flex column container |
-| `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | Flex row container |
-| `EasyButton` | `Button` + `Node` | Clickable button (accepts children + observers) |
-| `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | Styled text |
-| `EasyLabel` | `Text` + `Node` + `Label` | Text marked as a label |
-| `EasySpan` | `TextSpan` | Inline span used inside `EasyRichText` |
-| `EasyRichText` | `Text` + `TextSpan` children | Multi-style text |
-| `EasyImage` | `ImageNode` + `Node` | Image (rect, color, flip, mode, atlas) |
-| `EasyViewport` | `Node` + `ViewportNode` | UI node displaying a `Camera` render target |
+The crate ships a set of `Easy*` builders, each wrapping the matching Bevy component(s) with a fluent API.
 
-**Containers** (layouts, buttons, viewport) implement the `Container` trait and expose:
+| Widget | Bevy base | Kind | Purpose |
+|---|---|---|---|
+| `EasyVerticalLayout` | `Node` + `FlexDirection::Column` | container | Flex column layout |
+| `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | container | Flex row layout |
+| `EasyButton` | `Button` + `Node` | container | Clickable button (accepts children + observers) |
+| `EasyRichText` | `Text` + `TextSpan` children | container | Multi-style text |
+| `EasyLabel` | `Text` + `Node` + `Label` | leaf | Text marked as a label |
+| `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | leaf | Styled text |
+| `EasySpan` | `TextSpan` | leaf | Inline span used inside `EasyRichText` |
+| `EasyImage` | `ImageNode` + `Node` | leaf | Image (rect, color, flip, mode, atlas) |
+| `EasyTextInput` | `bevy_ui_text_input::TextInputNode` | leaf | Re-export of `bevy_ui_text_input` |
+| `EasyViewport` | `Node` + `ViewportNode` | container | UI node displaying a `Camera` render target |
+
+**Containers** (layouts, button, rich_text, viewport) implement the `Container` trait and expose:
+
 - `.with_child(impl Into<EasyElement>)` — adds a child
 - `.with_observer(impl IntoObserverSystem)` — attaches a Bevy observer
 - `.spawn(&mut Commands)` — finalizes and spawns the tree
+
+**Leaves** (label, text, image, text_input) implement `WithObservers` and only expose `.with_observer(...)` and `.spawn(...)`.
 
 ---
 
@@ -138,7 +166,6 @@ Use it when you have a few pre-defined looks (e.g. a theme) you want to apply as
 use bevy::prelude::*;
 use bevy_easy_ui::prelude::*;
 
-// Define a style once
 fn primary_button_style() -> EasyButtonStyle {
     EasyButtonStyle {
         node: Node {
@@ -148,8 +175,8 @@ fn primary_button_style() -> EasyButtonStyle {
             ..default()
         },
         box_style: EasyBoxStyle {
-            background_color: BackgroundColor(EasyColor::BLUE),
-            border_color: BorderColor::all(EasyColor::WHITE),
+            background_color: BackgroundColor(BLUE.into()),
+            border_color: BorderColor::all(WHITE.into()),
             ..default()
         },
         stack_style: EasyStackStyle {
@@ -172,7 +199,7 @@ fn setup(mut commands: Commands) {
                 .with_style(primary_button_style())
                 .with_child(
                     EasyLabel::new("Click me!")
-                        .with_color(EasyColor::WHITE)
+                        .with_color(WHITE.into())
                         .with_font_size(24.0),
                 ),
         )
@@ -186,10 +213,10 @@ The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `Ea
 
 ## The traits
 
-Three extension traits add the builder setters on top of Bevy's components. They are implemented for every widget that owns the matching Bevy component, so the setters are always available.
+Four extension traits add the builder setters on top of Bevy's components. They are implemented for every widget that owns the matching Bevy component, so the setters are always available.
 
 ### `EasyNode` — `Node` properties
-Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_position`, `with_top`, etc.), alignment (`with_align_items`, `with_justify_content`, …), spacing (`with_margin`, `with_padding`, `with_row_gap`, `with_column_gap`), borders (`with_border`, `with_border_radius`, `with_border_color` is in `EasyBoxStyleExt`), flex (`with_flex_direction`, `with_flex_wrap`, `with_flex_grow`, `with_flex_shrink`, `with_flex_basis`), grid (`with_grid_template_*`, `with_grid_auto_*`, `with_grid_row`, `with_grid_column`), overflow (`with_overflow`, `with_scrollbar_width`, `with_overflow_clip_margin`), display (`with_display`, `with_box_sizing`, `with_aspect_ratio`).
+Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_position`, `with_top`, etc.), alignment (`with_align_items`, `with_justify_content`, …), spacing (`with_margin`, `with_padding`, `with_row_gap`, `with_column_gap`), borders (`with_border`, `with_border_radius`; `with_border_color` is in `EasyBoxStyleExt`), flex (`with_flex_direction`, `with_flex_wrap`, `with_flex_grow`, `with_flex_shrink`, `with_flex_basis`), grid (`with_grid_template_*`, `with_grid_auto_*`, `with_grid_row`, `with_grid_column`), overflow (`with_overflow`, `with_scrollbar_width`, `with_overflow_clip_margin`), display (`with_display`, `with_box_sizing`, `with_aspect_ratio`).
 
 ### `EasyBoxStyleExt` — background, border, shadow
 `with_background_color`, `with_border_color`, `with_box_shadow`, `with_border_gradient`, `with_background_gradient`, `with_outline`.
@@ -205,16 +232,91 @@ Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_
 
 ---
 
+## Scrollable containers
+
+The crate ships a tiny `ScrollPlugin` that turns the mouse wheel into a `Scroll` event you can attach to any `Overflow::scroll_*()` node via the `on_scroll_handler` observer:
+
+```rust
+use bevy::prelude::*;
+use bevy_easy_ui::prelude::*;
+
+fn main() {
+    App::new()
+        .add_plugins((DefaultPlugins, ScrollPlugin))
+        .add_systems(Startup, setup)
+        .run();
+}
+
+fn setup(mut commands: Commands) {
+    commands.spawn(Camera2d);
+
+    EasyVerticalLayout::new()
+        .with_width(px(320.0))
+        .with_height(px(300.0))
+        .with_overflow(Overflow::scroll_y())
+        .with_padding(px(10.0))
+        .with_child(EasyLabel::new("Top of the list"))
+        // … more children …
+        .spawn(&mut commands);
+}
+```
+
+Hold `Ctrl` while scrolling to scroll horizontally instead.
+
+---
+
 ## Colors
 
-`EasyColor` exposes constants for the common Bevy `Color`s (`WHITE`, `BLACK`) plus aliases (`DARK_GRAY`, `LIGHT_BLUE`, …). All values are `pub const Color`, so they slot directly into `with_background_color(EasyColor::BLUE)`.
-However, you can create your own colors with `EasyColor::from_rgba()` using srgba() from Bevy.
+The prelude re-exports `bevy::color::palettes::css::*` (`WHITE`, `BLACK`, `BLUE`, `DARK_GRAY`, `LIGHT_BLUE`, …) so every color literal slots directly into a `with_*_color(...into())` call:
+
+```rust
+EasyButton::new()
+    .with_background_color(BLUE.into())
+    .with_border_color(WHITE.into())
+```
+
+If you need a custom color, build it with `bevy::color::Color::srgba(...)` and pass it through `.into()`.
 
 ---
 
 ## Contribution
 
-Contributions are very welcome! Open an issue or a PR if you have any suggestions, questions, or want to add a new widget or feature.
+Contributions are very welcome! Open an issue or a PR if you have suggestions, questions, or want to add a new widget or feature.
+
+### Roadmap
+
+The following widgets are planned but not yet wrapped as `Easy*` builders. They will be implemented by following the same pattern as the existing widgets, on top of the corresponding headless types in [`bevy_ui_widgets`](https://docs.rs/bevy_ui_widgets/0.18.1/):
+
+- `EasyCheckbox` — wraps `bevy_ui_widgets::Checkbox` + `Checkable` + `Checked`
+- `EasySlider` — wraps `bevy_ui_widgets::Slider` + `SliderValue` + `SliderRange` (+ optional `SliderStep` / `SliderPrecision`)
+- `EasyRadioButton` + `EasyRadioGroup` — wraps `bevy_ui_widgets::RadioButton` + `RadioGroup`
+- `EasyScrollbar` — wraps `bevy_ui_widgets::Scrollbar` + `CoreScrollbarThumb`
+
+If you'd like to take one of these, the [integration checklist](#integration-checklist) below explains the wiring once the widget compiles.
+
+### Adding a new widget
+
+The crate follows a consistent pattern across all widgets — pick whichever existing widget is closest to what you want to build, then copy it:
+
+1. **Bundle** — `#[derive(Bundle)] pub struct EasyXxx { ... pub node: Node, pub box_style: EasyBoxStyle, pub stack_style: EasyStackStyle }`. The bundle is the raw Bevy components grouped together.
+2. **Container** — `pub struct EasyXxxContainer { bundle, children: Vec<EasyElement>, observers: Vec<Observer> }`. Holds the bundle plus any children/observers queued during building.
+3. **Builder** — `EasyXxx::new() -> EasyXxxContainer` and `EasyXxx::default_bundle() -> Self`. `new()` always returns the container, never the bundle, so setters stay chainable.
+4. **Accessor impls** — `EasyNode`, `EasyBoxStyleExt`, `EasyStackStyleExt` (and `EasyTextStyleExt` for text widgets). They expose the `with_*` setters.
+5. **`Container` / `WithObservers` impl** — picks the right trait: `Container` if the widget can have children, `WithObservers` for leaves.
+6. **Style** — a `pub struct EasyXxxStyle { node, box_style, stack_style }` with `with_style(...)` on the builder, so users can swap the whole look at once.
+
+### Integration checklist
+
+Once the widget compiles, wire it into the rest of the crate so users find it under one import:
+
+- Add a `pub mod` line in [`src/widgets/containers/mod.rs`](src/widgets/containers/mod.rs) (or `src/widgets/mod.rs` for non-container widgets).
+- Add a variant `EasyXxxContainer(EasyXxxContainer)` in [`src/core/element.rs`](src/core/element.rs) and a matching `From<EasyXxxContainer> for EasyElement` impl.
+- Re-export the bundle, container, and style with `pub use ...::*;` in [`src/prelude.rs`](src/prelude.rs).
+- Add a `cargo run --example xxx` example in [`examples/`](examples/) and reference it in the **Examples** table of this README.
+
+### Filing issues
+
+For bug reports, include the Bevy version, the crate version, a minimal repro, and what you expected vs. what you got. For feature requests, sketch the API you'd like to call — `EasyXxx::new().with_*(...).with_child(...).spawn(&mut commands)` is the shape we aim for.
 
 ---
 
