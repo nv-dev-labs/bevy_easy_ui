@@ -58,7 +58,7 @@ fn setup(
     .with_position(PositionType::Absolute)
     .with_right(px(20.))
     .with_top(px(20.))
-    .with_padding(px(10.), px(10.), px(10.), px(10.))
+    .with_padding(px(10.))
     .with_background_color(DARK_GRAY.into())
     .with_child(
       EasyLabel::new(

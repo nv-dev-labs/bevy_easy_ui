@@ -20,7 +20,7 @@ fn setup(mut commands: Commands) {
     .with_height(px(50.))
     .with_display(Display::Flex)
     .with_align_content(AlignContent::Center)
-    .with_padding(px(8.), px(8.), px(8.), px(8.))
+    .with_padding(px(8.))
     .with_background_color(WHITE.into())
     .with_border(px(3.), px(6.))
     .with_border_color(BLACK.into())

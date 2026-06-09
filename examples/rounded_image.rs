@@ -21,7 +21,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     .with_justify_content(JustifyContent::Center)
     .with_align_items(AlignItems::Center)
     .with_column_gap(px(20.))
-    .with_padding(px(20.), px(20.), px(20.), px(20.))
+    .with_padding(px(20.))
     .with_child(
       EasyImage::new()
         .with_image(image.clone())

@@ -36,7 +36,7 @@ fn setup(mut commands: Commands) {
     .with_height(px(160.))
     .with_overflow(Overflow::scroll_x())
     .with_scrollbar_width(8.0)
-    .with_padding(px(10.), px(10.), px(10.), px(10.))
+    .with_padding(px(10.))
     .with_column_gap(px(10.))
     .with_align_items(AlignItems::Center);
 
@@ -47,7 +47,7 @@ fn setup(mut commands: Commands) {
         .with_z_index(2)
         .with_min_width(px(120.))
         .with_background_color(BLUE.into())
-        .with_padding(px(10.), px(10.), px(10.), px(10.))
+        .with_padding(px(10.))
         .with_flex_shrink(0.0),
     )
   }

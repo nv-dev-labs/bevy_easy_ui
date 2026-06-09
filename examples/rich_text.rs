@@ -18,7 +18,7 @@ fn setup(mut commands: Commands) {
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
     .with_align_items(AlignItems::Center)
-    .with_padding(px(40.), px(40.), px(40.), px(40.))
+    .with_padding(px(40.))
     .with_child(
       EasyRichText::new()
         .with_z_index(1)

@@ -29,7 +29,8 @@ fn setup(mut commands: Commands) {
         .with_background_color(BLUE.into())
         .with_border_color(WHITE.into())
         .with_border(px(2.), px(10.))
-        .with_padding(px(20.), px(40.), px(20.), px(40.))
+        .with_padding_x(px(40.))
+        .with_padding_y(px(20.))
         .with_child(
           EasyLabel::new("Hello, Bevy!")
             .with_z_index(2)

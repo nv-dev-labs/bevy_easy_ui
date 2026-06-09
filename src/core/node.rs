@@ -133,33 +133,81 @@ pub trait EasyNode: Sized {
 
   fn with_margin(
     mut self,
-    top: Val,
-    right: Val,
-    bottom: Val,
-    left: Val,
+    value: Val,
   ) -> Self {
-    self.node_mut().margin = UiRect {
-      top,
-      right,
-      bottom,
-      left,
-    };
+    self.node_mut().margin = UiRect::all(value);
+    self
+  }
+
+  fn with_margin_top(mut self, top: Val) -> Self {
+    self.node_mut().margin.top = top;
+    self
+  }
+
+  fn with_margin_right(mut self, right: Val) -> Self {
+    self.node_mut().margin.right = right;
+    self
+  }
+
+  fn with_margin_bottom(mut self, bottom: Val) -> Self {
+    self.node_mut().margin.bottom = bottom;
+    self
+  }
+
+  fn with_margin_left(mut self, left: Val) -> Self {
+    self.node_mut().margin.left = left;
+    self
+  }
+
+  fn with_margin_x(mut self, x: Val) -> Self {
+    self.node_mut().margin.right = x;
+    self.node_mut().margin.left = x;
+    self
+  }
+
+  fn with_margin_y(mut self, y: Val) -> Self {
+    self.node_mut().margin.top = y;
+    self.node_mut().margin.bottom = y;
     self
   }
 
   fn with_padding(
     mut self,
-    top: Val,
-    right: Val,
-    bottom: Val,
-    left: Val,
+    value: Val,
   ) -> Self {
-    self.node_mut().padding = UiRect {
-      top,
-      right,
-      bottom,
-      left,
-    };
+    self.node_mut().padding = UiRect::all(value);
+    self
+  }
+
+  fn with_padding_top(mut self, top: Val) -> Self {
+    self.node_mut().padding.top = top;
+    self
+  }
+
+  fn with_padding_right(mut self, right: Val) -> Self {
+    self.node_mut().padding.right = right;
+    self
+  }
+
+  fn with_padding_bottom(mut self, bottom: Val) -> Self {
+    self.node_mut().padding.bottom = bottom;
+    self
+  }
+
+  fn with_padding_left(mut self, left: Val) -> Self {
+    self.node_mut().padding.left = left;
+    self
+  }
+
+  fn with_padding_x(mut self, x: Val) -> Self {
+    self.node_mut().padding.right = x;
+    self.node_mut().padding.left = x;
+    self
+  }
+
+  fn with_padding_y(mut self, y: Val) -> Self {
+    self.node_mut().padding.top = y;
+    self.node_mut().padding.bottom = y;
     self
   }
 

@@ -92,7 +92,7 @@ fn setup(mut commands: Commands) {
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)
     .with_align_items(AlignItems::Center)
-    .with_padding(px(20.), px(20.), px(20.), px(20.))
+    .with_padding(px(20.))
     .with_child(
       EasyVerticalLayout::new()
         .with_z_index(1)
@@ -103,7 +103,7 @@ fn setup(mut commands: Commands) {
         .with_height(px(300.))
         .with_overflow(Overflow::scroll())
         .with_scrollbar_width(8.0)
-        .with_padding(px(10.), px(10.), px(10.), px(10.))
+        .with_padding(px(10.))
         .with_row_gap(px(6.))
         .with_align_items(AlignItems::Stretch)
         .with_child(

@@ -39,7 +39,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_background_color(BLUE.into())
         .with_border_color(DARK_BLUE.into())
         .with_border(px(2.), px(50.))
-        .with_padding(px(8.), px(8.), px(8.), px(8.))
+        .with_padding(px(8.))
         .with_observer(hover_in)
         .with_observer(hover_out)
         .with_child(
@@ -56,7 +56,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_background_color(BLUE.into())
         .with_border_color(DARK_BLUE.into())
         .with_border(px(2.), px(50.))
-        .with_padding(px(8.), px(8.), px(8.), px(8.))
+        .with_padding(px(8.))
         .with_observer(hover_in)
         .with_observer(hover_out)
         .with_child(
