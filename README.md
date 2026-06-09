@@ -53,7 +53,7 @@ EasyButton::new()
     .spawn(&mut commands);
 ```
 
-Every setter is chainable, type-checked, and the trait system prevents misusing a container as a leaf (or vice versa).
+Every setter is chainable, type-checked, and the trait system prevents misusing a container as a non-container (or vice versa).
 
 ---
 
@@ -139,11 +139,11 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 | `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | container | Flex row layout |
 | `EasyButton` | `Button` + `Node` | container | Clickable button (accepts children + observers) |
 | `EasyRichText` | `Text` + `TextSpan` children | container | Multi-style text |
-| `EasyLabel` | `Text` + `Node` + `Label` | leaf | Text marked as a label |
-| `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | leaf | Styled text |
-| `EasySpan` | `TextSpan` | leaf | Inline span used inside `EasyRichText` |
-| `EasyImage` | `ImageNode` + `Node` | leaf | Image (rect, color, flip, mode, atlas) |
-| `EasyTextInput` | `bevy_ui_text_input::TextInputNode` | leaf | Re-export of `bevy_ui_text_input` |
+| `EasyLabel` | `Text` + `Node` + `Label` | non-container | Text marked as a label |
+| `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | non-container | Styled text |
+| `EasySpan` | `TextSpan` | non-container | Inline span used inside `EasyRichText` |
+| `EasyImage` | `ImageNode` + `Node` | non-container | Image (rect, color, flip, mode, atlas) |
+| `EasyTextInput` | `bevy_ui_text_input::TextInputNode` | non-container | Re-export of `bevy_ui_text_input` |
 | `EasyViewport` | `Node` + `ViewportNode` | container | UI node displaying a `Camera` render target |
 
 **Containers** (layouts, button, rich_text, viewport) implement the `Container` trait and expose:
@@ -152,7 +152,7 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 - `.with_observer(impl IntoObserverSystem)` — attaches a Bevy observer
 - `.spawn(&mut Commands)` — finalizes and spawns the tree
 
-**Leaves** (label, text, image, text_input) implement `WithObservers` and only expose `.with_observer(...)` and `.spawn(...)`.
+**Non-containers** (label, text, image, text_input) implement `WithObservers` and only expose `.with_observer(...)` and `.spawn(...)`.
 
 ---
 
@@ -302,7 +302,7 @@ The crate follows a consistent pattern across all widgets — pick whichever exi
 2. **Container** — `pub struct EasyXxxContainer { bundle, children: Vec<EasyElement>, observers: Vec<Observer> }`. Holds the bundle plus any children/observers queued during building.
 3. **Builder** — `EasyXxx::new() -> EasyXxxContainer` and `EasyXxx::default_bundle() -> Self`. `new()` always returns the container, never the bundle, so setters stay chainable.
 4. **Accessor impls** — `EasyNode`, `EasyBoxStyleExt`, `EasyStackStyleExt` (and `EasyTextStyleExt` for text widgets). They expose the `with_*` setters.
-5. **`Container` / `WithObservers` impl** — picks the right trait: `Container` if the widget can have children, `WithObservers` for leaves.
+5. **`Container` / `WithObservers` impl** — picks the right trait: `Container` if the widget can have children, `WithObservers` for non-containers.
 6. **Style** — a `pub struct EasyXxxStyle { node, box_style, stack_style }` with `with_style(...)` on the builder, so users can swap the whole look at once.
 
 ### Integration checklist
