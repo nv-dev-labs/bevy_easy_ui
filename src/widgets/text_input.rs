@@ -40,10 +40,6 @@ pub struct EasyTextInputBuilder {
 #[derive(Default, Debug)]
 pub struct EasyTextInputStyle {
   pub node: Node,
-  text_input: TextInputStyle,
-  text_font: TextFont,
-  text_color: TextColor,
-  line_height: LineHeight,
   pub stack_style: EasyStackStyle,
 }
 
