@@ -18,7 +18,6 @@ fn setup(mut commands: Commands) {
       stack_style: EasyStackStyle::default(),
     })
     .with_z_index(0)
-    .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
     .with_height(percent(100.))
     .with_justify_content(JustifyContent::Center)

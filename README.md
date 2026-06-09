@@ -281,7 +281,7 @@ If you need a custom color, build it with `bevy::color::Color::srgba(...)` and p
 
 ## Contribution
 
-Contributions are very welcome! Open an issue or a PR if you have suggestions, questions, or want to add a new widget or feature.
+Open an issue or a PR if you have suggestions, questions, or want to add a new widget or feature.
 
 ### Roadmap
 
@@ -317,6 +317,14 @@ Once the widget compiles, wire it into the rest of the crate so users find it un
 ### Filing issues
 
 For bug reports, include the Bevy version, the crate version, a minimal repro, and what you expected vs. what you got. For feature requests, sketch the API you'd like to call — `EasyXxx::new().with_*(...).with_child(...).spawn(&mut commands)` is the shape we aim for.
+
+---
+
+## Known limitations
+
+This is a 0.1.0 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+
+If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 
 ---
 
