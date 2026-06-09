@@ -10,7 +10,8 @@ use crate::core::{
   container::WithObservers,
   node::EasyNode,
   parts::{
-    box_style::EasyBoxStyle, box_style::EasyBoxStyleExt, stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
+    box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
+    stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
     text_style::EasyTextStyle, text_style::EasyTextStyleExt,
   },
 };

@@ -1,5 +1,5 @@
-use bevy::{prelude::*, text::LineHeight};
 use crate::prelude::*;
+use bevy::{prelude::*, text::LineHeight};
 
 #[derive(Bundle, Debug, Clone)]
 pub struct EasyTextStyle {

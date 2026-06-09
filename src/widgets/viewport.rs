@@ -9,7 +9,10 @@ use bevy::{
 use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{box_style::EasyBoxStyle, box_style::EasyBoxStyleExt, stack_style::EasyStackStyle, stack_style::EasyStackStyleExt},
+  parts::{
+    box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
+    stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
+  },
 };
 
 //>--------------------- STRUCTURES ---------------------

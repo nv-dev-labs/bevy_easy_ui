@@ -131,10 +131,7 @@ pub trait EasyNode: Sized {
 
   //? MARGIN AND PADDING
 
-  fn with_margin(
-    mut self,
-    value: Val,
-  ) -> Self {
+  fn with_margin(mut self, value: Val) -> Self {
     self.node_mut().margin = UiRect::all(value);
     self
   }
@@ -171,10 +168,7 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_padding(
-    mut self,
-    value: Val,
-  ) -> Self {
+  fn with_padding(mut self, value: Val) -> Self {
     self.node_mut().padding = UiRect::all(value);
     self
   }
