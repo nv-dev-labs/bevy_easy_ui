@@ -4,7 +4,7 @@ use crate::core::{
   container::{Container, PushChild, PushObserver},
   element::EasyElement,
   node::EasyNode,
-  parts::{
+  style::{
     box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
     stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
   },
@@ -80,15 +80,7 @@ impl EasyHorizontalLayout {
   #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyHorizontalLayoutContainer {
     EasyHorizontalLayoutContainer {
-      bundle: EasyHorizontalLayout {
-        node: Node {
-          display: Display::Flex,
-          flex_direction: FlexDirection::Row,
-          ..default()
-        },
-        box_style: EasyBoxStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyHorizontalLayout::default_bundle(),
       children: Vec::new(),
       observers: Vec::new(),
     }
@@ -96,7 +88,11 @@ impl EasyHorizontalLayout {
 
   pub fn default_bundle() -> Self {
     EasyHorizontalLayout {
-      node: Node::default(),
+      node: Node {
+        display: Display::Flex,
+        flex_direction: FlexDirection::Row,
+        ..default()
+      },
       box_style: EasyBoxStyle::default(),
       stack_style: EasyStackStyle::default(),
     }

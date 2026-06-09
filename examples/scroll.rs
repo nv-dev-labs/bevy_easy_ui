@@ -1,91 +1,20 @@
-//! Working thanks to event system. Create a scrollable widget for vertical scrolling !
 use bevy::prelude::*;
 use bevy_easy_ui::prelude::*;
 
-const LINE_HEIGHT: f32 = 21.;
-
-#[derive(EntityEvent, Debug)]
-#[entity_event(propagate, auto_propagate)]
-struct Scroll {
-  entity: Entity,
-  delta: Vec2,
-}
-
 fn main() {
   App::new()
-    .add_plugins(DefaultPlugins)
+    .add_plugins((DefaultPlugins, ScrollPlugin))
     .add_systems(Startup, setup)
-    .add_systems(Update, send_scroll_events)
-    .add_observer(on_scroll_handler)
     .run();
 }
 
-fn send_scroll_events(
-  mut mouse_wheel_reader: MessageReader<bevy::input::mouse::MouseWheel>,
-  hover_map: Res<bevy::picking::hover::HoverMap>,
-  keyboard_input: Res<ButtonInput<KeyCode>>,
-  mut commands: Commands,
-) {
-  use bevy::input::mouse::MouseScrollUnit;
-  for mouse_wheel in mouse_wheel_reader.read() {
-    let mut delta = -Vec2::new(mouse_wheel.x, mouse_wheel.y);
-    if mouse_wheel.unit == MouseScrollUnit::Line {
-      delta *= LINE_HEIGHT;
-    }
-    if keyboard_input.any_pressed([KeyCode::ControlLeft, KeyCode::ControlRight])
-    {
-      std::mem::swap(&mut delta.x, &mut delta.y);
-    }
-    for pointer_map in hover_map.values() {
-      for entity in pointer_map.keys().copied() {
-        commands.trigger(Scroll { entity, delta });
-      }
-    }
-  }
-}
-
-fn on_scroll_handler(
-  mut scroll: On<Scroll>,
-  mut query: Query<(&mut ScrollPosition, &Node, &ComputedNode)>,
-) {
-  let Ok((mut scroll_position, node, computed)) = query.get_mut(scroll.entity)
-  else {
-    return;
-  };
-  let max_offset = (computed.content_size() - computed.size())
-    * computed.inverse_scale_factor();
-  let delta = &mut scroll.delta;
-  if node.overflow.x == OverflowAxis::Scroll && delta.x != 0. {
-    let max = if delta.x > 0. {
-      scroll_position.x >= max_offset.x
-    } else {
-      scroll_position.x <= 0.
-    };
-    if !max {
-      scroll_position.x += delta.x;
-      delta.x = 0.;
-    }
-  }
-  if node.overflow.y == OverflowAxis::Scroll && delta.y != 0. {
-    let max = if delta.y > 0. {
-      scroll_position.y >= max_offset.y
-    } else {
-      scroll_position.y <= 0.
-    };
-    if !max {
-      scroll_position.y += delta.y;
-      delta.y = 0.;
-    }
-  }
-  if *delta == Vec2::ZERO {
-    scroll.propagate(false);
-  }
-}
+const VERTICAL_SCROLL: bool = false;
 
 fn setup(mut commands: Commands) {
   commands.spawn(Camera2d);
 
-  EasyVerticalLayout::new()
+  //> Mouse wheel only
+  let vertical_scroll = EasyVerticalLayout::new()
     .with_z_index(0)
     .with_background_color(DARK_GRAY.into())
     .with_width(percent(100.))
@@ -101,7 +30,8 @@ fn setup(mut commands: Commands) {
         .with_border(px(2.), px(8.))
         .with_width(px(320.))
         .with_height(px(300.))
-        .with_overflow(Overflow::scroll())
+        .with_overflow(Overflow::scroll_y())
+        .with_observer(on_scroll_handler)
         .with_scrollbar_width(8.0)
         .with_padding(px(10.))
         .with_row_gap(px(6.))
@@ -162,6 +92,73 @@ fn setup(mut commands: Commands) {
             .with_color(LIGHT_GRAY.into())
             .with_z_index(2),
         ),
-    )
-    .spawn(&mut commands);
+    );
+
+  //> CTRL + Mouse wheel
+  let horizontal_scroll = EasyVerticalLayout::new()
+    .with_z_index(0)
+    .with_width(percent(100.))
+    .with_height(percent(100.))
+    .with_justify_content(JustifyContent::Center)
+    .with_align_items(AlignItems::Center)
+    .with_row_gap(px(16.))
+    .with_child(
+      EasyHorizontalLayout::new()
+        .with_z_index(1)
+        .with_background_color(BLACK.into())
+        .with_border_color(WHITE.into())
+        .with_border(px(2.), px(8.))
+        .with_width(px(120.))
+        .with_height(px(160.))
+        .with_overflow(Overflow::scroll_x())
+        .with_padding(px(10.))
+        .with_column_gap(px(10.))
+        .with_align_items(AlignItems::Center)
+        .with_child(
+          EasyLabel::new("Item 1")
+            .with_z_index(2)
+            .with_min_width(px(120.))
+            .with_background_color(BLUE.into())
+            .with_padding(px(10.))
+            .with_flex_shrink(0.0),
+        )
+        .with_child(
+          EasyLabel::new("Item 2")
+            .with_z_index(2)
+            .with_min_width(px(120.))
+            .with_background_color(BLUE.into())
+            .with_padding(px(10.))
+            .with_flex_shrink(0.0),
+        )
+        .with_child(
+          EasyLabel::new("Item 3")
+            .with_z_index(2)
+            .with_min_width(px(120.))
+            .with_background_color(BLUE.into())
+            .with_padding(px(10.))
+            .with_flex_shrink(0.0),
+        )
+        .with_child(
+          EasyLabel::new("Item 4")
+            .with_z_index(2)
+            .with_min_width(px(120.))
+            .with_background_color(BLUE.into())
+            .with_padding(px(10.))
+            .with_flex_shrink(0.0),
+        )
+        .with_child(
+          EasyLabel::new("Item 5")
+            .with_z_index(2)
+            .with_min_width(px(120.))
+            .with_background_color(BLUE.into())
+            .with_padding(px(10.))
+            .with_flex_shrink(0.0),
+        ),
+    );
+
+  if VERTICAL_SCROLL {
+    vertical_scroll.spawn(&mut commands);
+  } else {
+    horizontal_scroll.spawn(&mut commands);
+  }
 }

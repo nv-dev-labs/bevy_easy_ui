@@ -9,7 +9,7 @@ use bevy::{
 use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{
+  style::{
     box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
     stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
   },
@@ -41,7 +41,10 @@ pub struct EasyViewportStyle {
 
 impl WithObservers for EasyViewportBuilder {
   fn take_bundle(&mut self) -> impl Bundle {
-    std::mem::replace(&mut self.bundle, EasyViewport::default_bundle())
+    std::mem::replace(
+      &mut self.bundle,
+      EasyViewport::default_bundle(Entity::PLACEHOLDER),
+    )
   }
   fn take_observers(&mut self) -> Vec<Observer> {
     std::mem::take(&mut self.observers)
@@ -72,24 +75,15 @@ impl EasyViewport {
   #[allow(clippy::new_ret_no_self)]
   pub fn new(camera: Entity) -> EasyViewportBuilder {
     EasyViewportBuilder {
-      bundle: EasyViewport {
-        node: Node::default(),
-        viewport: ViewportNode::new(camera),
-        box_style: EasyBoxStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyViewport::default_bundle(camera),
       observers: Vec::new(),
     }
   }
 
-  pub fn default_bundle() -> Self {
-    // A "default" ViewportNode has no camera — the caller is expected to
-    // overwrite it via `with_target_camera` or `new(camera)` before spawning.
-    // We use the world entity placeholder (Entity::PLACEHOLDER) since
-    // `ViewportNode::new` requires one.
+  pub fn default_bundle(camera: Entity) -> Self {
     EasyViewport {
       node: Node::default(),
-      viewport: ViewportNode::new(Entity::PLACEHOLDER),
+      viewport: ViewportNode::new(camera),
       box_style: EasyBoxStyle::default(),
       stack_style: EasyStackStyle::default(),
     }

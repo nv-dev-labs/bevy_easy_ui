@@ -4,7 +4,7 @@ use crate::{
   core::{
     container::{Container, PushChild, PushObserver},
     node::EasyNode,
-    parts::{
+    style::{
       box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
       stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
       text_style::EasyTextStyle, text_style::EasyTextStyleExt,
@@ -92,13 +92,7 @@ impl EasyRichText {
   #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyRichTextContainer {
     EasyRichTextContainer {
-      bundle: EasyRichText {
-        text: Text::new(""),
-        node: Node::default(),
-        text_style: EasyTextStyle::default(),
-        box_style: EasyBoxStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyRichText::default_bundle(),
       children: Vec::new(),
       observers: Vec::new(),
     }

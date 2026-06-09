@@ -8,7 +8,7 @@ use bevy::{
 
 use crate::core::{
   container::WithObservers,
-  parts::{
+  style::{
     box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
     stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
     text_style::EasyTextStyle, text_style::EasyTextStyleExt,
@@ -42,7 +42,7 @@ pub struct EasySpanStyle {
 
 impl WithObservers for EasySpanBuilder {
   fn take_bundle(&mut self) -> impl Bundle {
-    std::mem::replace(&mut self.bundle, EasySpan::default_bundle())
+    std::mem::replace(&mut self.bundle, EasySpan::default_bundle(""))
   }
   fn take_observers(&mut self) -> Vec<Observer> {
     std::mem::take(&mut self.observers)
@@ -73,19 +73,14 @@ impl EasySpan {
   #[allow(clippy::new_ret_no_self)]
   pub fn new(text: &str) -> EasySpanBuilder {
     EasySpanBuilder {
-      bundle: EasySpan {
-        text_span: TextSpan::new(text),
-        box_style: EasyBoxStyle::default(),
-        text_style: EasyTextStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasySpan::default_bundle(text),
       observers: Vec::new(),
     }
   }
 
-  pub fn default_bundle() -> Self {
+  pub fn default_bundle(text: &str) -> Self {
     EasySpan {
-      text_span: TextSpan::new(""),
+      text_span: TextSpan::new(text),
       box_style: EasyBoxStyle::default(),
       text_style: EasyTextStyle::default(),
       stack_style: EasyStackStyle::default(),

@@ -9,7 +9,7 @@ use bevy::{
 use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{
+  style::{
     box_style::EasyBoxStyle, box_style::EasyBoxStyleExt,
     stack_style::EasyStackStyle, stack_style::EasyStackStyleExt,
     text_style::EasyTextStyle, text_style::EasyTextStyleExt,
@@ -44,7 +44,7 @@ pub struct EasyTextWidgetStyle {
 
 impl WithObservers for EasyTextBuilder {
   fn take_bundle(&mut self) -> impl Bundle {
-    std::mem::replace(&mut self.bundle, EasyText::default_bundle())
+    std::mem::replace(&mut self.bundle, EasyText::default_bundle(""))
   }
   fn take_observers(&mut self) -> Vec<Observer> {
     std::mem::take(&mut self.observers)
@@ -81,20 +81,14 @@ impl EasyText {
   #[allow(clippy::new_ret_no_self)]
   pub fn new(text: &str) -> EasyTextBuilder {
     EasyTextBuilder {
-      bundle: EasyText {
-        text: Text::new(text),
-        node: Node::default(),
-        box_style: EasyBoxStyle::default(),
-        text_style: EasyTextStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyText::default_bundle(text),
       observers: Vec::new(),
     }
   }
 
-  pub fn default_bundle() -> Self {
+  pub fn default_bundle(text: &str) -> Self {
     EasyText {
-      text: Text::new(""),
+      text: Text::new(text),
       node: Node::default(),
       box_style: EasyBoxStyle::default(),
       text_style: EasyTextStyle::default(),

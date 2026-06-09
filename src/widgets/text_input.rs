@@ -14,7 +14,7 @@ use bevy_ui_text_input::{
 use crate::core::{
   container::WithObservers,
   node::EasyNode,
-  parts::{stack_style::EasyStackStyle, stack_style::EasyStackStyleExt},
+  style::{stack_style::EasyStackStyle, stack_style::EasyStackStyleExt},
 };
 
 //>--------------------- STRUCTURES ---------------------

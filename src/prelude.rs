@@ -1,7 +1,8 @@
 pub use crate::core::container::{Container, WithObservers};
 pub use crate::core::image_node::EasyImageNode;
 pub use crate::core::node::EasyNode;
-pub use crate::core::parts::{box_style::*, stack_style::*, text_style::*};
+pub use crate::core::style::{box_style::*, stack_style::*, text_style::*};
+pub use crate::core::utils::scroll_handler::*;
 
 pub use crate::widgets::containers::button::*;
 pub use crate::widgets::containers::horizontal_layout::*;
