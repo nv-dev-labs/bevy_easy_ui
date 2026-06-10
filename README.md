@@ -5,7 +5,7 @@
 [![Crates.io](https://img.shields.io/crates/v/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui)
 [![License](https://img.shields.io/crates/l/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui#license)
 
-A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
+A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
 
 ## Version compatibility
 
