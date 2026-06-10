@@ -62,7 +62,7 @@ Every setter is chainable, type-checked, and the trait system prevents misusing 
 # Cargo.toml
 [dependencies]
 bevy = "0.18.1"
-bevy_easy_ui = "0.1.0"
+bevy_easy_ui = "0.1.1"
 ```
 
 ```rust
