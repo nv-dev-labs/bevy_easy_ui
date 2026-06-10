@@ -26,28 +26,29 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_image(image.clone())
         .with_width(px(100.))
         .with_height(px(100.))
-        .with_border_radius(px(0.), px(0.), px(0.), px(0.)),
     )
     .with_child(
       EasyImage::new()
         .with_image(image.clone())
         .with_width(px(100.))
         .with_height(px(100.))
-        .with_border_radius(px(10.), px(10.), px(10.), px(10.)),
+        .with_border_radius(px(10.)),
     )
     .with_child(
       EasyImage::new()
         .with_image(image.clone())
         .with_width(px(100.))
         .with_height(px(100.))
-        .with_border_radius(px(50.), px(50.), px(50.), px(50.)),
+        .with_border_radius(px(50.)),
     )
     .with_child(
       EasyImage::new()
         .with_image(image)
         .with_width(px(100.))
         .with_height(px(100.))
-        .with_border_radius(px(50.), px(10.), px(10.), px(50.)),
+        .with_border_radius(px(50.))
+        .with_border_radius_top_right(px(10.))
+        .with_border_radius_bottom_left(px(10.)),
     )
     .spawn(&mut commands);
 }

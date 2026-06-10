@@ -23,6 +23,26 @@ pub trait EasyBoxStyleExt: Sized {
     self
   }
 
+  fn with_border_color_top(mut self, color: Color) -> Self {
+    self.easy_style_mut().border_color.top = color;
+    self
+  }
+
+  fn with_border_color_right(mut self, color: Color) -> Self {
+    self.easy_style_mut().border_color.right = color;
+    self
+  }
+
+  fn with_border_color_bottom(mut self, color: Color) -> Self {
+    self.easy_style_mut().border_color.bottom = color;
+    self
+  }
+
+  fn with_border_color_left(mut self, color: Color) -> Self {
+    self.easy_style_mut().border_color.left = color;
+    self
+  }
+
   fn with_box_shadow(mut self, box_shadow: BoxShadow) -> Self {
     self.easy_style_mut().box_shadow = box_shadow;
     self
