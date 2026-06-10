@@ -11,7 +11,7 @@ A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](ht
 
 | bevy_easy_ui | bevy_ui_text_input | bevy |
 |---|---|---|
-| 0.1.0 | 0.7.0 | 0.18.1 |
+| 0.1.0, 0.1.1 | 0.7.0 | 0.18.1 |
 
 ---
 
