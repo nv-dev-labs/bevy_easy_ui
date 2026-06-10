@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2026-06-10
 
 - Modified params for `with_border_radius` and `with_border` to accept a single `Val` instead of 4 separate values, and apply it to all sides.
 - Added variants for `with_border_color`, `with_border_width`, `with_border_radius` that accepts a single value and applies it to the border or corner chosen by the method name (e.g. `with_border_radius_top_right`).
