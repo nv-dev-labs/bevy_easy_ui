@@ -25,7 +25,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
       EasyImage::new()
         .with_image(image.clone())
         .with_width(px(100.))
-        .with_height(px(100.))
+        .with_height(px(100.)),
     )
     .with_child(
       EasyImage::new()

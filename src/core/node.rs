@@ -249,10 +249,7 @@ pub trait EasyNode: Sized {
     self
   }
 
-  fn with_border_radius(
-    mut self,
-    value: Val,
-  ) -> Self {
+  fn with_border_radius(mut self, value: Val) -> Self {
     self.node_mut().border_radius = BorderRadius {
       top_left: value,
       top_right: value,
