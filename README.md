@@ -11,7 +11,7 @@ A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](ht
 
 | bevy_easy_ui | bevy_ui_text_input | bevy |
 |---|---|---|
-| 0.1.0 | 0.7.0 | 0.18.1 |
+| 0.1.0, 0.1.1 | 0.7.0 | 0.18.1 |
 
 ---
 
@@ -321,7 +321,7 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-This is a 0.1.0 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+This is a 0.1.1 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 
