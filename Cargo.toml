@@ -8,7 +8,7 @@ repository = "https://github.com/nv-dev-labs/bevy_easy_ui"
 keywords = ["bevy", "ui", "gui", "builder"]
 categories = ["interface", "gamedev", "ui", "bevy"]
 readme = "README.md"
-exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak", ".github", "examples"]
+exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak", ".github"]
 rust-version = "1.85.0"
 
 [dependencies]
