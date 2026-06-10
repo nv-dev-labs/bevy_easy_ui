@@ -5,13 +5,13 @@
 [![Crates.io](https://img.shields.io/crates/v/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui)
 [![License](https://img.shields.io/crates/l/bevy_easy_ui)](https://crates.io/crates/bevy_easy_ui#license)
 
-A declarative, fluent builder-pattern abstraction layer on top of [Bevy 0.18](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
+A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
 
 ## Version compatibility
 
 | bevy_easy_ui | bevy_ui_text_input | bevy |
 |---|---|---|
-| 0.1.0 | 0.7.0 | 0.18.1 |
+| 0.1.0, 0.1.1 | 0.7.0 | 0.18.1 |
 
 ---
 
@@ -62,7 +62,7 @@ Every setter is chainable, type-checked, and the trait system prevents misusing 
 # Cargo.toml
 [dependencies]
 bevy = "0.18.1"
-bevy_easy_ui = "0.1.0"
+bevy_easy_ui = "0.1.1"
 ```
 
 ```rust
@@ -321,7 +321,7 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-This is a 0.1.0 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+This is a 0.1.1 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 

@@ -229,19 +229,56 @@ pub trait EasyNode: Sized {
     self
   }
 
+  fn with_border_width_top(mut self, border_width: Val) -> Self {
+    self.node_mut().border.top = border_width;
+    self
+  }
+
+  fn with_border_width_right(mut self, border_width: Val) -> Self {
+    self.node_mut().border.right = border_width;
+    self
+  }
+
+  fn with_border_width_bottom(mut self, border_width: Val) -> Self {
+    self.node_mut().border.bottom = border_width;
+    self
+  }
+
+  fn with_border_width_left(mut self, border_width: Val) -> Self {
+    self.node_mut().border.left = border_width;
+    self
+  }
+
   fn with_border_radius(
     mut self,
-    top_left: Val,
-    top_right: Val,
-    bottom_right: Val,
-    bottom_left: Val,
+    value: Val,
   ) -> Self {
     self.node_mut().border_radius = BorderRadius {
-      top_left,
-      top_right,
-      bottom_right,
-      bottom_left,
+      top_left: value,
+      top_right: value,
+      bottom_right: value,
+      bottom_left: value,
     };
+    self
+  }
+
+  fn with_border_radius_top_left(mut self, border_radius: Val) -> Self {
+    self.node_mut().border_radius.top_left = border_radius;
+    self
+  }
+
+  fn with_border_radius_top_right(mut self, border_radius: Val) -> Self {
+    self.node_mut().border_radius.top_right = border_radius;
+    self
+  }
+
+  fn with_border_radius_bottom_right(mut self, border_radius: Val) -> Self {
+    self.node_mut().border_radius.bottom_right = border_radius;
+    self
+  }
+
+  fn with_border_radius_bottom_left(mut self, border_radius: Val) -> Self {
+    self.node_mut().border_radius.bottom_left = border_radius;
     self
   }
 
