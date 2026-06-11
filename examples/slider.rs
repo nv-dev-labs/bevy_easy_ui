@@ -20,11 +20,11 @@ fn setup(mut commands: Commands) {
         .with_height(percent(100.))
         .with_justify_content(JustifyContent::Center)
         .with_align_items(AlignItems::Center)
-        .with_child(
-            EasySlider::new()
-                .with_width(px(200.))
-                .with_height(px(20.))
-                .with_observer(update_slider),
-        )
+        // .with_child(
+            // EasySlider::new()
+            //     .with_width(px(200.))
+            //     .with_height(px(20.))
+            //     .with_observer(update_slider),
+        // )
         .spawn(&mut commands);
 }
