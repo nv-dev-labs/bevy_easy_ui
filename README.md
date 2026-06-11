@@ -7,6 +7,8 @@
 
 A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
 
+⚠️ | This crate is in early development. The API is stable but `bevy` is still evolving, so expect some breaking changes in the future.
+
 ## Version compatibility
 
 | bevy_easy_ui | bevy_ui_text_input | bevy |
@@ -212,7 +214,7 @@ fn setup(mut commands: Commands) {
 }
 ```
 
-The available style types are: 
+The available style types are:
 - `EasyButtonStyle`
 - `EasyVerticalLayoutStyle`
 - `EasyHorizontalLayoutStyle`
@@ -225,6 +227,8 @@ The available style types are:
 - `EasyViewportStyle`
 - `EasySliderThumbStyle`
 - `EasySliderStyle`
+
+⚠️ | They'll probably be refactored in the future as most of them have the same structure.
 
 ---
 
@@ -338,6 +342,8 @@ The following widgets are planned but not yet wrapped as `Easy*` builders. They 
 
 If you'd like to take one of these, the [integration checklist](#integration-checklist) below explains the wiring once the widget compiles.
 
+⚠️ | `bevy_ui_widgets` is still in active development, so the builder APIs can change as the underlying components evolve.
+
 ### Adding a new widget
 
 The crate follows a consistent pattern across all widgets — pick whichever existing widget is closest to what you want to build, then copy it:
@@ -366,7 +372,7 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-0.1.x releases — the API works and is covered by the nine examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+0.1.x releases — the API works and is covered by the ten examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 
