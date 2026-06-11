@@ -3,6 +3,7 @@ use bevy::prelude::*;
 use crate::{
   core::container::{Container, WithObservers},
   widgets::{
+    checkbox::EasyCheckboxBuilder,
     containers::{
       button::EasyButtonContainer,
       horizontal_layout::EasyHorizontalLayoutContainer,
@@ -35,6 +36,7 @@ pub enum EasyElement {
   Label(EasyLabelBuilder),
   Span(EasySpanBuilder),
   TextInput(EasyTextInputBuilder),
+  Checkbox(EasyCheckboxBuilder),
 }
 
 //>--------------------- IMPLEMENTATIONS ---------------------
@@ -87,6 +89,11 @@ impl From<EasyTextInputBuilder> for EasyElement {
     EasyElement::TextInput(t)
   }
 }
+impl From<EasyCheckboxBuilder> for EasyElement {
+  fn from(c: EasyCheckboxBuilder) -> Self {
+    EasyElement::Checkbox(c)
+  }
+}
 
 impl EasyElement {
   /// Spawns this EasyElement in the world, as a child of the given parent. This is done by matching on the type of the element (container vs non-container) and calling the appropriate helper function to spawn it.
@@ -104,6 +111,7 @@ impl EasyElement {
       EasyElement::Label(l) => spawn(l, p),
       EasyElement::Span(s) => spawn(s, p),
       EasyElement::TextInput(t) => spawn(t, p),
+      EasyElement::Checkbox(c) => spawn(c, p),
     }
   }
 }

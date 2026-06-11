@@ -58,7 +58,7 @@ impl EasyStackStyleExt for EasyTextBuilder {
 }
 
 impl EasyBoxStyleExt for EasyTextBuilder {
-  fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
+  fn easy_box_style_mut(&mut self) -> &mut EasyBoxStyle {
     &mut self.bundle.box_style
   }
 }

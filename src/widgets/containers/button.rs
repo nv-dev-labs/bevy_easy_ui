@@ -36,7 +36,7 @@ pub struct EasyButtonStyle {
 //>--------------------- ACCESSOR IMPL ---------------------
 
 impl EasyBoxStyleExt for EasyButtonContainer {
-  fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
+  fn easy_box_style_mut(&mut self) -> &mut EasyBoxStyle {
     &mut self.bundle.box_style
   }
 }

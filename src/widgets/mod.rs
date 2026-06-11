@@ -1,3 +1,4 @@
+pub mod checkbox;
 pub mod containers;
 pub mod image;
 pub mod label;

@@ -58,7 +58,7 @@ impl EasyStackStyleExt for EasyViewportBuilder {
 }
 
 impl EasyBoxStyleExt for EasyViewportBuilder {
-  fn easy_style_mut(&mut self) -> &mut EasyBoxStyle {
+  fn easy_box_style_mut(&mut self) -> &mut EasyBoxStyle {
     &mut self.bundle.box_style
   }
 }
