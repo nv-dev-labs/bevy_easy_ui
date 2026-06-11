@@ -7,7 +7,7 @@
 
 A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
 
-⚠️ | This crate is in early development. The API is stable but `bevy` is still evolving, so expect some breaking changes in the future.
+⚠️ This crate is in early development. The API is stable but `bevy` is still evolving, so expect some breaking changes in the future.
 
 ## Version compatibility
 
@@ -228,7 +228,7 @@ The available style types are:
 - `EasySliderThumbStyle`
 - `EasySliderStyle`
 
-⚠️ | They'll probably be refactored in the future as most of them have the same structure.
+⚠️ They'll probably be refactored in the future as most of them have the same structure.
 
 ---
 
@@ -342,7 +342,7 @@ The following widgets are planned but not yet wrapped as `Easy*` builders. They 
 
 If you'd like to take one of these, the [integration checklist](#integration-checklist) below explains the wiring once the widget compiles.
 
-⚠️ | `bevy_ui_widgets` is still in active development, so the builder APIs can change as the underlying components evolve.
+⚠️ `bevy_ui_widgets` is still in active development, so the builder APIs can change as the underlying components evolve.
 
 ### Adding a new widget
 
