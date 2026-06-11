@@ -79,7 +79,7 @@ impl EasyCheckbox {
   pub fn default_bundle() -> Self {
     EasyCheckbox {
       checkbox: Checkbox::default(),
-      checkable: Checkable::default(),
+      checkable: Checkable,
       node: Node::default(),
       stack_style: EasyStackStyle::default(),
       box_style: EasyBoxStyle::default(),
