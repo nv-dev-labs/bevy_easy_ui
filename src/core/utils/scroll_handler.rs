@@ -1,4 +1,6 @@
 use bevy::prelude::*;
+use bevy::input::mouse::MouseScrollUnit;
+
 #[derive(EntityEvent, Debug)]
 #[entity_event(propagate, auto_propagate)]
 pub struct Scroll {
@@ -6,6 +8,9 @@ pub struct Scroll {
   delta: Vec2,
 }
 
+const LINE_HEIGHT: f32 = 21.;
+
+/// A plugin to handle scroll events and update scroll positions of scrollable nodes.
 pub struct ScrollPlugin;
 
 impl Plugin for ScrollPlugin {
@@ -16,15 +21,13 @@ impl Plugin for ScrollPlugin {
   }
 }
 
-const LINE_HEIGHT: f32 = 21.;
-
+/// Listens for mouse wheel events and triggers `Scroll` events on hovered entities with the scroll delta.
 pub fn scroll_events(
   mut mouse_wheel_reader: MessageReader<bevy::input::mouse::MouseWheel>,
   hover_map: Res<bevy::picking::hover::HoverMap>,
   keyboard_input: Res<ButtonInput<KeyCode>>,
   mut commands: Commands,
 ) {
-  use bevy::input::mouse::MouseScrollUnit;
   for mouse_wheel in mouse_wheel_reader.read() {
     let mut delta = -Vec2::new(mouse_wheel.x, mouse_wheel.y);
     if mouse_wheel.unit == MouseScrollUnit::Line {
@@ -42,17 +45,20 @@ pub fn scroll_events(
   }
 }
 
+/// Handles `Scroll` events by updating the `ScrollPosition` of the target entity if it has scrollable overflow.
 pub fn on_scroll_handler(
   mut scroll: On<Scroll>,
   mut query: Query<(&mut ScrollPosition, &Node, &ComputedNode)>,
 ) {
+  
   let Ok((mut scroll_position, node, computed)) = query.get_mut(scroll.entity)
   else {
     return;
   };
-  let max_offset = (computed.content_size() - computed.size())
-    * computed.inverse_scale_factor();
+
+  let max_offset = (computed.content_size() - computed.size()) * computed.inverse_scale_factor();
   let delta = &mut scroll.delta;
+
   if node.overflow.x == OverflowAxis::Scroll && delta.x != 0. {
     let max = if delta.x > 0. {
       scroll_position.x >= max_offset.x
@@ -64,6 +70,7 @@ pub fn on_scroll_handler(
       delta.x = 0.;
     }
   }
+
   if node.overflow.y == OverflowAxis::Scroll && delta.y != 0. {
     let max = if delta.y > 0. {
       scroll_position.y >= max_offset.y
@@ -75,6 +82,7 @@ pub fn on_scroll_handler(
       delta.y = 0.;
     }
   }
+
   if *delta == Vec2::ZERO {
     scroll.propagate(false);
   }

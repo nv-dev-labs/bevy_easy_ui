@@ -11,36 +11,43 @@ use bevy::{
 pub trait EasyImageNode: Sized {
   fn node_mut(&mut self) -> &mut ImageNode;
 
+  /// See [`ImageNode::color`]
   fn with_image_color(mut self, color: Color) -> Self {
     self.node_mut().color = color;
     self
   }
 
+  /// See [`ImageNode::image`]
   fn with_image(mut self, image: Handle<Image>) -> Self {
     self.node_mut().image = image;
     self
   }
 
+  /// See [`ImageNode::texture_atlas`]
   fn with_texture_atlas(mut self, texture_atlas: TextureAtlas) -> Self {
     self.node_mut().texture_atlas = Some(texture_atlas);
     self
   }
 
+  /// See [`ImageNode::flip_x`]
   fn with_flip_x(mut self, flip_x: bool) -> Self {
     self.node_mut().flip_x = flip_x;
     self
   }
 
+  /// See [`ImageNode::flip_y`]
   fn with_flip_y(mut self, flip_y: bool) -> Self {
     self.node_mut().flip_y = flip_y;
     self
   }
 
+  /// See [`ImageNode::rect`]
   fn with_rect(mut self, rect: Rect) -> Self {
     self.node_mut().rect = Some(rect);
     self
   }
 
+  /// See [`ImageNode::image_mode`]
   fn with_image_mode(mut self, image_mode: NodeImageMode) -> Self {
     self.node_mut().image_mode = image_mode;
     self

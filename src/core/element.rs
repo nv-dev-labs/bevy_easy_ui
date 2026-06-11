@@ -19,7 +19,7 @@ use crate::{
   },
 };
 
-//>--------------------- STRUCTURES ---------------------
+//>--------------------- ALL ELEMENTS ---------------------
 
 pub enum EasyElement {
   // Containers (i.e. elements that can have children):
@@ -41,7 +41,7 @@ pub enum EasyElement {
 
 //>--------------------- IMPLEMENTATIONS ---------------------
 
-// Impl for containers
+//> Impl for containers
 impl From<EasyButtonContainer> for EasyElement {
   fn from(b: EasyButtonContainer) -> Self {
     EasyElement::ButtonContainer(b)
@@ -68,7 +68,7 @@ impl From<EasySliderContainer> for EasyElement {
   }
 }
 
-// Impl for non-containers
+//> Impl for non-containers
 impl From<EasyImageBuilder> for EasyElement {
   fn from(i: EasyImageBuilder) -> Self {
     EasyElement::Image(i)
@@ -106,7 +106,9 @@ impl From<EasySliderThumbBuilder> for EasyElement {
 }
 
 impl EasyElement {
-  /// Spawns this EasyElement in the world, as a child of the given parent. This is done by matching on the type of the element (container vs non-container) and calling the appropriate helper function to spawn it.
+  /// Spawns this EasyElement in the world, as a child of the given parent. 
+  /// This is done by matching on the type of the element (container vs non-container) 
+  /// and calling the appropriate helper function to spawn it.
   pub fn spawn_in(self, p: &mut ChildSpawnerCommands) {
     match self {
       // Containers
@@ -128,6 +130,8 @@ impl EasyElement {
   }
 }
 
+/// **Helper function** to spawn an EasyElement that is a non-container (i.e. can't have children). 
+/// It spawns the element itself and then spawns its observers.
 fn spawn(mut e: impl WithObservers<EasyElement>, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(e.take_bundle()).id();
   for observer in e.take_observers() {
@@ -153,7 +157,8 @@ fn spawn_container(
   }
 }
 
-/// **Helper function** to spawn an EasyRichTextContainer, which is a special case because it has a different bundle and children type (EasySpanBuilder only instead of generic EasyElement).
+/// **Helper function** to spawn an EasyRichTextContainer, which is a special case because it has a different bundle and children type 
+/// (EasySpanBuilder only instead of generic EasyElement).
 fn spawn_rich_text(mut t: EasyRichTextContainer, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(t.take_bundle()).id();
   let kids = t.take_children();
@@ -167,6 +172,8 @@ fn spawn_rich_text(mut t: EasyRichTextContainer, p: &mut ChildSpawnerCommands) {
   });
 }
 
+/// **Helper function** to spawn an EasySliderContainer, which is a special case because it has a different bundle and children type 
+/// (EasySliderThumbBuilder only instead of generic EasyElement).
 fn spawn_slider(mut s: EasySliderContainer, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(s.take_bundle()).id();
   let kids = s.take_children();
