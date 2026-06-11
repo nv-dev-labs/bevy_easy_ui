@@ -12,6 +12,6 @@ exclude = ["/target", "/assets", "**/*.rs.bk", "Cargo.lock.bak", ".github"]
 rust-version = "1.85.0"
 
 [dependencies]
-bevy = "0.18.1"
-bevy_ui_widgets ="0.18.1"
+# Bevy widgets is experimental and can changed
+bevy = { version = "0.18.1", features = ["experimental_bevy_ui_widgets"] }
 bevy_ui_text_input = "0.7.0"

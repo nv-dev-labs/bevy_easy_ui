@@ -23,6 +23,6 @@ pub use bevy::text::FontFeatures;
 pub use bevy::text::FontSmoothing;
 pub use bevy::ui::Checkable;
 pub use bevy::ui::Checked;
-pub use bevy_ui_widgets::*;
+pub use bevy::ui_widgets::*;
 
 pub use bevy_ui_text_input::TextInputPlugin;
