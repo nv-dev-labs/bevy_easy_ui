@@ -53,14 +53,6 @@ fn sync_slider_label<T: Component>(
 fn setup(mut commands: Commands) {
   commands.spawn(Camera2d);
 
-  let layout_entity = EasyVerticalLayout::new()
-    .with_z_index(0)
-    .with_width(percent(100.))
-    .with_height(percent(100.))
-    .with_justify_content(JustifyContent::Center)
-    .with_align_items(AlignItems::Center)
-    .spawn(&mut commands);
-
   let slider_entity = EasySlider::new()
     .with_z_index(1)
     .with_step(50.)
@@ -89,7 +81,15 @@ fn setup(mut commands: Commands) {
     .with_smoothing(FontSmoothing::AntiAliased)
     .spawn(&mut commands);
 
-  // Spawning the slider and its label to get the entities then inserting manually a tag to both of them
+  let layout_entity = EasyVerticalLayout::new()
+    .with_z_index(0)
+    .with_width(percent(100.))
+    .with_height(percent(100.))
+    .with_justify_content(JustifyContent::Center)
+    .with_align_items(AlignItems::Center)
+    .spawn(&mut commands);
+
+  // Spawned the slider and its label to get the entities then inserting manually a tag to both of them
   commands.entity(slider_entity).insert(ExampleSlider);
   commands.entity(label_entity).insert(ExampleSlider);
 

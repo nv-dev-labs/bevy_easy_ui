@@ -366,9 +366,13 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-This is a 0.1.1 release — the API works and is covered by the eight examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+0.1.x releases — the API works and is covered by the nine examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
+
+### Attaching custom components to a widget
+
+Builder methods like `.with_child(...)` and `.with_observer(...)` consume the builder, so a custom `Component` cannot be chained in. Spawn the builder first to get its `Entity`, then use `commands.entity(id).insert(...)`; re-parenting a spawned widget works the same way with `add_children`.
 
 ---
 
