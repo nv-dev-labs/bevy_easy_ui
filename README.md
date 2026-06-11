@@ -116,6 +116,7 @@ Each example is a standalone `cargo run --example NAME` showcasing a specific wi
 | `button_with_observers` | Buttons with `Pointer<Over>` / `Pointer<Out>` / `Pointer<Click>` observers (hover, click feedback) |
 | `image_button` | Icon button built from `EasyButton` + `EasyImage` as a child |
 | `rounded_image` | `EasyImage` with various `border_radius` values (sharp, small, full, asymmetric) |
+| `checkbox` | `EasyCheckbox` wired to a `ValueChange<bool>` observer that recolors its background |
 | `scroll` | Scrollable `EasyVerticalLayout` and `EasyHorizontalLayout` using `Overflow::scroll_y()` / `scroll_x()` + the `ScrollPlugin` mouse-wheel observer |
 | `viewport` | `EasyViewport` rendering a live camera output into a UI node |
 | `rich_text` | `EasyRichText` with per-`EasySpan` colors, sizes, and justify |
@@ -138,6 +139,7 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 | `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | container | Flex row layout |
 | `EasyButton` | `Button` + `Node` | container | Clickable button (accepts children + observers) |
 | `EasyRichText` | `Text` + `TextSpan` children | container | Multi-style text |
+| `EasyCheckbox` | `Checkbox` + `Checkable` + `Node` | non-container | Checkable box (pair with `Checked` + a `ValueChange<bool>` observer) |
 | `EasyLabel` | `Text` + `Node` + `Label` | non-container | Text marked as a label |
 | `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | non-container | Styled text |
 | `EasySpan` | `TextSpan` | non-container | Inline span used inside `EasyRichText` |
@@ -206,7 +208,7 @@ fn setup(mut commands: Commands) {
 }
 ```
 
-The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `EasyHorizontalLayoutStyle`, `EasyRichTextStyle`, `EasyLabelStyle`, `EasyTextWidgetStyle`, `EasySpanStyle`, `EasyImageStyle`, `EasyViewportStyle`.
+The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `EasyHorizontalLayoutStyle`, `EasyRichTextStyle`, `EasyCheckboxStyle`, `EasyLabelStyle`, `EasyTextWidgetStyle`, `EasySpanStyle`, `EasyImageStyle`, `EasyViewportStyle`.
 
 ---
 
@@ -286,7 +288,6 @@ Open an issue or a PR if you have suggestions, questions, or want to add a new w
 
 The following widgets are planned but not yet wrapped as `Easy*` builders. They will be implemented by following the same pattern as the existing widgets, on top of the corresponding headless types in [`bevy_ui_widgets`](https://docs.rs/bevy_ui_widgets/0.18.1/):
 
-- `EasyCheckbox` — wraps `bevy_ui_widgets::Checkbox` + `Checkable` + `Checked`
 - `EasySlider` — wraps `bevy_ui_widgets::Slider` + `SliderValue` + `SliderRange` (+ optional `SliderStep` / `SliderPrecision`)
 - `EasyRadioButton` + `EasyRadioGroup` — wraps `bevy_ui_widgets::RadioButton` + `RadioGroup`
 - `EasyScrollbar` — wraps `bevy_ui_widgets::Scrollbar` + `CoreScrollbarThumb`
