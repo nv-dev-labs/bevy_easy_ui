@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+- Added `EasySlider` + `EasySliderThumb` builders for the `bevy_ui_widgets::Slider` widget
+- Added `Slider` example showcasing a horizontal slider with a thumb that updates its position based on a `ValueChange<f32>` observer and with a label showing the current value dynamically.
+- Removed `with_text_shadow`, only `with_shadow` remains.
+
 ## [0.1.1] - 2026-06-10
 
 - Modified params for `with_border_radius` and `with_border` to accept a single `Val` instead of 4 separate values, and apply it to all sides.
