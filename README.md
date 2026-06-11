@@ -149,7 +149,7 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 | `EasySpan` | `TextSpan` | non-container | Inline span used inside `EasyRichText` |
 | `EasyImage` | `ImageNode` + `Node` | non-container | Image (rect, color, flip, mode, atlas) |
 | `EasyTextInput` | `bevy_ui_text_input::TextInputNode` | non-container | Re-export of `bevy_ui_text_input` |
-| `EasyViewport` | `Node` + `ViewportNode` | container | UI node displaying a `Camera` render target |
+| `EasyViewport` | `Node` + `ViewportNode` | non-container | UI node displaying a `Camera` render target |
 
 **Containers** (layouts, button, rich_text, viewport) implement the `Container` trait and expose:
 
