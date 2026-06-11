@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use bevy::input::mouse::MouseScrollUnit;
+use bevy::prelude::*;
 
 #[derive(EntityEvent, Debug)]
 #[entity_event(propagate, auto_propagate)]
@@ -50,13 +50,13 @@ pub fn on_scroll_handler(
   mut scroll: On<Scroll>,
   mut query: Query<(&mut ScrollPosition, &Node, &ComputedNode)>,
 ) {
-  
   let Ok((mut scroll_position, node, computed)) = query.get_mut(scroll.entity)
   else {
     return;
   };
 
-  let max_offset = (computed.content_size() - computed.size()) * computed.inverse_scale_factor();
+  let max_offset = (computed.content_size() - computed.size())
+    * computed.inverse_scale_factor();
   let delta = &mut scroll.delta;
 
   if node.overflow.x == OverflowAxis::Scroll && delta.x != 0. {

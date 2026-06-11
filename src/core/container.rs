@@ -6,7 +6,7 @@ use crate::core::element::EasyElement;
 
 //>--------------------- CONTAINERS (observers & children) ---------------------
 
-/// A container is an element that has both children and observers. 
+/// A container is an element that has both children and observers.
 pub trait Container<C: Into<EasyElement> = EasyElement>: Sized {
   /// Access to the final Bevy bundle to spawn (Button+Node+..., or just Node, etc.)
   fn take_bundle(&mut self) -> impl Bundle;
@@ -83,8 +83,8 @@ fn spawn_container<C: Into<EasyElement>>(
 
 //>--------------------- NON-CONTAINER ELEMENTS (observers only) ---------------------
 
-/// A non-container element that has observers but no children. 
-/// For example, a Text is not a container because it can't have children, but it can be hovered. 
+/// A non-container element that has observers but no children.
+/// For example, a Text is not a container because it can't have children, but it can be hovered.
 pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
   fn take_bundle(&mut self) -> impl Bundle;
   fn take_observers(&mut self) -> Vec<Observer>;
