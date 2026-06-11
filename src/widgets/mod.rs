@@ -2,6 +2,7 @@ pub mod checkbox;
 pub mod containers;
 pub mod image;
 pub mod label;
+pub mod slider_thumb;
 pub mod span;
 pub mod text;
 pub mod text_input;

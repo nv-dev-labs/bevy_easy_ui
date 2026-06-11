@@ -76,7 +76,7 @@ fn spawn_container<C: Into<EasyElement>>(
   entity
 }
 
-//>--------------------- LEAF ELEMENTS (observers only) ---------------------
+//>--------------------- NON-CONTAINER ELEMENTS (observers only) ---------------------
 
 pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
   fn take_bundle(&mut self) -> impl Bundle;

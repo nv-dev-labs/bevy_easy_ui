@@ -7,11 +7,13 @@ pub use crate::core::utils::scroll_handler::*;
 pub use crate::widgets::containers::button::*;
 pub use crate::widgets::containers::horizontal_layout::*;
 pub use crate::widgets::containers::rich_text::*;
+pub use crate::widgets::containers::slider::*;
 pub use crate::widgets::containers::vertical_layout::*;
 
 pub use crate::widgets::checkbox::*;
 pub use crate::widgets::image::*;
 pub use crate::widgets::label::*;
+pub use crate::widgets::slider_thumb::*;
 pub use crate::widgets::span::*;
 pub use crate::widgets::text::*;
 pub use crate::widgets::text_input::*;

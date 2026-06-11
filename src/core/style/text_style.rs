@@ -33,11 +33,6 @@ pub trait EasyTextStyleExt: Sized {
     self
   }
 
-  fn with_text_shadow(mut self, text_shadow: TextShadow) -> Self {
-    self.easy_text_style_mut().text_shadow = text_shadow;
-    self
-  }
-
   fn with_shadow(mut self, text_shadow: TextShadow) -> Self {
     self.easy_text_style_mut().text_shadow = text_shadow;
     self

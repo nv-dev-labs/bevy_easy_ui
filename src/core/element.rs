@@ -7,14 +7,12 @@ use crate::{
     containers::{
       button::EasyButtonContainer,
       horizontal_layout::EasyHorizontalLayoutContainer,
-      //radio::{EasyRadioContainer, EasyRadioGroupContainer},
-      rich_text::EasyRichTextContainer,
-      //scrollbar::EasyScrollbarContainer,
-      //slider::EasySliderContainer,
+      rich_text::EasyRichTextContainer, slider::EasySliderContainer,
       vertical_layout::EasyVerticalLayoutContainer,
     },
     image::EasyImageBuilder,
     label::EasyLabelBuilder,
+    slider_thumb::EasySliderThumbBuilder,
     span::EasySpanBuilder,
     text::EasyTextBuilder,
     text_input::EasyTextInputBuilder,
@@ -29,6 +27,7 @@ pub enum EasyElement {
   RichTextContainer(EasyRichTextContainer),
   VerticalContainer(EasyVerticalLayoutContainer),
   HorizontalContainer(EasyHorizontalLayoutContainer),
+  Slider(EasySliderContainer),
 
   // Non-containers (i.e. leaf nodes):
   Image(EasyImageBuilder),
@@ -37,6 +36,7 @@ pub enum EasyElement {
   Span(EasySpanBuilder),
   TextInput(EasyTextInputBuilder),
   Checkbox(EasyCheckboxBuilder),
+  SliderThumb(EasySliderThumbBuilder),
 }
 
 //>--------------------- IMPLEMENTATIONS ---------------------
@@ -60,6 +60,11 @@ impl From<EasyVerticalLayoutContainer> for EasyElement {
 impl From<EasyHorizontalLayoutContainer> for EasyElement {
   fn from(c: EasyHorizontalLayoutContainer) -> Self {
     EasyElement::HorizontalContainer(c)
+  }
+}
+impl From<EasySliderContainer> for EasyElement {
+  fn from(s: EasySliderContainer) -> Self {
+    EasyElement::Slider(s)
   }
 }
 
@@ -94,24 +99,31 @@ impl From<EasyCheckboxBuilder> for EasyElement {
     EasyElement::Checkbox(c)
   }
 }
+impl From<EasySliderThumbBuilder> for EasyElement {
+  fn from(s: EasySliderThumbBuilder) -> Self {
+    EasyElement::SliderThumb(s)
+  }
+}
 
 impl EasyElement {
   /// Spawns this EasyElement in the world, as a child of the given parent. This is done by matching on the type of the element (container vs non-container) and calling the appropriate helper function to spawn it.
   pub fn spawn_in(self, p: &mut ChildSpawnerCommands) {
     match self {
-      // Containers (use the generic helper)
+      // Containers
       EasyElement::ButtonContainer(c) => spawn_container(c, p),
-      EasyElement::RichTextContainer(c) => spawn_container_special(c, p),
+      EasyElement::RichTextContainer(c) => spawn_rich_text(c, p),
       EasyElement::VerticalContainer(c) => spawn_container(c, p),
       EasyElement::HorizontalContainer(c) => spawn_container(c, p),
+      EasyElement::Slider(s) => spawn_slider(s, p),
 
-      // Leaves
+      // Non-containers
       EasyElement::Image(i) => spawn(i, p),
       EasyElement::Text(t) => spawn(t, p),
       EasyElement::Label(l) => spawn(l, p),
       EasyElement::Span(s) => spawn(s, p),
       EasyElement::TextInput(t) => spawn(t, p),
       EasyElement::Checkbox(c) => spawn(c, p),
+      EasyElement::SliderThumb(s) => spawn(s, p),
     }
   }
 }
@@ -142,13 +154,23 @@ fn spawn_container(
 }
 
 /// **Helper function** to spawn an EasyRichTextContainer, which is a special case because it has a different bundle and children type (EasySpanBuilder only instead of generic EasyElement).
-fn spawn_container_special(
-  mut t: EasyRichTextContainer,
-  p: &mut ChildSpawnerCommands,
-) {
+fn spawn_rich_text(mut t: EasyRichTextContainer, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(t.take_bundle()).id();
   let kids = t.take_children();
   for observer in t.take_observers() {
+    p.commands().spawn(observer.with_entity(entity));
+  }
+  p.commands().entity(entity).with_children(|sub| {
+    for child in kids {
+      spawn(child, sub);
+    }
+  });
+}
+
+fn spawn_slider(mut s: EasySliderContainer, p: &mut ChildSpawnerCommands) {
+  let entity = p.spawn(s.take_bundle()).id();
+  let kids = s.take_children();
+  for observer in s.take_observers() {
     p.commands().spawn(observer.with_entity(entity));
   }
   p.commands().entity(entity).with_children(|sub| {

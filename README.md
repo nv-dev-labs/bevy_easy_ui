@@ -11,7 +11,7 @@ A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https:/
 
 | bevy_easy_ui | bevy_ui_text_input | bevy |
 |---|---|---|
-| 0.1.0, 0.1.1 | 0.7.0 | 0.18.1 |
+| 0.1.x | 0.7.0 | 0.18.1 |
 
 ---
 
@@ -31,6 +31,7 @@ commands.spawn((
         Text::new("Click me!"),
         TextFont { font_size: 24.0, ..default() },
         TextColor(Color::WHITE),
+        Label,
     ));
 });
 ```
@@ -117,6 +118,7 @@ Each example is a standalone `cargo run --example NAME` showcasing a specific wi
 | `image_button` | Icon button built from `EasyButton` + `EasyImage` as a child |
 | `rounded_image` | `EasyImage` with various `border_radius` values (sharp, small, full, asymmetric) |
 | `checkbox` | `EasyCheckbox` wired to a `ValueChange<bool>` observer that recolors its background |
+| `slider` | `EasySlider` + `EasySliderThumb` with a `ValueChange<f32>` observer that updates the thumb position |
 | `scroll` | Scrollable `EasyVerticalLayout` and `EasyHorizontalLayout` using `Overflow::scroll_y()` / `scroll_x()` + the `ScrollPlugin` mouse-wheel observer |
 | `viewport` | `EasyViewport` rendering a live camera output into a UI node |
 | `rich_text` | `EasyRichText` with per-`EasySpan` colors, sizes, and justify |
@@ -139,7 +141,9 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 | `EasyHorizontalLayout` | `Node` + `FlexDirection::Row` | container | Flex row layout |
 | `EasyButton` | `Button` + `Node` | container | Clickable button (accepts children + observers) |
 | `EasyRichText` | `Text` + `TextSpan` children | container | Multi-style text |
-| `EasyCheckbox` | `Checkbox` + `Checkable` + `Node` | non-container | Checkable box (pair with `Checked` + a `ValueChange<bool>` observer) |
+| `EasySlider` | `Slider` + `Node` | container | Usable slider |
+| `EasySliderThumb` | `SliderThumb` + `Node` | non-container | Slider thumb for `Slider` |
+| `EasyCheckbox` | `Checkbox` + `Checkable` + `Node` | non-container | Checkable box |
 | `EasyLabel` | `Text` + `Node` + `Label` | non-container | Text marked as a label |
 | `EasyText` | `Text` + `Node` + `TextFont` + `TextColor` | non-container | Styled text |
 | `EasySpan` | `TextSpan` | non-container | Inline span used inside `EasyRichText` |
@@ -208,7 +212,19 @@ fn setup(mut commands: Commands) {
 }
 ```
 
-The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `EasyHorizontalLayoutStyle`, `EasyRichTextStyle`, `EasyCheckboxStyle`, `EasyLabelStyle`, `EasyTextWidgetStyle`, `EasySpanStyle`, `EasyImageStyle`, `EasyViewportStyle`.
+The available style types are: 
+- `EasyButtonStyle`
+- `EasyVerticalLayoutStyle`
+- `EasyHorizontalLayoutStyle`
+- `EasyRichTextStyle`
+- `EasyCheckboxStyle`
+- `EasyLabelStyle`
+- `EasyTextWidgetStyle`
+- `EasySpanStyle`
+- `EasyImageStyle`
+- `EasyViewportStyle`
+- `EasySliderThumbStyle`
+- `EasySliderStyle`
 
 ---
 
@@ -217,19 +233,48 @@ The available style types are: `EasyButtonStyle`, `EasyVerticalLayoutStyle`, `Ea
 Four extension traits add the builder setters on top of Bevy's components. They are implemented for every widget that owns the matching Bevy component, so the setters are always available.
 
 ### `EasyNode` — `Node` properties
-Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`), position (`with_position`, `with_top`, etc.), alignment (`with_align_items`, `with_justify_content`, …), spacing (`with_margin`, `with_padding`, `with_row_gap`, `with_column_gap`), borders (`with_border`, `with_border_radius`; `with_border_color` is in `EasyBoxStyleExt`), flex (`with_flex_direction`, `with_flex_wrap`, `with_flex_grow`, `with_flex_shrink`, `with_flex_basis`), grid (`with_grid_template_*`, `with_grid_auto_*`, `with_grid_row`, `with_grid_column`), overflow (`with_overflow`, `with_scrollbar_width`, `with_overflow_clip_margin`), display (`with_display`, `with_box_sizing`, `with_aspect_ratio`).
+- Size (`with_width`, `with_height`, `with_min_*`, `with_max_*`),
+- Position (`with_position`, `with_top`, etc.),
+- Alignment (`with_align_items`, `with_justify_content`, …),
+- Spacing (`with_margin`, `with_padding`, `with_row_gap`, `with_column_gap`),
+- Borders (`with_border`, `with_border_radius`; `with_border_color` is in `EasyBoxStyleExt`),
+- Flex (`with_flex_direction`, `with_flex_wrap`, `with_flex_grow`, `with_flex_shrink`, `with_flex_basis`),
+- Grid (`with_grid_template_*`, `with_grid_auto_*`, `with_grid_row`, `with_grid_column`),
+- Overflow (`with_overflow`, `with_scrollbar_width`, `with_overflow_clip_margin`),
+- Display (`with_display`, `with_box_sizing`, `with_aspect_ratio`).
 
 ### `EasyBoxStyleExt` — background, border, shadow
-`with_background_color`, `with_border_color`, `with_box_shadow`, `with_border_gradient`, `with_background_gradient`, `with_outline`.
+- `with_background_color`
+- `with_border_color`
+- `with_box_shadow`
+- `with_border_gradient`
+- `with_background_gradient`
+- `with_outline`
 
 ### `EasyStackStyleExt` — z-index
-`with_z_index`, `with_global_z_index`.
+- `with_z_index`,
+- `with_global_z_index`
 
 ### `EasyTextStyleExt` — text-specific
-`with_color` (text color), `with_font_family`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`, `with_justify`, `with_linebreak`, `with_line_height`, `with_text_shadow` / `with_shadow`.
+- `with_color`
+- `with_font_family`
+- `with_font_size`
+- `with_font_weight`
+- `with_smoothing`
+- `with_features`
+- `with_justify`
+- `with_linebreak`
+- `with_line_height`
+- `with_shadow`
 
 ### `EasyImageNode` — `ImageNode` properties
-`with_image`, `with_image_color`, `with_texture_atlas`, `with_flip_x`, `with_flip_y`, `with_rect`, `with_image_mode`.
+- `with_image`
+- `with_image_color`
+- `with_texture_atlas`
+- `with_flip_x`
+- `with_flip_y`
+- `with_rect`
+- `with_image_mode`
 
 ---
 
@@ -288,7 +333,6 @@ Open an issue or a PR if you have suggestions, questions, or want to add a new w
 
 The following widgets are planned but not yet wrapped as `Easy*` builders. They will be implemented by following the same pattern as the existing widgets, on top of the corresponding headless types in [`bevy_ui_widgets`](https://docs.rs/bevy_ui_widgets/0.18.1/):
 
-- `EasySlider` — wraps `bevy_ui_widgets::Slider` + `SliderValue` + `SliderRange` (+ optional `SliderStep` / `SliderPrecision`)
 - `EasyRadioButton` + `EasyRadioGroup` — wraps `bevy_ui_widgets::RadioButton` + `RadioGroup`
 - `EasyScrollbar` — wraps `bevy_ui_widgets::Scrollbar` + `CoreScrollbarThumb`
 

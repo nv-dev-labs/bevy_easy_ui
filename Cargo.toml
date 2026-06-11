@@ -2,7 +2,7 @@
 name = "bevy_easy_ui"
 version = "0.1.1"
 edition = "2024"
-license = "MIT OR Apache-2.0"
+license = "MIT/Apache-2.0"
 description = "A declarative, fluent builder-pattern abstraction layer on top of Bevy's UI system and Bevy UI Text Input."
 repository = "https://github.com/nv-dev-labs/bevy_easy_ui"
 keywords = ["bevy", "ui", "builder", "gamedev"]
