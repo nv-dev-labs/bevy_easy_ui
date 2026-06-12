@@ -52,10 +52,18 @@ fn on_radio_value_change(
 }
 
 /// Update the background color of the radio button based on its state (checked, hovered, or normal).
+#[allow(clippy::type_complexity)]
 fn update_radio_button(
   mut radio_buttons: Query<
-    (Has<Checked>, &Hovered, &mut BackgroundColor),
-    (Or<(Added<Checked>, Changed<Hovered>)>, With<RadioButton>),
+    (
+        Has<Checked>,
+        &Hovered,
+        &mut BackgroundColor
+    ),
+    (
+        Or<(Added<Checked>, Changed<Hovered>)>, 
+        With<RadioButton>
+    ),
   >,
 ) {
   for (checked, hovered, mut background_color) in &mut radio_buttons {
