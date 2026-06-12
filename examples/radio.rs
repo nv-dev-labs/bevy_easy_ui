@@ -15,6 +15,7 @@ fn main() {
 }
 
 /// Update the background color of the radio button when the [`Checked`] component is removed.
+#[allow(clippy::type_complexity)]
 fn update_radio_button_removed(
   mut radio_buttons: Query<(&Hovered, &mut BackgroundColor), With<RadioButton>>,
   mut removed: RemovedComponents<Checked>,
@@ -27,6 +28,7 @@ fn update_radio_button_removed(
 }
 
 /// Handle the logic of checking the radio button when it is clicked, and unchecking all its siblings in the same radio group.
+#[allow(clippy::type_complexity)]
 fn on_radio_value_change(
   ev: On<ValueChange<bool>>,
   q_groups: Query<Entity, With<RadioGroup>>,
