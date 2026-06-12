@@ -1,4 +1,6 @@
-use bevy::{picking::hover::Hovered, prelude::*, ui::Pressed, ui_widgets::Button};
+use bevy::{
+  picking::hover::Hovered, prelude::*, ui::Pressed, ui_widgets::Button,
+};
 use bevy_easy_ui::prelude::*;
 
 fn main() {
@@ -11,18 +13,8 @@ fn main() {
 
 fn update_buttons(
   mut buttons: Query<
-    (
-      Has<Pressed>,
-      &Hovered,
-      &mut BackgroundColor,
-    ),
-    (
-      Or<(
-        Changed<Pressed>,
-        Changed<Hovered>,
-      )>,
-      With<Button>
-    ) 
+    (Has<Pressed>, &Hovered, &mut BackgroundColor),
+    (Or<(Changed<Pressed>, Changed<Hovered>)>, With<Button>),
   >,
 ) {
   for (pressed, hovered, mut background_color) in &mut buttons {

@@ -90,7 +90,7 @@ impl EasyButton {
 
   pub fn default_bundle() -> Self {
     EasyButton {
-      button: Button::default(),
+      button: Button,
       hovered: Hovered::default(),
       node: Node {
         display: Display::Flex,

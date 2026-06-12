@@ -11,14 +11,8 @@ fn main() {
 
 fn update_buttons(
   mut buttons: Query<
-    (
-      &Hovered,
-      &mut BackgroundColor,
-    ),
-    (
-      Changed<Hovered>,
-      With<Button>
-    ) 
+    (&Hovered, &mut BackgroundColor),
+    (Changed<Hovered>, With<Button>),
   >,
 ) {
   for (hovered, mut background_color) in &mut buttons {
