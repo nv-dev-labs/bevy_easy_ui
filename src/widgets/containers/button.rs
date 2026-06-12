@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{picking::hover::Hovered, prelude::*, ui_widgets::Button};
 
 use crate::core::{
   container::{Container, PushChild, PushObserver},
@@ -15,6 +15,7 @@ use crate::core::{
 #[derive(Bundle, Debug)]
 pub struct EasyButton {
   pub button: Button,
+  pub hovered: Hovered,
   pub node: Node,
   pub box_style: EasyBoxStyle,
   pub stack_style: EasyStackStyle,
@@ -81,17 +82,7 @@ impl EasyButton {
   #[allow(clippy::new_ret_no_self)]
   pub fn new() -> EasyButtonContainer {
     EasyButtonContainer {
-      bundle: EasyButton {
-        button: Button,
-        node: Node {
-          display: Display::Flex,
-          align_items: AlignItems::Center,
-          justify_content: JustifyContent::Center,
-          ..default()
-        },
-        box_style: EasyBoxStyle::default(),
-        stack_style: EasyStackStyle::default(),
-      },
+      bundle: EasyButton::default_bundle(),
       children: Vec::new(),
       observers: Vec::new(),
     }
@@ -99,8 +90,14 @@ impl EasyButton {
 
   pub fn default_bundle() -> Self {
     EasyButton {
-      button: Button,
-      node: Node::default(),
+      button: Button::default(),
+      hovered: Hovered::default(),
+      node: Node {
+        display: Display::Flex,
+        align_items: AlignItems::Center,
+        justify_content: JustifyContent::Center,
+        ..default()
+      },
       box_style: EasyBoxStyle::default(),
       stack_style: EasyStackStyle::default(),
     }

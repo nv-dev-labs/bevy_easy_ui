@@ -1,4 +1,4 @@
-# bevy_easy_ui
+# Bevy Easy UI
 
 [![CI](https://github.com/nv-dev-labs/bevy_easy_ui/actions/workflows/ci.yml/badge.svg)](https://github.com/nv-dev-labs/bevy_easy_ui/actions/workflows/ci.yml)
 [![docs.rs](https://img.shields.io/docsrs/bevy_easy_ui)](https://docs.rs/bevy_easy_ui)
@@ -30,7 +30,7 @@ commands.spawn((
 ))
 .with_children(|parent| {
     parent.spawn((
-        Text::new("Click me!"),
+        Text::new("Hello, Bevy!"),
         TextFont { font_size: 24.0, ..default() },
         TextColor(Color::WHITE),
         Label,
@@ -48,7 +48,7 @@ EasyButton::new()
     .with_height(px(80.0))
     .with_background_color(BLACK.into())
     .with_child(
-        EasyLabel::new("Click me!")
+        EasyLabel::new("Hello, Bevy!")
             .with_color(WHITE.into())
             .with_font_size(24.0),
     )
@@ -95,7 +95,7 @@ fn setup(mut commands: Commands) {
                 .with_border(px(2.0), px(10.0))
                 .with_background_color(BLACK.into())
                 .with_child(
-                    EasyLabel::new("Click me!")
+                    EasyLabel::new("Hello, Bevy!")
                         .with_z_index(3)
                         .with_color(WHITE.into())
                         .with_font_size(24.0),
@@ -115,8 +115,7 @@ Each example is a standalone `cargo run --example NAME` showcasing a specific wi
 
 | Example | What it shows |
 |---|---|
-| `hello` | Minimal setup: a centered button with a label |
-| `button_with_observers` | Buttons with `Pointer<Over>` / `Pointer<Out>` / `Pointer<Click>` observers (hover, click feedback) |
+| `hello` | Minimal setup: a centered button with a label with hover and click feedback |
 | `image_button` | Icon button built from `EasyButton` + `EasyImage` as a child |
 | `rounded_image` | `EasyImage` with various `border_radius` values (sharp, small, full, asymmetric) |
 | `checkbox` | `EasyCheckbox` wired to a `ValueChange<bool>` observer that recolors its background |
@@ -372,7 +371,7 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-0.1.x releases — the API works and is covered by the ten examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+0.1.x releases — the API works and is covered by the nine examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 

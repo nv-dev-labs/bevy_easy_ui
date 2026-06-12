@@ -41,6 +41,7 @@ fn setup(mut commands: Commands) {
             .with_z_index(2)
             .with_width(px(8.))
             .with_height(px(8.))
+            .with_border_radius(px(5.))
             .with_observer(checkbox_self_update)
             .with_observer(update_checkbox),
         ),
