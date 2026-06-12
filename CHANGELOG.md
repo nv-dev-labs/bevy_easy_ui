@@ -4,11 +4,28 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Added `EasySlider` + `EasySliderThumb` builders for the `bevy_ui_widgets::Slider` widget
+**API change**
+
+- Removed `with_shadow` in text style, only `with_text_shadow` remains.
+
+**New features**
+
+- Added `EasyCheckbox` builder for the `bevy::ui_widgets::Checkbox` widget.
+- Added `EasySlider` + `EasySliderThumb` builders for the `bevy::ui_widgets::Slider` (and `bevy::ui_widgets::SliderThumb`) widget
+- Added `EasyRadioButton` and `EasyRadioGroup` builders for the `bevy::ui_widgets::RadioButton` (and `bevy::ui_widgets::RadioGroup`) widget.
+
+**Examples**
+
+- Added `Checkbox` example showcasing a checkbox with a label that updates its text based on a `ValueChange<bool>` observer.
 - Added `Slider` example showcasing a horizontal slider with a thumb that updates its position based on a `ValueChange<f32>` observer and with a label showing the current value dynamically.
-- Removed `with_text_shadow`, only `with_shadow` remains.
+- Added `Radio` example showcasing a group of radio buttons where only one can be checked at a time.
+- Removed `button_with_observers` example.
+- Updated `hello` example.
+
 
 ## [0.1.1] - 2026-06-10
+
+**API changes**
 
 - Modified params for `with_border_radius` and `with_border` to accept a single `Val` instead of 4 separate values, and apply it to all sides.
 - Added variants for `with_border_color`, `with_border_width`, `with_border_radius` that accepts a single value and applies it to the border or corner chosen by the method name (e.g. `with_border_radius_top_right`).
@@ -40,7 +57,7 @@ Initial release of `bevy_easy_ui`, a fluent builder-pattern abstraction layer on
 - `EasyNode` — `Node` properties (size, position, alignment, spacing, borders, flex, grid, overflow, display).
 - `EasyBoxStyleExt` — background, border, shadow, gradient, outline.
 - `EasyStackStyleExt` — `with_z_index`, `with_global_z_index`.
-- `EasyTextStyleExt` — `with_color`, `with_font_family`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`, `with_justify`, `with_linebreak`, `with_line_height`, `with_text_shadow`.
+- `EasyTextStyleExt` — `with_color`, `with_font_family`, `with_shadow`, `with_font_size`, `with_font_weight`, `with_smoothing`, `with_features`, `with_justify`, `with_linebreak`, `with_line_height`, `with_text_shadow`.
 - `EasyImageNode` — `ImageNode` properties (`with_image`, `with_image_color`, `with_texture_atlas`, `with_flip_x`, `with_flip_y`, `with_rect`, `with_image_mode`).
 
 **Container API**

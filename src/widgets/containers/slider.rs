@@ -116,6 +116,11 @@ impl EasySliderContainer {
     self
   }
 
+  pub fn with_track_click(mut self, track_click: TrackClick) -> Self {
+    self.bundle.slider.track_click = track_click;
+    self
+  }
+
   pub fn with_range(mut self, min: f32, max: f32) -> Self {
     self.bundle.slider_range = SliderRange::new(min, max);
     self

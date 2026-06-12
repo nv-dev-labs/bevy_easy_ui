@@ -21,6 +21,7 @@ fn main() {
     .run();
 }
 
+/// Handle the logic of updating the slider value when the thumb is dragged.
 fn sync_thumb_position(
   sliders: Query<(&SliderValue, &SliderRange, &Children), With<Slider>>,
   mut thumbs: Query<&mut Node, With<SliderThumb>>,
@@ -37,6 +38,7 @@ fn sync_thumb_position(
   }
 }
 
+/// Handle the logic of changing the label text when the slider value changes.
 fn sync_slider_label<T: Component>(
   sliders: Query<&SliderValue, With<T>>,
   mut labels: Query<&mut Text, With<T>>,
@@ -55,7 +57,7 @@ fn setup(mut commands: Commands) {
 
   let slider_entity = EasySlider::new()
     .with_z_index(1)
-    .with_step(50.)
+    .with_track_click(TrackClick::Snap)
     .with_width(px(TRACK_WIDTH))
     .with_height(px(TRACK_HEIGHT))
     .with_background_color(BLACK.into())

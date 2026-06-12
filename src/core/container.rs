@@ -85,7 +85,7 @@ fn spawn_container<C: Into<EasyElement>>(
 
 /// A non-container element that has observers but no children.
 /// For example, a Text is not a container because it can't have children, but it can be hovered.
-pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
+pub trait WithObservers: Sized {
   fn take_bundle(&mut self) -> impl Bundle;
   fn take_observers(&mut self) -> Vec<Observer>;
   /// Spawns a non-container element into the world
@@ -95,10 +95,7 @@ pub trait WithObservers<C: Into<EasyElement> = EasyElement>: Sized {
 }
 
 /// Spawns a non-container element and its observers.
-fn spawn<C: Into<EasyElement>>(
-  mut c: impl WithObservers<C>,
-  commands: &mut Commands,
-) -> Entity {
+fn spawn(mut c: impl WithObservers, commands: &mut Commands) -> Entity {
   let bundle = c.take_bundle();
   let observers = c.take_observers();
 

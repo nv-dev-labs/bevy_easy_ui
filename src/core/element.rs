@@ -7,11 +7,13 @@ use crate::{
     containers::{
       button::EasyButtonContainer,
       horizontal_layout::EasyHorizontalLayoutContainer,
-      rich_text::EasyRichTextContainer, slider::EasySliderContainer,
+      radio_group::EasyRadioGroupContainer, rich_text::EasyRichTextContainer,
+      slider::EasySliderContainer,
       vertical_layout::EasyVerticalLayoutContainer,
     },
     image::EasyImageBuilder,
     label::EasyLabelBuilder,
+    radio::EasyRadioButtonBuilder,
     slider_thumb::EasySliderThumbBuilder,
     span::EasySpanBuilder,
     text::EasyTextBuilder,
@@ -28,6 +30,7 @@ pub enum EasyElement {
   VerticalContainer(EasyVerticalLayoutContainer),
   HorizontalContainer(EasyHorizontalLayoutContainer),
   Slider(EasySliderContainer),
+  RadioGroup(EasyRadioGroupContainer),
 
   // Non-containers (i.e. leaf nodes):
   Image(EasyImageBuilder),
@@ -37,6 +40,7 @@ pub enum EasyElement {
   TextInput(EasyTextInputBuilder),
   Checkbox(EasyCheckboxBuilder),
   SliderThumb(EasySliderThumbBuilder),
+  RadioButton(EasyRadioButtonBuilder),
 }
 
 //>--------------------- IMPLEMENTATIONS ---------------------
@@ -65,6 +69,11 @@ impl From<EasyHorizontalLayoutContainer> for EasyElement {
 impl From<EasySliderContainer> for EasyElement {
   fn from(s: EasySliderContainer) -> Self {
     EasyElement::Slider(s)
+  }
+}
+impl From<EasyRadioGroupContainer> for EasyElement {
+  fn from(r: EasyRadioGroupContainer) -> Self {
+    EasyElement::RadioGroup(r)
   }
 }
 
@@ -104,6 +113,11 @@ impl From<EasySliderThumbBuilder> for EasyElement {
     EasyElement::SliderThumb(s)
   }
 }
+impl From<EasyRadioButtonBuilder> for EasyElement {
+  fn from(r: EasyRadioButtonBuilder) -> Self {
+    EasyElement::RadioButton(r)
+  }
+}
 
 impl EasyElement {
   /// Spawns this EasyElement in the world, as a child of the given parent.
@@ -117,6 +131,7 @@ impl EasyElement {
       EasyElement::VerticalContainer(c) => spawn_container(c, p),
       EasyElement::HorizontalContainer(c) => spawn_container(c, p),
       EasyElement::Slider(s) => spawn_slider(s, p),
+      EasyElement::RadioGroup(r) => spawn_container(r, p),
 
       // Non-containers
       EasyElement::Image(i) => spawn(i, p),
@@ -126,13 +141,14 @@ impl EasyElement {
       EasyElement::TextInput(t) => spawn(t, p),
       EasyElement::Checkbox(c) => spawn(c, p),
       EasyElement::SliderThumb(s) => spawn(s, p),
+      EasyElement::RadioButton(r) => spawn(r, p),
     }
   }
 }
 
 /// **Helper function** to spawn an EasyElement that is a non-container (i.e. can't have children).
 /// It spawns the element itself and then spawns its observers.
-fn spawn(mut e: impl WithObservers<EasyElement>, p: &mut ChildSpawnerCommands) {
+fn spawn(mut e: impl WithObservers, p: &mut ChildSpawnerCommands) {
   let entity = p.spawn(e.take_bundle()).id();
   for observer in e.take_observers() {
     p.commands().spawn(observer.with_entity(entity));

@@ -1,6 +1,4 @@
-use bevy::{
-  picking::hover::Hovered, prelude::*, ui::Pressed, ui_widgets::Button,
-};
+use bevy::{prelude::*, ui_widgets::Button};
 use bevy_easy_ui::prelude::*;
 
 fn main() {

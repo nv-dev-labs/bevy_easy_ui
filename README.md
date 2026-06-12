@@ -124,6 +124,7 @@ Each example is a standalone `cargo run --example NAME` showcasing a specific wi
 | `viewport` | `EasyViewport` rendering a live camera output into a UI node |
 | `rich_text` | `EasyRichText` with per-`EasySpan` colors, sizes, and justify |
 | `text_input` | `EasyTextInput` (re-export of `bevy_ui_text_input`) |
+| `radio` | `EasyRadioGroup` + `EasyRadioButton` with a `ValueChange<bool>` observer that toggles the `Checked` state and recolors the radio buttons |
 
 ```bash
 cargo run --example hello
@@ -143,6 +144,8 @@ The crate ships a set of `Easy*` builders, each wrapping the matching Bevy compo
 | `EasyButton` | `Button` + `Node` | container | Clickable button (accepts children + observers) |
 | `EasyRichText` | `Text` + `TextSpan` children | container | Multi-style text |
 | `EasySlider` | `Slider` + `Node` | container | Usable slider |
+| `EasyRadioGroup` | `RadioGroup` + `Node` | container | Group of radio buttons (only one can be checked) |
+| `EasyRadioButton` | `RadioButton` + `Node` | non-container | Individual radio button |
 | `EasySliderThumb` | `SliderThumb` + `Node` | non-container | Slider thumb for `Slider` |
 | `EasyCheckbox` | `Checkbox` + `Checkable` + `Node` | non-container | Checkable box |
 | `EasyLabel` | `Text` + `Node` + `Label` | non-container | Text marked as a label |
@@ -220,12 +223,14 @@ The available style types are:
 - `EasyRichTextStyle`
 - `EasyCheckboxStyle`
 - `EasyLabelStyle`
-- `EasyTextWidgetStyle`
+- `EasyTextInputStyle`
 - `EasySpanStyle`
 - `EasyImageStyle`
 - `EasyViewportStyle`
 - `EasySliderThumbStyle`
 - `EasySliderStyle`
+- `EasyRadioGroupStyle`
+- `EasyRadioButtonStyle`
 
 ⚠️ They'll probably be refactored in the future as most of them have the same structure.
 
@@ -268,7 +273,7 @@ Four extension traits add the builder setters on top of Bevy's components. They 
 - `with_justify`
 - `with_linebreak`
 - `with_line_height`
-- `with_shadow`
+- `with_text_shadow`
 
 ### `EasyImageNode` — `ImageNode` properties
 - `with_image`
@@ -336,7 +341,7 @@ Open an issue or a PR if you have suggestions, questions, or want to add a new w
 
 The following widgets are planned but not yet wrapped as `Easy*` builders. They will be implemented by following the same pattern as the existing widgets, on top of the corresponding headless types in [`bevy_ui_widgets`](https://docs.rs/bevy_ui_widgets/0.18.1/):
 
-- `EasyRadioButton` + `EasyRadioGroup` — wraps `bevy_ui_widgets::RadioButton` + `RadioGroup`
+- `MenuPopup` + `MenuItem` — wraps `bevy_ui_widgets::Menu` + `MenuItem`
 - `EasyScrollbar` — wraps `bevy_ui_widgets::Scrollbar` + `CoreScrollbarThumb`
 
 If you'd like to take one of these, the [integration checklist](#integration-checklist) below explains the wiring once the widget compiles.
@@ -371,13 +376,19 @@ For bug reports, include the Bevy version, the crate version, a minimal repro, a
 
 ## Known limitations
 
-0.1.x releases — the API works and is covered by the nine examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
+0.1.x releases — the API works and is covered by the ten examples, but it is still a young library with rough edges. Things will move, names will change, and some patterns may not be fully fleshed out yet. Contributions and bug reports are very welcome, and feedback from early users is the fastest way to make the next version better.
 
 If you hit something unexpected, please open an issue — even small reports help prioritize what to harden next.
 
 ### Attaching custom components to a widget
 
 Builder methods like `.with_child(...)` and `.with_observer(...)` consume the builder, so a custom `Component` cannot be chained in. Spawn the builder first to get its `Entity`, then use `commands.entity(id).insert(...)`; re-parenting a spawned widget works the same way with `add_children`.
+
+## Questions to answer in future iterations:
+
+- Should we set all widgets as a container or only those that can have children? The latter is more type-safe and enforces a kind of convention, but the former is more flexible and let the user decide. What do you think?
+
+- ...
 
 ---
 
