@@ -55,15 +55,8 @@ fn on_radio_value_change(
 #[allow(clippy::type_complexity)]
 fn update_radio_button(
   mut radio_buttons: Query<
-    (
-        Has<Checked>,
-        &Hovered,
-        &mut BackgroundColor
-    ),
-    (
-        Or<(Added<Checked>, Changed<Hovered>)>, 
-        With<RadioButton>
-    ),
+    (Has<Checked>, &Hovered, &mut BackgroundColor),
+    (Or<(Added<Checked>, Changed<Hovered>)>, With<RadioButton>),
   >,
 ) {
   for (checked, hovered, mut background_color) in &mut radio_buttons {
