@@ -9,6 +9,7 @@ fn main() {
     .run();
 }
 
+#[allow(clippy::type_complexity)]
 fn update_buttons(
   mut buttons: Query<
     (Has<Pressed>, &Hovered, &mut BackgroundColor),
