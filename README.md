@@ -7,7 +7,7 @@
 
 A declarative, fluent builder-pattern abstraction layer on top of [Bevy](https://bevyengine.org/)'s UI system and [bevy_ui_text_input](https://crates.io/crates/bevy_ui_text_input)
 
-⚠️ This crate is in early development. The API is stable but `bevy` is still evolving, so expect some breaking changes in the future.
+⚠️ This crate is in early development. The API is stable for now but `bevy_easy_ui` is still evolving as `bevy` is evolving too, so expect some breaking changes in the future.
 
 ## Version compatibility
 
